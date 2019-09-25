@@ -60,11 +60,16 @@ def parse_opt():
     parser.add_argument("--non_delex", default=False, action="store_true", help="The initial learning rate for Adam.")
     parser.add_argument("--hist_num", default=0,type=int, help="The initial learning rate for Adam.")
 
+    parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
     args = parser.parse_args()
     return args
 
+
 args = parse_opt()
 device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
+
+random.seed(args.seed)
+torch.manual_seed(args.seed)
 
 with open("{}/vocab.json".format(args.data_dir), 'r') as f:
     vocabulary = json.load(f)
