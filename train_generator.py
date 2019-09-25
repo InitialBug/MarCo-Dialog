@@ -177,7 +177,7 @@ if args.option == 'train':
                 logger.info("epoch {} \tstep {} \ttraining_total loss {} \tact_loss {} \tresp_loss {}".format(epoch, step, loss.item(),loss1.item(),loss3.item()))
         alpha=min(1,alpha+0.1*epoch)
         scheduler.step()
-        if loss3.item() < 3.0 or loss1.item()<3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
+        if loss3.item() < 3.0 and loss1.item()<3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
             logger.info("start evaluating BLEU on validation set")
             act_generator.eval()
             resp_generator.eval()
