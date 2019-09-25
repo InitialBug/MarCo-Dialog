@@ -135,8 +135,10 @@ if args.option == 'train':
 
     logger.info("Start Training with {} batches".format(len(train_dataloader)))
 
-    optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, list(decoder.parameters())+list(resp_generator.parameters())), betas=(0.9, 0.98), eps=1e-09)
-    # optimizer2 = torch.optim.Adam(filter(lambda x: x.requires_grad, resp_generator.parameters()), betas=(0.9, 0.98), eps=1e-09)
+    # optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, list(decoder.parameters())+list(resp_generator.parameters())), betas=(0.9, 0.98), eps=1e-09)
+    optimizer2 = torch.optim.Adam(filter(lambda x: x.requires_grad, resp_generator.parameters()), betas=(0.9, 0.98), eps=1e-09)
+    optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, decoder.parameters()), betas=(0.9, 0.98), eps=1e-09)
+
 
     scheduler = MultiStepLR(optimizer, milestones=[50, 100, 150, 200], gamma=0.5)
     
@@ -164,6 +166,7 @@ if args.option == 'train':
                                 resp_out.contiguous().view(-1))
             loss3.backward()
             optimizer.step()
+            optimizer2.step()
 
             # if step % 100 == 0:
             #     print("epoch {} step {} training loss {} loss1 {} loss2 {}".format(epoch, step, loss.item(),loss1.item(),loss2.item()))
