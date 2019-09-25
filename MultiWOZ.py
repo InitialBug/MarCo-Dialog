@@ -161,7 +161,7 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
             if len(turn['actseq'])<Constants.ACT_MAX_LEN:
                 action_masks=[0]*len(turn['actseq'])
             else:
-                action_masks=[0]*Constants.ACT_MAX_LEN
+                action_masks=[0]*(Constants.ACT_MAX_LEN-1)
             if len(action) > Constants.ACT_MAX_LEN:
                 action = action[:Constants.ACT_MAX_LEN - 1] + [Constants.EOS_WORD]
             else:
