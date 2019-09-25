@@ -168,7 +168,8 @@ if args.option == 'train':
             if epoch < 10:
                 loss = loss1 + alpha * loss2
             else:
-                loss=loss1+loss3
+                # loss=loss1+loss3
+                loss=loss3    
             loss.backward()
             optimizer.step()
 
