@@ -59,11 +59,9 @@ def parse_opt():
     parser.add_argument("--output_file", default='output/results.txt.pred', type=str, help="The initial learning rate for Adam.")
     parser.add_argument("--non_delex", default=False, action="store_true", help="The initial learning rate for Adam.")
     parser.add_argument("--hist_num", default=0,type=int, help="The initial learning rate for Adam.")
-
     parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
     args = parser.parse_args()
     return args
-
 
 args = parse_opt()
 device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
@@ -151,47 +149,50 @@ if args.option == 'train':
     for epoch in range(360):
         for step, batch in enumerate(train_dataloader):
             batch = tuple(t.to(device) for t in batch)
-            input_ids, input_mask, segment_ids, act_vecs, query_results, \
+            input_ids, action_masks, segment_ids, _, query_results, \
             rep_in, resp_out, belief_state, pred_hierachical_act_vecs, act_user_ids, act_in, act_out, all_label, *_ = batch
 
             act_generator.zero_grad()
             resp_generator.zero_grad()
-            logits,act_logits = act_generator(tgt_seq=act_in, src_seq=act_user_ids,bs=belief_state)
+            logits,act_logits,act_vecs = act_generator(tgt_seq=act_in, src_seq=act_user_ids,bs=belief_state)
 
             loss1 = ce_loss_func(logits.contiguous().view(logits.size(0) * logits.size(1), -1).contiguous(), \
                                 act_out.contiguous().view(-1))
             loss2=loss_func(act_logits.view(-1),all_label.view(-1))
-            loss=loss1+alpha*loss2
-            loss.backward()
 
-            resp_logits = resp_generator(tgt_seq=rep_in, src_seq=input_ids, act_vecs=pred_hierachical_act_vecs,bs=belief_state)
+
+            resp_logits = resp_generator(tgt_seq=rep_in, src_seq=input_ids, act_vecs=act_vecs,act_mask=action_masks,bs=belief_state)
 
             loss3 = ce_loss_func(resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(), \
                                 resp_out.contiguous().view(-1))
-            loss3.backward()
+            if epoch < 10:
+                loss = loss1 + alpha * loss2
+            else:
+                loss=loss1+loss3
+            loss.backward()
             optimizer.step()
 
-            # if step % 100 == 0:
-            #     print("epoch {} step {} training loss {} loss1 {} loss2 {}".format(epoch, step, loss.item(),loss1.item(),loss2.item()))
-            #     logger.info("epoch {} step {} training loss {} loss1 {} loss2 {}".format(epoch, step, loss.item(),loss1.item(),loss2.item()))
+            if step % 100 == 0:
+                print("epoch {} \tstep {} training \ttotal_loss {} \tact_loss {} \tresp_loss {}".format(epoch, step, loss.item(),loss1.item(),loss3.item()))
+                logger.info("epoch {} \tstep {} \ttraining_total loss {} \tact_loss {} \tresp_loss {}".format(epoch, step, loss.item(),loss1.item(),loss3.item()))
         alpha=min(1,alpha+0.1*epoch)
         scheduler.step()
-        if loss3.item() < 3.0 and loss1.item()<3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
+        if loss3.item() < 3.0 or loss1.item()<3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
             logger.info("start evaluating BLEU on validation set")
             act_generator.eval()
+            resp_generator.eval()
             # Start Evaluating after each epoch
             model_turns = {}
             TP, TN, FN, FP = 0, 0, 0, 0
             for batch_step, batch in enumerate(eval_dataloader):
                 all_pred = []
                 batch = tuple(t.to(device) for t in batch)
-                input_ids, input_mask, segment_ids, act_vecs, query_results, \
+                input_ids, action_masks, segment_ids, act_vecs, query_results, \
                 rep_in, resp_out, belief_state, pred_hierachical_act_vecs, act_user_ids, act_in, act_out, all_label, *_ = batch
 
                 hyps,act_logits = act_generator.translate_batch(domain=act_in[:,0],bs=belief_state,act_vecs=act_vecs, \
                                                src_seq=act_user_ids, n_bm=args.beam_size,
                                                max_token_seq_len=Constants.ACT_MAX_LEN)
-                cls_pred=torch.sigmoid(act_logits)
                 for hyp_step, hyp in enumerate(hyps):
                     # pred = tokenizer.convert_id_to_tokens(hyp)
                     # file_name = val_id[batch_step * args.batch_size + hyp_step]
@@ -206,11 +207,9 @@ if args.option == 'train':
                     for w in hyp:
                         if w not in [Constants.PAD, Constants.EOS]:
                             pre1[w-3] =1
-                    # for w in act_out[hyp_step]:
-                    #     if w ==Constants.EOS:
-                    #         break
-                    #     else:
-                    #         pre2[w-3] =1
+
+                    if len(hyp)<Constants.ACT_MAX_LEN:
+                        hyps[hyp_step]=list(hyps[hyp_step])+[Constants.PAD]*(Constants.ACT_MAX_LEN-len(hyp))
 
                     all_pred.append(pre1)
                 # all_pred=torch.Tensor(all_pred)+cls_pred
@@ -219,7 +218,10 @@ if args.option == 'train':
                 all_label=all_label.cpu()
                 TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
 
-                resp_hyps = resp_generator.translate_batch(bs=belief_state,act_vecs=pred_hierachical_act_vecs, \
+                act_in=torch.tensor(hyps,dtype=torch.long).to(device)
+                _,_,act_vecs=act_generator(tgt_seq=act_in, src_seq=act_user_ids,bs=belief_state)
+                action_masks=act_in.eq(Constants.PAD)+act_in.eq(Constants.EOS)
+                resp_hyps = resp_generator.translate_batch(bs=belief_state,act_vecs=act_vecs, act_mask=action_masks,
                                                src_seq=input_ids, n_bm=args.beam_size,
                                                max_token_seq_len=40)
 
@@ -237,16 +239,15 @@ if args.option == 'train':
             F1 = 2 * precision * recall / (precision + recall + 0.001)
             print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
             logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
-            if F1 > best_BLEU:
-                torch.save(act_generator.state_dict(), os.path.join(checkpoint_file,str(F1)))
-                best_BLEU = F1
             BLEU = BLEU_calc.score(model_turns, gt_turns)
             inform,request=evaluateModel(model_turns,gt_turns)
             print(inform,request,BLEU)
             logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU,inform,request))
-            # if BLEU > best_BLEU:
-            #     torch.save(act_generator.state_dict(), os.path.join(checkpoint_file,str(BLEU)))
-            #     best_BLEU = BLEU
+            if BLEU > best_BLEU:
+                torch.save(act_generator.state_dict(), os.path.join(checkpoint_file,'act'+str(BLEU)))
+                torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,'resp'+str(BLEU)))
+                best_BLEU = BLEU
+            resp_generator.train()
             act_generator.train()
 elif args.option == "test":
     act_generator.load_state_dict(torch.load(checkpoint_file))
@@ -262,7 +263,7 @@ elif args.option == "test":
     for batch_step, batch in enumerate(eval_dataloader):
         all_pred = []
         batch = tuple(t.to(device) for t in batch)
-        input_ids, input_mask, segment_ids, act_vecs, query_results, \
+        input_ids, action_masks, segment_ids, act_vecs, query_results, \
         rep_in, resp_out, belief_state, all_label, act_in, act_out, *_ = batch
 
         # logits, act_logits = act_generator(tgt_seq=act_in, src_seq=input_ids, bs=belief_state)
@@ -314,7 +315,7 @@ elif args.option == "test":
 #     TP, TN, FN, FP = 0, 0, 0, 0
 #     for batch_step, batch in enumerate(eval_dataloader):
 #         batch = tuple(t.to(device) for t in batch)
-#         input_ids, input_mask, segment_ids, act_vecs, query_results, \
+#         input_ids, action_masks, segment_ids, act_vecs, query_results, \
 #             rep_in, resp_out, belief_state, pred_hierachical_act_vecs, *_ = batch
 #
 #         hyps = act_generator.translate_batch(act_vecs=pred_hierachical_act_vecs, src_seq=input_ids,

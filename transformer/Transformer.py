@@ -447,9 +447,9 @@ class RespGenerator(nn.Module):
             DecoderLayer(d_model, d_inner, n_head, d_k, d_v, dropout=dropout)
             for _ in range(n_layers)])
 
-        self.tgt_word_prj = nn.Linear(d_model, vocab_size, bias=False)
+        self.tgt_word_prj = nn.Linear(d_model*3, vocab_size, bias=False)
 
-    def forward(self, tgt_seq, src_seq, act_vecs, bs):
+    def forward(self, tgt_seq, src_seq, act_vecs,act_mask, bs):
         # -- Encode source
         non_pad_mask = get_non_pad_mask(src_seq)
         slf_attn_mask = get_attn_key_pad_mask(seq_k=src_seq, seq_q=src_seq)
@@ -470,6 +470,12 @@ class RespGenerator(nn.Module):
         # -- Forward
         # dec_output = self.tgt_word_emb(tgt_seq) + self.post_word_emb(tgt_seq)+self.bs_emb(bs)[:, None, :]+self.act_word_emb(act_vecs)[:,None,:]
         dec_output = self.tgt_word_emb(tgt_seq) + self.post_word_emb(tgt_seq)
+        act_vecs=act_vecs.transpose(1,2)
+        act_att_weight=torch.matmul(dec_output,act_vecs)
+        act_mask=act_mask.unsqueeze(1).expand(-1,dec_output.shape[1],-1)
+        act_att_weight=act_att_weight.masked_fill(act_mask,-np.inf)
+        act_att_weight=F.softmax(act_att_weight,dim=2)
+        act_att_out=torch.matmul(act_att_weight,act_vecs.transpose(1,2))
 
         att_out = dec_output
         for dec_layer in self.layer_stack:
@@ -478,15 +484,15 @@ class RespGenerator(nn.Module):
                 non_pad_mask=non_pad_mask,
                 slf_attn_mask=slf_attn_mask,
                 dec_enc_attn_mask=dec_enc_attn_mask)
-        dec_output = dec_output + att_out
+        dec_output = torch.cat([dec_output , att_out,act_att_out],dim=2)
         logits = self.tgt_word_prj(dec_output)
         return logits
 
-    def translate_batch(self, bs, act_vecs, src_seq, n_bm, max_token_seq_len=30):
+    def translate_batch(self, bs, act_vecs,act_mask, src_seq, n_bm, max_token_seq_len=30):
         ''' Translation work in one batch '''
         device = src_seq.device
 
-        def collate_active_info(bs, act_vecs, src_seq, inst_idx_to_position_map, active_inst_idx_list):
+        def collate_active_info(bs, act_vecs,act_mask, src_seq, inst_idx_to_position_map, active_inst_idx_list):
             # Sentences which are still active are collected,
             # so the decoder will not run on completed sentences.
             n_prev_active_inst = len(inst_idx_to_position_map)
@@ -494,16 +500,21 @@ class RespGenerator(nn.Module):
             active_inst_idx = torch.LongTensor(active_inst_idx).to(device)
 
             active_src_seq = collect_active_part(src_seq, active_inst_idx, n_prev_active_inst, n_bm)
-            active_act_vecs = collect_active_part(act_vecs, active_inst_idx, n_prev_active_inst, n_bm)
-            bs = collect_active_part(bs, active_inst_idx, n_prev_active_inst, n_bm)
+            n_curr_active_inst = len(active_inst_idx)
+            act_len=act_vecs.shape[1]
+            act_vecs=act_vecs.view(n_prev_active_inst,-1)
+            act_vecs=act_vecs.index_select(0, active_inst_idx)
+            act_vecs=act_vecs.view(n_curr_active_inst*n_bm,act_len,-1)
 
+            bs = collect_active_part(bs, active_inst_idx, n_prev_active_inst, n_bm)
+            act_mask=collect_active_part(act_mask, active_inst_idx, n_prev_active_inst, n_bm)
             # active_template_output = collect_active_part(template_output, active_inst_idx, n_prev_active_inst, n_bm)
 
             active_inst_idx_to_position_map = get_inst_idx_to_tensor_position_map(active_inst_idx_list)
 
-            return bs, active_act_vecs, active_src_seq, active_inst_idx_to_position_map
+            return bs, act_vecs,act_mask, active_src_seq, active_inst_idx_to_position_map
 
-        def beam_decode_step(bs, inst_dec_beams, len_dec_seq, active_inst_idx_list, act_vecs, src_seq, \
+        def beam_decode_step(bs, inst_dec_beams, len_dec_seq, active_inst_idx_list, act_vecs,act_mask, src_seq, \
                              inst_idx_to_position_map, n_bm):
             ''' Decode and update beam status, and then return active beam idx '''
             n_active_inst = len(inst_idx_to_position_map)
@@ -514,7 +525,7 @@ class RespGenerator(nn.Module):
             dec_partial_seq = torch.stack(dec_partial_seq).to(device)
             dec_partial_seq = dec_partial_seq.view(-1, len_dec_seq)
 
-            logits = self.forward(dec_partial_seq, src_seq, act_vecs, bs)[:, -1, :] / Constants.T
+            logits = self.forward(dec_partial_seq, src_seq, act_vecs,act_mask, bs)[:, -1, :] / Constants.T
             word_prob = F.log_softmax(logits, dim=1)
             word_prob = word_prob.view(n_active_inst, n_bm, -1)
 
@@ -530,10 +541,11 @@ class RespGenerator(nn.Module):
         with torch.no_grad():
             # -- Repeat data for beam search
             n_inst, len_s = src_seq.size()
+            act_len=act_vecs.shape[1]
             src_seq = src_seq.repeat(1, n_bm).view(n_inst * n_bm, len_s)
-            act_vecs = act_vecs.repeat(1, n_bm).view(n_inst * n_bm, -1)
+            act_vecs = act_vecs.repeat(1, n_bm,1).view(n_inst * n_bm, act_len,-1)
             bs = bs.repeat(1, n_bm).view(n_inst * n_bm, -1)
-
+            act_mask=act_mask.repeat(1, n_bm).view(n_inst * n_bm, -1)
             # -- Prepare beams
             inst_dec_beams = [Beam(n_bm, device=device) for _ in range(n_inst)]
 
@@ -544,13 +556,13 @@ class RespGenerator(nn.Module):
             # -- Decode
             for len_dec_seq in range(1, max_token_seq_len + 1):
                 active_inst_idx_list = beam_decode_step(bs, inst_dec_beams, len_dec_seq, active_inst_idx_list,
-                                                        act_vecs, src_seq, inst_idx_to_position_map, n_bm)
+                                                        act_vecs,act_mask, src_seq, inst_idx_to_position_map, n_bm)
 
                 if not active_inst_idx_list:
                     break  # all instances have finished their path to <EOS>
 
-                bs, act_vecs, src_seq, inst_idx_to_position_map = collate_active_info(
-                    bs, act_vecs, src_seq, inst_idx_to_position_map, active_inst_idx_list)
+                bs, act_vecs,act_mask, src_seq, inst_idx_to_position_map = collate_active_info(
+                    bs, act_vecs,act_mask, src_seq, inst_idx_to_position_map, active_inst_idx_list)
 
         def collect_hypothesis_and_scores(inst_dec_beams, n_best):
             all_hyp, all_scores = [], []
@@ -647,9 +659,9 @@ class ActGenerator(nn.Module):
                 slf_attn_mask=slf_attn_mask,
                 dec_enc_attn_mask=dec_enc_attn_mask)
         logits = self.tgt_word_prj(dec_output)
-        dec_output = dec_output.sum(dim=1)
-        act_logits = self.act_prj(dec_output)
-        return logits, act_logits
+        bag_output = dec_output.sum(dim=1)
+        act_logits = self.act_prj(bag_output)
+        return logits, act_logits,dec_output
 
     def translate_batch(self, domain, bs, act_vecs, src_seq, n_bm, max_token_seq_len=30):
         ''' Translation work in one batch '''
@@ -683,7 +695,7 @@ class ActGenerator(nn.Module):
             dec_partial_seq = torch.stack(dec_partial_seq).to(device)
             dec_partial_seq = dec_partial_seq.view(-1, len_dec_seq)
 
-            logits, act_logits = self.forward(dec_partial_seq, src_seq, bs)
+            logits, act_logits,_ = self.forward(dec_partial_seq, src_seq, bs)
             logits = logits[:, -1, :] / Constants.T
             word_prob = F.log_softmax(logits, dim=1)
             word_prob = word_prob.view(n_active_inst, n_bm, -1)
@@ -751,7 +763,7 @@ class ActGenerator(nn.Module):
         for _ in batch_hyp:
             finished = False
             for r in _:
-                if len(r) < 40:
+                if len(r) < Constants.ACT_MAX_LEN:
                     result.append(r)
                     finished = True
                     break

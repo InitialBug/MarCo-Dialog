@@ -159,11 +159,12 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                 act_user_ids = act_user_ids[-max_seq_length:]
             action = [Constants.SOS_WORD] + turn['actseq'] + [Constants.EOS_WORD]
 
+            action_masks=[0]*len(turn['actseq'])
             if len(action) > Constants.ACT_MAX_LEN:
                 action = action[:Constants.ACT_MAX_LEN - 1] + [Constants.EOS_WORD]
             else:
                 action = action + [Constants.PAD_WORD] * (Constants.ACT_MAX_LEN - len(action))
-
+            action_masks+=[1]*(Constants.ACT_MAX_LEN - len(action_masks)-1)
             action_inp_ids = act_tokenizer.convert_tokens_to_ids(action[:-1])
             action_out_ids = act_tokenizer.convert_tokens_to_ids(action[1:])
             act_user_ids = tokenizer.convert_tokens_to_ids(act_user_ids)
@@ -185,23 +186,11 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
 
                 labels[acts[1] - 3] = 1
 
-            examples.append([input_ids, input_mask, padded_segment_ids, act_vecs, \
+            examples.append([input_ids, action_masks, padded_segment_ids, act_vecs, \
                              query_results, resp_inp_ids, resp_out_ids, bs, hierarchical_act_vecs, act_user_ids,
                              action_inp_ids, action_out_ids, labels, dialog_file])
             num += 1
-            if num < 5 and option == 'train':
-                logger.info("*** Example ***")
-                logger.info("guid: %s" % (str(num)))
-                logger.info("tokens: %s" % " ".join([str(x) for x in tokens]))
-                logger.info("input_ids: %s" % " ".join([str(x) for x in input_ids]))
-                logger.info("input_mask: %s" % " ".join([str(x) for x in input_mask]))
-                logger.info("segment_ids: %s" % " ".join([str(x) for x in padded_segment_ids]))
-                logger.info("action_vecs: %s" % " ".join([str(x) for x in hierarchical_act_vecs]))
-                logger.info("query results: %s" % " ".join([str(x) for x in query_results]))
-                logger.info("belief states: %s" % " ".join([str(x) for x in bs]))
-                logger.info("system response: %s" % " ".join([str(x) for x in resp if x != "[PAD]"]))
-                # logger.info("one hot dialog act: %s " % " ".join([str(x) for x in act_vecs]))
-                logger.info("")
+
 
             sys = tokenizer.tokenize(turn['sys'])
             if turn_num == 0:
@@ -213,7 +202,7 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                     segment_sys] * len(sys)
 
     all_input_ids = torch.tensor([f[0] for f in examples], dtype=torch.long)
-    all_input_mask = torch.tensor([f[1] for f in examples], dtype=torch.long)
+    action_masks = torch.tensor([f[1] for f in examples], dtype=torch.float32).byte()
     all_segment_ids = torch.tensor([f[2] for f in examples], dtype=torch.long)
     all_act_vecs = torch.tensor([f[3] for f in examples], dtype=torch.float32)
     all_query_results = torch.tensor([f[4] for f in examples], dtype=torch.float32)
@@ -230,6 +219,6 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
     all_files = [f[13] for f in examples]
     # all_template_ids = torch.tensor([f[9] for f in examples], dtype=torch.long)
 
-    return all_input_ids, all_input_mask, all_segment_ids, all_act_vecs, \
+    return all_input_ids, action_masks, all_segment_ids, all_act_vecs, \
            all_query_results, all_response_in, all_response_out, all_belief_state, \
            all_hierarchical_act_vecs, act_user_ids, action_inp_ids, action_out_ids, labels, all_files
