@@ -159,13 +159,13 @@ if args.option == 'train':
             loss2=loss_func(act_logits.view(-1),all_label.view(-1))
             loss=loss1+alpha*loss2
             loss.backward()
+            optimizer.step()
 
             resp_logits = resp_generator(tgt_seq=rep_in, src_seq=input_ids, act_vecs=pred_hierachical_act_vecs,bs=belief_state)
 
             loss3 = ce_loss_func(resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(), \
                                 resp_out.contiguous().view(-1))
             loss3.backward()
-            optimizer.step()
             optimizer2.step()
 
             # if step % 100 == 0:
