@@ -165,7 +165,7 @@ if args.option == 'train':
 
             loss3 = ce_loss_func(resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(), \
                                 resp_out.contiguous().view(-1))
-            if epoch < 11:
+            if epoch < 10:
                 loss = loss1 + alpha * loss2
             else:
                 loss=0.1*loss1+loss3
