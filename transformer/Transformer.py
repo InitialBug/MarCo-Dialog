@@ -423,12 +423,12 @@ class DecoderLayer(nn.Module):
         return dec_output, dec_slf_attn, dec_enc_attn
 
 
-class TransformerDecoder(nn.Module):
+class RespGenerator(nn.Module):
     ''' A decoder model with self attention mechanism. '''
 
     def __init__(self, vocab_size, d_word_vec, n_layers, d_model, n_head, act_dim, dropout=0.1):
 
-        super(TransformerDecoder, self).__init__()
+        super(RespGenerator, self).__init__()
         d_k = d_model // n_head
         d_v = d_model // n_head
         d_inner = d_model * 4

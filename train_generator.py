@@ -8,7 +8,7 @@ import sys
 import argparse
 import time
 from torch.autograd import Variable
-from transformer.Transformer import Transformer, ActGenerator,TransformerDecoder
+from transformer.Transformer import Transformer, ActGenerator,RespGenerator
 from torch.optim.lr_scheduler import MultiStepLR
 import transformer.Constants as Constants
 from itertools import chain
@@ -115,13 +115,13 @@ BLEU_calc = BLEUScorer()
 F1_calc = F1Scorer()
 
 
-decoder = ActGenerator(vocab_size=tokenizer.vocab_len,act_vocab_size=act_tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
+act_generator = ActGenerator(vocab_size=tokenizer.vocab_len,act_vocab_size=act_tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
                                  n_layers=args.layer_num, d_model=args.emb_dim, n_head=args.head, dropout=args.dropout)
 
-resp_generator = TransformerDecoder(vocab_size=tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
+resp_generator = RespGenerator(vocab_size=tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
                                  n_layers=args.layer_num, d_model=args.emb_dim, n_head=args.head, dropout=args.dropout)
 
-decoder.to(device)
+act_generator.to(device)
 resp_generator.to(device)
 loss_func = torch.nn.BCEWithLogitsLoss()
 loss_func.to(device)
@@ -132,17 +132,16 @@ ce_loss_func.to(device)
 
 label_list=Constants.functions+Constants.arguments
 if args.option == 'train':
-    decoder.train()
+    act_generator.train()
     resp_generator.train()
     if args.resume:
-        decoder.load_state_dict(torch.load(checkpoint_file))
-        logger.info("Reloaing the encoder and decoder from {}".format(checkpoint_file))
+        act_generator.load_state_dict(torch.load(checkpoint_file))
+        logger.info("Reloaing the encoder and act_generator from {}".format(checkpoint_file))
 
     logger.info("Start Training with {} batches".format(len(train_dataloader)))
 
-    # optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, list(decoder.parameters())+list(resp_generator.parameters())), betas=(0.9, 0.98), eps=1e-09)
-    optimizer2 = torch.optim.Adam(filter(lambda x: x.requires_grad, resp_generator.parameters()), betas=(0.9, 0.98), eps=1e-09)
-    optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, decoder.parameters()), betas=(0.9, 0.98), eps=1e-09)
+    optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, list(act_generator.parameters())+list(resp_generator.parameters())), betas=(0.9, 0.98), eps=1e-09)
+
 
 
     scheduler = MultiStepLR(optimizer, milestones=[50, 100, 150, 200], gamma=0.5)
@@ -155,23 +154,22 @@ if args.option == 'train':
             input_ids, input_mask, segment_ids, act_vecs, query_results, \
             rep_in, resp_out, belief_state, pred_hierachical_act_vecs, act_user_ids, act_in, act_out, all_label, *_ = batch
 
-            decoder.zero_grad()
+            act_generator.zero_grad()
             resp_generator.zero_grad()
-            logits,act_logits = decoder(tgt_seq=act_in, src_seq=act_user_ids,bs=belief_state)
+            logits,act_logits = act_generator(tgt_seq=act_in, src_seq=act_user_ids,bs=belief_state)
 
             loss1 = ce_loss_func(logits.contiguous().view(logits.size(0) * logits.size(1), -1).contiguous(), \
                                 act_out.contiguous().view(-1))
             loss2=loss_func(act_logits.view(-1),all_label.view(-1))
             loss=loss1+alpha*loss2
             loss.backward()
-            optimizer.step()
 
             resp_logits = resp_generator(tgt_seq=rep_in, src_seq=input_ids, act_vecs=pred_hierachical_act_vecs,bs=belief_state)
 
             loss3 = ce_loss_func(resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(), \
                                 resp_out.contiguous().view(-1))
             loss3.backward()
-            optimizer2.step()
+            optimizer.step()
 
             # if step % 100 == 0:
             #     print("epoch {} step {} training loss {} loss1 {} loss2 {}".format(epoch, step, loss.item(),loss1.item(),loss2.item()))
@@ -180,7 +178,7 @@ if args.option == 'train':
         scheduler.step()
         if loss3.item() < 3.0 and loss1.item()<3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
             logger.info("start evaluating BLEU on validation set")
-            decoder.eval()
+            act_generator.eval()
             # Start Evaluating after each epoch
             model_turns = {}
             TP, TN, FN, FP = 0, 0, 0, 0
@@ -190,7 +188,7 @@ if args.option == 'train':
                 input_ids, input_mask, segment_ids, act_vecs, query_results, \
                 rep_in, resp_out, belief_state, pred_hierachical_act_vecs, act_user_ids, act_in, act_out, all_label, *_ = batch
 
-                hyps,act_logits = decoder.translate_batch(domain=act_in[:,0],bs=belief_state,act_vecs=act_vecs, \
+                hyps,act_logits = act_generator.translate_batch(domain=act_in[:,0],bs=belief_state,act_vecs=act_vecs, \
                                                src_seq=act_user_ids, n_bm=args.beam_size,
                                                max_token_seq_len=Constants.ACT_MAX_LEN)
                 cls_pred=torch.sigmoid(act_logits)
@@ -240,20 +238,20 @@ if args.option == 'train':
             print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
             logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
             if F1 > best_BLEU:
-                torch.save(decoder.state_dict(), os.path.join(checkpoint_file,str(F1)))
+                torch.save(act_generator.state_dict(), os.path.join(checkpoint_file,str(F1)))
                 best_BLEU = F1
             BLEU = BLEU_calc.score(model_turns, gt_turns)
             inform,request=evaluateModel(model_turns,gt_turns)
             print(inform,request,BLEU)
             logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU,inform,request))
             # if BLEU > best_BLEU:
-            #     torch.save(decoder.state_dict(), os.path.join(checkpoint_file,str(BLEU)))
+            #     torch.save(act_generator.state_dict(), os.path.join(checkpoint_file,str(BLEU)))
             #     best_BLEU = BLEU
-            decoder.train()
+            act_generator.train()
 elif args.option == "test":
-    decoder.load_state_dict(torch.load(checkpoint_file))
+    act_generator.load_state_dict(torch.load(checkpoint_file))
     logger.info("Loading model from {}".format(checkpoint_file))
-    decoder.eval()
+    act_generator.eval()
     logger.info("Start Testing with {} batches".format(len(eval_dataloader)))
 
     model_turns = {}
@@ -267,8 +265,8 @@ elif args.option == "test":
         input_ids, input_mask, segment_ids, act_vecs, query_results, \
         rep_in, resp_out, belief_state, all_label, act_in, act_out, *_ = batch
 
-        # logits, act_logits = decoder(tgt_seq=act_in, src_seq=input_ids, bs=belief_state)
-        hyps, act_logits = decoder.translate_batch(domain=act_in[:, 0], bs=belief_state, act_vecs=act_vecs, \
+        # logits, act_logits = act_generator(tgt_seq=act_in, src_seq=input_ids, bs=belief_state)
+        hyps, act_logits = act_generator.translate_batch(domain=act_in[:, 0], bs=belief_state, act_vecs=act_vecs, \
                                                    src_seq=input_ids, n_bm=args.beam_size,
                                                    max_token_seq_len=Constants.ACT_MAX_LEN)
         for hyp_step, hyp in enumerate(hyps):
@@ -304,9 +302,9 @@ elif args.option == "test":
         model_turns = OrderedDict(sorted(model_turns.items()))
         json.dump(model_turns, fp, indent=2)
 # elif args.option == "test":
-#     decoder.load_state_dict(torch.load(checkpoint_file))
+#     act_generator.load_state_dict(torch.load(checkpoint_file))
 #     logger.info("Loading model from {}".format(checkpoint_file))
-#     decoder.eval()
+#     act_generator.eval()
 #     logger.info("Start Testing with {} batches".format(len(eval_dataloader)))
 #
 #     model_turns = {}
@@ -319,7 +317,7 @@ elif args.option == "test":
 #         input_ids, input_mask, segment_ids, act_vecs, query_results, \
 #             rep_in, resp_out, belief_state, pred_hierachical_act_vecs, *_ = batch
 #
-#         hyps = decoder.translate_batch(act_vecs=pred_hierachical_act_vecs, src_seq=input_ids,
+#         hyps = act_generator.translate_batch(act_vecs=pred_hierachical_act_vecs, src_seq=input_ids,
 #                                        n_bm=args.beam_size, max_token_seq_len=40)
 #         for hyp_step, hyp in enumerate(hyps):
 #             pred = tokenizer.convert_id_to_tokens(hyp)
