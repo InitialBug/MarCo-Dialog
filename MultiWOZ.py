@@ -158,8 +158,10 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
             if len(act_user_ids) > max_seq_length:
                 act_user_ids = act_user_ids[-max_seq_length:]
             action = [Constants.SOS_WORD] + turn['actseq'] + [Constants.EOS_WORD]
-
-            action_masks=[0]*len(turn['actseq'])
+            if len(turn['actseq'])<Constants.ACT_MAX_LEN:
+                action_masks=[0]*len(turn['actseq'])
+            else:
+                action_masks=[0]*Constants.ACT_MAX_LEN
             if len(action) > Constants.ACT_MAX_LEN:
                 action = action[:Constants.ACT_MAX_LEN - 1] + [Constants.EOS_WORD]
             else:
