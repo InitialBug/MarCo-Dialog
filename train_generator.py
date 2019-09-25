@@ -204,19 +204,17 @@ if args.option == 'train':
                     pre1=[0]*Constants.act_len
                     # pre2=[0]*Constants.act_len
 
-                    for w in hyp:
-                        if w not in [Constants.PAD, Constants.EOS]:
-                            pre1[w-3] =1
+                    # for w in hyp:
+                    #     if w not in [Constants.PAD, Constants.EOS]:
+                    #         pre1[w-3] =1
 
                     if len(hyp)<Constants.ACT_MAX_LEN:
                         hyps[hyp_step]=list(hyps[hyp_step])+[Constants.PAD]*(Constants.ACT_MAX_LEN-len(hyp))
 
                     all_pred.append(pre1)
-                # all_pred=torch.Tensor(all_pred)+cls_pred
-                # all_pred=(all_pred > 0.8).long()
-                all_pred=torch.Tensor(all_pred)
-                all_label=all_label.cpu()
-                TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
+                # all_pred=torch.Tensor(all_pred)
+                # all_label=all_label.cpu()
+                # TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
 
                 act_in=torch.tensor(hyps,dtype=torch.long).to(device)
                 _,_,act_vecs=act_generator(tgt_seq=act_in, src_seq=act_user_ids,bs=belief_state)
