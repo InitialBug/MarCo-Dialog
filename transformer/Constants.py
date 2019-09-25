@@ -18,7 +18,7 @@ SEP_WORD = '[SEP]'
 TEMPLATE_MAX_LEN = 50
 RESP_MAX_LEN = 40
 MAX_SEGMENT = 20
-ACT_MAX_LEN=12
+ACT_MAX_LEN=13
 T = 1
 
 def append_or_add(dictionary, name, key):
