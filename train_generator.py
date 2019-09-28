@@ -176,7 +176,6 @@ if args.option == 'train':
 
             if step % 100 == 0:
                 print("epoch {} \tstep {} training \ttotal_loss {} \tact_loss {} \tresp_loss {}".format(epoch, step, loss.item(),loss1.item(),loss3.item()))
-                logger.info("epoch {} \tstep {} \ttraining_total loss {} \tact_loss {} \tresp_loss {}".format(epoch, step, loss.item(),loss1.item(),loss3.item()))
         alpha=min(1,alpha+0.1*epoch)
         scheduler.step()
         if loss3.item() < 3.0 and loss1.item()<3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
@@ -237,8 +236,8 @@ if args.option == 'train':
             precision = TP / (TP + FP + 0.001)
             recall = TP / (TP + FN + 0.001)
             F1 = 2 * precision * recall / (precision + recall + 0.001)
-            print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
-            logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
+            # print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
+            # logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
             BLEU = BLEU_calc.score(model_turns, gt_turns)
             inform,request=evaluateModel(model_turns,gt_turns)
             print(inform,request,BLEU)

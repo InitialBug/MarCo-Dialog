@@ -447,6 +447,9 @@ class RespGenerator(nn.Module):
             DecoderLayer(d_model, d_inner, n_head, d_k, d_v, dropout=dropout)
             for _ in range(n_layers)])
 
+        self.act_att_layer=nn.ModuleList([
+            DecoderLayer(d_model, d_inner, n_head, d_k, d_v, dropout=dropout)
+            for _ in range(n_layers)])
         self.tgt_word_prj = nn.Linear(d_model*3, vocab_size, bias=False)
 
     def forward(self, tgt_seq, src_seq, act_vecs,act_mask, bs):
@@ -470,12 +473,21 @@ class RespGenerator(nn.Module):
         # -- Forward
         # dec_output = self.tgt_word_emb(tgt_seq) + self.post_word_emb(tgt_seq)+self.bs_emb(bs)[:, None, :]+self.act_word_emb(act_vecs)[:,None,:]
         dec_output = self.tgt_word_emb(tgt_seq) + self.post_word_emb(tgt_seq)
-        act_vecs=act_vecs.transpose(1,2)
-        act_att_weight=torch.matmul(dec_output,act_vecs)
+        # act_vecs=act_vecs.transpose(1,2)
+        # act_att_weight=torch.matmul(dec_output,act_vecs)
+        # act_mask=act_mask.unsqueeze(1).expand(-1,dec_output.shape[1],-1)
+        # act_att_weight=act_att_weight.masked_fill(act_mask,-np.inf)
+        # act_att_weight=F.softmax(act_att_weight,dim=2)
+        # act_att_out=torch.matmul(act_att_weight,act_vecs.transpose(1,2))
+
         act_mask=act_mask.unsqueeze(1).expand(-1,dec_output.shape[1],-1)
-        act_att_weight=act_att_weight.masked_fill(act_mask,-np.inf)
-        act_att_weight=F.softmax(act_att_weight,dim=2)
-        act_att_out=torch.matmul(act_att_weight,act_vecs.transpose(1,2))
+
+        for dec_layer in self.act_att_layer:
+            act_att_out, _, _ = dec_layer(
+                dec_output, act_vecs,
+                non_pad_mask=non_pad_mask,
+                slf_attn_mask=slf_attn_mask,
+                dec_enc_attn_mask=act_mask)
 
         att_out = dec_output
         for dec_layer in self.layer_stack:
