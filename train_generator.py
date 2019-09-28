@@ -22,20 +22,7 @@ from evaluator import evaluateModel
 import logging.handlers
 
 
-logger = logging.getLogger(__name__)
-handler1 = logging.StreamHandler()
-handler2 = logging.FileHandler(filename="log")
 
-logger.setLevel(logging.DEBUG)
-handler1.setLevel(logging.WARNING)
-handler2.setLevel(logging.DEBUG)
-
-formatter = logging.Formatter("%(asctime)s %(name)s %(levelname)s %(message)s")
-handler1.setFormatter(formatter)
-handler2.setFormatter(formatter)
-
-logger.addHandler(handler1)
-logger.addHandler(handler2)
 
 def parse_opt():
     parser = argparse.ArgumentParser()
@@ -60,10 +47,28 @@ def parse_opt():
     parser.add_argument("--non_delex", default=False, action="store_true", help="The initial learning rate for Adam.")
     parser.add_argument("--hist_num", default=0,type=int, help="The initial learning rate for Adam.")
     parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
+    parser.add_argument('--log', type=str, default='log', help="random seed for initialization")
+
     args = parser.parse_args()
     return args
 
 args = parse_opt()
+
+logger = logging.getLogger(__name__)
+handler1 = logging.StreamHandler()
+handler2 = logging.FileHandler(filename=args.log)
+
+logger.setLevel(logging.DEBUG)
+handler1.setLevel(logging.WARNING)
+handler2.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter("%(asctime)s %(name)s %(levelname)s %(message)s")
+handler1.setFormatter(formatter)
+handler2.setFormatter(formatter)
+
+logger.addHandler(handler1)
+logger.addHandler(handler2)
+
 device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
 
 random.seed(args.seed)
