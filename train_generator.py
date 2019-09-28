@@ -167,10 +167,10 @@ if args.option == 'train':
                                 resp_out.contiguous().view(-1))
             if epoch < 10:
                 loss = loss1 + alpha * loss2
-            elif epoch<30:
-                loss=0.1*loss1+loss3
+            # elif epoch<30:
+            #     loss=0.1*loss1+loss3
             else:
-                loss=loss3
+                loss = 0.1 * loss1 + loss3
             loss.backward()
             optimizer.step()
 
