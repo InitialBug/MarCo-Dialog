@@ -246,11 +246,11 @@ if args.option == 'train':
             inform,request=evaluateModel(model_turns,gt_turns)
             print(inform,request,BLEU)
             logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU,inform,request))
-            BLEU=request
-            if BLEU > best_BLEU:
-                torch.save(act_generator.state_dict(), os.path.join(checkpoint_file,'act'+str(BLEU)))
-                torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,'resp'+str(BLEU)))
-                best_BLEU = BLEU
+            if request > best_BLEU:
+                save_name='inform-{}-request-{}-bleu-{}'.format(inform,request,BLEU)
+                torch.save(act_generator.state_dict(), os.path.join(checkpoint_file,'act'+save_name))
+                torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,'resp'+save_name))
+                best_BLEU = request
                 resp_file = os.path.join(args.output_file, 'resp_pred.json')
                 with open(resp_file, 'w') as fp:
                     model_turns = OrderedDict(sorted(model_turns.items()))
