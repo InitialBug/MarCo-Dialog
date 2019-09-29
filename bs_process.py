@@ -75,8 +75,8 @@ def token_action(data_dir,option):
                 domain.append('general')
                 func.append('none')
                 # arg.append('none')
-            # domain=sorted(domain)
-            # func=sorted(func)
+            domain=sorted(domain)
+            func=sorted(func)
             # arg=sorted(arg)
             turn['actseq']=domain+func+arg
     f=open('{}/{}.json'.format(data_dir,option),'w')
