@@ -71,8 +71,15 @@ logger.addHandler(handler2)
 
 device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
 
-random.seed(args.seed)
-torch.manual_seed(args.seed)
+
+def setup_seed(seed):
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    numpy.random.seed(seed)
+    random.seed(seed)
+    
+setup_seed(args.seed)
+
 
 with open("{}/vocab.json".format(args.data_dir), 'r') as f:
     vocabulary = json.load(f)
