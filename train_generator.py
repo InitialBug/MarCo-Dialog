@@ -258,7 +258,7 @@ if args.option == 'train':
             resp_generator.train()
             act_generator.train()
 elif args.option == "test":
-    
+
     act_generator.load_state_dict(torch.load(args.act_load_dir))
     resp_generator.load_state_dict(torch.load(args.resp_load_dir))
     logger.info("Loading model from {}".format(checkpoint_file))
