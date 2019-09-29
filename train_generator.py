@@ -43,7 +43,7 @@ def parse_opt():
     parser.add_argument("--output_dir", default="checkpoints/generator/", type=str, \
                         help="The output directory where the model predictions and checkpoints will be written.")
     parser.add_argument("--learning_rate", default=1e-4, type=float, help="The initial learning rate for Adam.")
-    parser.add_argument("--output_file", default='output/results.txt.pred', type=str, help="The initial learning rate for Adam.")
+    parser.add_argument("--output_file", default='output', type=str, help="The initial learning rate for Adam.")
     parser.add_argument("--non_delex", default=False, action="store_true", help="The initial learning rate for Adam.")
     parser.add_argument("--hist_num", default=0,type=int, help="The initial learning rate for Adam.")
     parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
@@ -259,100 +259,88 @@ if args.option == 'train':
                 torch.save(act_generator.state_dict(), os.path.join(checkpoint_file,'act'+str(BLEU)))
                 torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,'resp'+str(BLEU)))
                 best_BLEU = BLEU
+                resp_file = os.path.join(args.output_file, 'resp_pred.json')
+                with open(args.resp_file, 'w') as fp:
+                    model_turns = OrderedDict(sorted(model_turns.items()))
+                    json.dump(model_turns, fp, indent=2)
             resp_generator.train()
             act_generator.train()
 elif args.option == "test":
     act_generator.load_state_dict(torch.load(checkpoint_file))
+    resp_generator.load_state_dict(torch.load(resp_generator))
     logger.info("Loading model from {}".format(checkpoint_file))
     act_generator.eval()
-    logger.info("Start Testing with {} batches".format(len(eval_dataloader)))
-
+    resp_generator.eval()
+    # Start Evaluating after each epoch
     model_turns = {}
-    act_turns = {}
-    step = 0
-    start_time = time.time()
+    act_turns={}
     TP, TN, FN, FP = 0, 0, 0, 0
     for batch_step, batch in enumerate(eval_dataloader):
         all_pred = []
         batch = tuple(t.to(device) for t in batch)
         input_ids, action_masks, segment_ids, act_vecs, query_results, \
-        rep_in, resp_out, belief_state, all_label, act_in, act_out, *_ = batch
+        rep_in, resp_out, belief_state, bert_act_seq, act_user_ids, act_in, act_out, all_label, *_ = batch
 
-        # logits, act_logits = act_generator(tgt_seq=act_in, src_seq=input_ids, bs=belief_state)
         hyps, act_logits = act_generator.translate_batch(domain=act_in[:, 0], bs=belief_state, act_vecs=act_vecs, \
-                                                   src_seq=input_ids, n_bm=args.beam_size,
-                                                   max_token_seq_len=Constants.ACT_MAX_LEN)
+                                                         src_seq=act_user_ids, n_bm=args.beam_size,
+                                                         max_token_seq_len=Constants.ACT_MAX_LEN)
         for hyp_step, hyp in enumerate(hyps):
-            pred = act_tokenizer.convert_id_to_tokens(hyp)
+
+
+            pre1 = [0] * Constants.act_len
+
+            for w in hyp:
+                if w not in [Constants.PAD, Constants.EOS]:
+                    pre1[w-3] =1
+
+            file_name = val_id[batch_step * args.batch_size + hyp_step]
+            if file_name not in act_turns:
+                act_turns[file_name] = [pre1]
+            else:
+                act_turns[file_name].append(pre1)
+
+            if len(hyp) < Constants.ACT_MAX_LEN:
+                hyps[hyp_step] = list(hyps[hyp_step]) + [Constants.PAD] * (Constants.ACT_MAX_LEN - len(hyp))
+
+            all_pred.append(pre1)
+        all_pred=torch.Tensor(all_pred)
+        all_label=all_label.cpu()
+        TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
+
+        act_in = torch.tensor(hyps, dtype=torch.long).to(device)
+        _, _, act_vecs = act_generator(tgt_seq=act_in, src_seq=act_user_ids, bs=belief_state)
+        action_masks = act_in.eq(Constants.PAD) + act_in.eq(Constants.EOS)
+        resp_hyps = resp_generator.translate_batch(bs=belief_state, act_vecs=act_vecs, act_mask=action_masks,
+                                                   src_seq=input_ids, n_bm=args.beam_size,
+                                                   max_token_seq_len=40)
+
+        for hyp_step, hyp in enumerate(resp_hyps):
+            pred = tokenizer.convert_id_to_tokens(hyp)
             file_name = val_id[batch_step * args.batch_size + hyp_step]
             if file_name not in model_turns:
                 model_turns[file_name] = [pred]
             else:
                 model_turns[file_name].append(pred)
-            pre1 = [0] * Constants.act_len
-        # pre2=[0]*Constants.act_len
 
-            for w in hyp:
-                if w not in [Constants.PAD, Constants.EOS]:
-                    pre1[w - 3] = 1
-            # for w in act_out[hyp_step]:
-            #     if w ==Constants.EOS:
-            #         break
-            #     else:
-            #         pre2[w-3] =1
-
-            all_pred.append(pre1)
-        all_pred=torch.Tensor(all_pred)
-        all_label = all_label.cpu()
-        # all_pred=(cls_pred > 0.5).long()
-        TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
-        precision = TP / (TP + FP + 0.001)
-        recall = TP / (TP + FN + 0.001)
+    precision = TP / (TP + FP + 0.001)
+    recall = TP / (TP + FN + 0.001)
     F1 = 2 * precision * recall / (precision + recall + 0.001)
     print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
+    logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
+    BLEU = BLEU_calc.score(model_turns, gt_turns)
+    inform, request = evaluateModel(model_turns, gt_turns)
+    print(inform, request, BLEU)
+    logger.info("BLEU {}, inform {}, request {} ".format( BLEU, inform, request))
 
-    with open(args.output_file, 'w') as fp:
+    resp_file=os.path.join(args.output_file,'resp_pred.json')
+    with open(args.resp_file, 'w') as fp:
         model_turns = OrderedDict(sorted(model_turns.items()))
         json.dump(model_turns, fp, indent=2)
-# elif args.option == "test":
-#     act_generator.load_state_dict(torch.load(checkpoint_file))
-#     logger.info("Loading model from {}".format(checkpoint_file))
-#     act_generator.eval()
-#     logger.info("Start Testing with {} batches".format(len(eval_dataloader)))
-#
-#     model_turns = {}
-#     act_turns = {}
-#     step = 0
-#     start_time = time.time()
-#     TP, TN, FN, FP = 0, 0, 0, 0
-#     for batch_step, batch in enumerate(eval_dataloader):
-#         batch = tuple(t.to(device) for t in batch)
-#         input_ids, action_masks, segment_ids, act_vecs, query_results, \
-#             rep_in, resp_out, belief_state, pred_hierachical_act_vecs, *_ = batch
-#
-#         hyps = act_generator.translate_batch(act_vecs=pred_hierachical_act_vecs, src_seq=input_ids,
-#                                        n_bm=args.beam_size, max_token_seq_len=40)
-#         for hyp_step, hyp in enumerate(hyps):
-#             pred = tokenizer.convert_id_to_tokens(hyp)
-#             file_name = val_id[batch_step * args.batch_size + hyp_step]
-#             if file_name not in model_turns:
-#                 model_turns[file_name] = [pred]
-#             else:
-#                 model_turns[file_name].append(pred)
-#
-#         logger.info("finished {}/{} used {} sec/per-sent".format(batch_step, len(eval_dataloader), \
-#                                                            (time.time() - start_time) / args.batch_size))
-#         start_time = time.time()
-#
-#     with open(args.output_file, 'w') as fp:
-#         model_turns = OrderedDict(sorted(model_turns.items()))
-#         json.dump(model_turns, fp, indent=2)
-#
-#     BLEU = BLEU_calc.score(model_turns, gt_turns)
-#     entity_F1 = F1_calc.score(model_turns, gt_turns)
-#     inform,request=evaluateModel(model_turns)
-#     print("Validation BLEU {}, inform {}, request {} ".format(BLEU, inform, request))
-#     logger.info("Validation BLEU {}, inform {}, request {} ".format(BLEU, inform, request))
+
+    act_file=os.path.join(args.output_file,'act_pred.json')
+    with open(act_file, 'w') as fp:
+        json.dump(act_turns, fp, indent=2)
+
 elif args.option == "postprocess":
     with open(args.output_file, 'r') as f:
         model_turns = json.load(f)
