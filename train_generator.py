@@ -48,6 +48,7 @@ def parse_opt():
     parser.add_argument("--hist_num", default=0,type=int, help="The initial learning rate for Adam.")
     parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
     parser.add_argument('--log', type=str, default='log', help="random seed for initialization")
+    parser.add_argument('--act_mode',  type=str,choices=["pred", "bert",'groundtruth'],default='pred')
 
     args = parser.parse_args()
     return args
@@ -203,33 +204,22 @@ if args.option == 'train':
                 input_ids, action_masks, segment_ids, act_vecs, query_results, \
                 rep_in, resp_out, belief_state, bert_act_seq, act_user_ids, act_in, act_out, all_label, *_ = batch
 
-                hyps,act_logits = act_generator.translate_batch(domain=act_in[:,0],bs=belief_state,act_vecs=act_vecs, \
-                                               src_seq=act_user_ids, n_bm=args.beam_size,
-                                               max_token_seq_len=Constants.ACT_MAX_LEN)
-                for hyp_step, hyp in enumerate(hyps):
-                    # pred = tokenizer.convert_id_to_tokens(hyp)
-                    # file_name = val_id[batch_step * args.batch_size + hyp_step]
-                    # if file_name not in model_turns:
-                    #     model_turns[file_name] = [pred]
-                    # else:
-                    #     model_turns[file_name].append(pred)
+                if args.act_mode=='bert':
+                    act_in=bert_act_seq
+                elif args.act_mode=='pred':
+                    hyps,act_logits = act_generator.translate_batch(domain=act_in[:,0],bs=belief_state,act_vecs=act_vecs, \
+                                                   src_seq=act_user_ids, n_bm=args.beam_size,
+                                                   max_token_seq_len=Constants.ACT_MAX_LEN)
+                    for hyp_step, hyp in enumerate(hyps):
+                        pre1=[0]*Constants.act_len
+                        if len(hyp)<Constants.ACT_MAX_LEN:
+                            hyps[hyp_step]=list(hyps[hyp_step])+[Constants.PAD]*(Constants.ACT_MAX_LEN-len(hyp))
+                        all_pred.append(pre1)
+                    # all_pred=torch.Tensor(all_pred)
+                    # all_label=all_label.cpu()
+                    # TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
 
-                    pre1=[0]*Constants.act_len
-                    # pre2=[0]*Constants.act_len
-
-                    # for w in hyp:
-                    #     if w not in [Constants.PAD, Constants.EOS]:
-                    #         pre1[w-3] =1
-
-                    if len(hyp)<Constants.ACT_MAX_LEN:
-                        hyps[hyp_step]=list(hyps[hyp_step])+[Constants.PAD]*(Constants.ACT_MAX_LEN-len(hyp))
-
-                    all_pred.append(pre1)
-                # all_pred=torch.Tensor(all_pred)
-                # all_label=all_label.cpu()
-                # TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
-
-                act_in=torch.tensor(hyps,dtype=torch.long).to(device)
+                    act_in=torch.tensor(hyps,dtype=torch.long).to(device)
                 _,_,act_vecs=act_generator(tgt_seq=act_in, src_seq=act_user_ids,bs=belief_state)
                 action_masks=act_in.eq(Constants.PAD)+act_in.eq(Constants.EOS)
                 resp_hyps = resp_generator.translate_batch(bs=belief_state,act_vecs=act_vecs, act_mask=action_masks,
