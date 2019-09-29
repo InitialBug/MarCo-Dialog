@@ -81,7 +81,7 @@ def setup_seed(seed):
     numpy.random.seed(seed)
     random.seed(seed)
 
-setup_seed(args.seed)
+# setup_seed(args.seed)
 
 
 with open("{}/vocab.json".format(args.data_dir), 'r') as f:
@@ -252,7 +252,7 @@ if args.option == 'train':
                 torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,'resp'+str(BLEU)))
                 best_BLEU = BLEU
                 resp_file = os.path.join(args.output_file, 'resp_pred.json')
-                with open(args.resp_file, 'w') as fp:
+                with open(resp_file, 'w') as fp:
                     model_turns = OrderedDict(sorted(model_turns.items()))
                     json.dump(model_turns, fp, indent=2)
             resp_generator.train()
@@ -326,7 +326,7 @@ elif args.option == "test":
     logger.info("BLEU {}, inform {}, request {} ".format( BLEU, inform, request))
 
     resp_file=os.path.join(args.output_file,'resp_pred.json')
-    with open(args.resp_file, 'w') as fp:
+    with open(resp_file, 'w') as fp:
         model_turns = OrderedDict(sorted(model_turns.items()))
         json.dump(model_turns, fp, indent=2)
 
