@@ -49,6 +49,8 @@ def parse_opt():
     parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
     parser.add_argument('--log', type=str, default='log', help="random seed for initialization")
     parser.add_argument('--act_mode',  type=str,choices=["pred", "bert",'groundtruth'],default='pred')
+    parser.add_argument('--act_load_dir', type=str,  default='pred')
+    parser.add_argument('--resp_load_dir', type=str,  default='pred')
 
     args = parser.parse_args()
     return args
@@ -256,8 +258,9 @@ if args.option == 'train':
             resp_generator.train()
             act_generator.train()
 elif args.option == "test":
-    act_generator.load_state_dict(torch.load(checkpoint_file))
-    resp_generator.load_state_dict(torch.load(resp_generator))
+    
+    act_generator.load_state_dict(torch.load(args.act_load_dir))
+    resp_generator.load_state_dict(torch.load(args.resp_load_dir))
     logger.info("Loading model from {}".format(checkpoint_file))
     act_generator.eval()
     resp_generator.eval()
