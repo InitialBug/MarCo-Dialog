@@ -247,6 +247,7 @@ if args.option == 'train':
             inform,request=evaluateModel(model_turns,gt_turns)
             print(inform,request,BLEU)
             logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU,inform,request))
+            BLEU=request
             if BLEU > best_BLEU:
                 torch.save(act_generator.state_dict(), os.path.join(checkpoint_file,'act'+str(BLEU)))
                 torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,'resp'+str(BLEU)))
