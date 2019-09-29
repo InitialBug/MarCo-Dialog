@@ -14,6 +14,11 @@ import copy
 
 logger = logging.getLogger(__name__)
 
+domains = ['restaurant', 'hotel', 'attraction', 'train', 'taxi', 'hospital', 'police', 'bus', 'booking', 'general']
+functions = ['inform', 'request', 'recommend', 'book', 'select', 'sorry', 'none']
+arguments = ['pricerange', 'id', 'address', 'postcode', 'type', 'food', 'phone', 'name', 'area', 'choice',
+             'price', 'time', 'reference', 'none', 'parking', 'stars', 'internet', 'day', 'arriveby', 'departure',
+             'destination', 'leaveat', 'duration', 'trainid', 'people', 'department', 'stay']
 
 def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
     examples = []
@@ -135,21 +140,43 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                     act_vecs[Constants.act_ontology.index(w)] = 1
 
             if predicted_acts is not None:
-                hierarchical_act_vecs = np.asarray(predicted_acts[dialog_file][str(turn_num)], 'int64')
-            else:
-                hierarchical_act_vecs = np.zeros((Constants.act_len), 'int64')
-                # if turn['act'] != "None":
-                #     for w in turn['act']:
-                #         #for _ in Constants.domain_imapping[w]:
-                #         #    hierarchical_act_vecs[Constants.domains.index(_)] = 1
-                #         d, f, s = w.split('-')
-                #         hierarchical_act_vecs[Constants.domains.index(d)] = 1
-                #         #for _ in Constants.function_imapping[w]:
-                #         hierarchical_act_vecs[len(Constants.domains) + Constants.functions.index(f)] = 1
-                #         #for _ in Constants.arguments_imapping[w]:
-                #         hierarchical_act_vecs[len(Constants.domains) + len(Constants.functions) + Constants.arguments.index(s)] = 1
+                bert_act_vecs = np.asarray(predicted_acts[dialog_file][str(turn_num)], 'int64')
+                domain = []
+                func = []
+                arg = []
+                for i in range(len(bert_act_vecs)):
+                    if bert_act_vecs[i]>0:
+                        if i<len(domains):
+                            d=domains.index(i)
+                            if d not in domain:
+                                domain.append(d)
+                        elif i <(len(domains)+len(functions)):
+                            f=functions.index(i)
+                            if f not in func:
+                                func.append(f)
+                        else:
+                            a=arguments.index(i)
+                            if a not in arg:
+                                arg.append(a)
 
-            # -----------------------------------------act preprocess----------------------------------------------------
+            bert_act_seq=sorted(domain)+sorted(func)+sorted(arg)
+
+
+            if len(bert_act_seq) < Constants.ACT_MAX_LEN:
+                bert_action_masks = [0] * len(bert_act_seq)
+            else:
+                bert_action_masks = [0] * (Constants.ACT_MAX_LEN - 1)
+            bert_act_seq = [Constants.SOS_WORD] + bert_act_seq + [Constants.EOS_WORD]
+            if len(bert_act_seq) > Constants.ACT_MAX_LEN:
+                bert_act_seq = bert_act_seq[:Constants.ACT_MAX_LEN - 1] + [Constants.EOS_WORD]
+            else:
+                bert_act_seq = bert_act_seq + [Constants.PAD_WORD] * (Constants.ACT_MAX_LEN - len(bert_act_seq))
+            bert_action_masks += [1] * (Constants.ACT_MAX_LEN - len(bert_action_masks) - 1)
+            bert_act_seq = act_tokenizer.convert_tokens_to_ids(bert_act_seq[1:])
+
+
+
+                # -----------------------------------------act preprocess----------------------------------------------------
             source = []
             for k, v in turn['source'].items():
                 source.append(k.split('_')[1][:-1])
@@ -189,7 +216,7 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                 labels[acts[1] - 3] = 1
 
             examples.append([input_ids, action_masks, padded_segment_ids, act_vecs, \
-                             query_results, resp_inp_ids, resp_out_ids, bs, hierarchical_act_vecs, act_user_ids,
+                             query_results, resp_inp_ids, resp_out_ids, bs, bert_act_seq, act_user_ids,
                              action_inp_ids, action_out_ids, labels, dialog_file])
             num += 1
 
@@ -211,7 +238,7 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
     all_response_in = torch.tensor([f[5] for f in examples], dtype=torch.long)
     all_response_out = torch.tensor([f[6] for f in examples], dtype=torch.long)
     all_belief_state = torch.tensor([f[7] for f in examples], dtype=torch.float32)
-    all_hierarchical_act_vecs = torch.tensor([f[8] for f in examples], dtype=torch.float32)
+    bert_act_seq = torch.tensor([f[8] for f in examples], dtype=torch.long)
 
     act_user_ids = torch.tensor([f[9] for f in examples], dtype=torch.long)
     action_inp_ids = torch.tensor([f[10] for f in examples], dtype=torch.long)
@@ -223,4 +250,4 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
 
     return all_input_ids, action_masks, all_segment_ids, all_act_vecs, \
            all_query_results, all_response_in, all_response_out, all_belief_state, \
-           all_hierarchical_act_vecs, act_user_ids, action_inp_ids, action_out_ids, labels, all_files
+           bert_act_seq, act_user_ids, action_inp_ids, action_out_ids, labels, all_files

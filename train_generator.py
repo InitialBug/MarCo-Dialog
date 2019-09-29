@@ -77,7 +77,7 @@ def setup_seed(seed):
     torch.cuda.manual_seed_all(seed)
     numpy.random.seed(seed)
     random.seed(seed)
-    
+
 setup_seed(args.seed)
 
 
@@ -162,7 +162,7 @@ if args.option == 'train':
         for step, batch in enumerate(train_dataloader):
             batch = tuple(t.to(device) for t in batch)
             input_ids, action_masks, segment_ids, _, query_results, \
-            rep_in, resp_out, belief_state, pred_hierachical_act_vecs, act_user_ids, act_in, act_out, all_label, *_ = batch
+            rep_in, resp_out, belief_state, bert_act_seq, act_user_ids, act_in, act_out, all_label, *_ = batch
 
             act_generator.zero_grad()
             resp_generator.zero_grad()
@@ -201,7 +201,7 @@ if args.option == 'train':
                 all_pred = []
                 batch = tuple(t.to(device) for t in batch)
                 input_ids, action_masks, segment_ids, act_vecs, query_results, \
-                rep_in, resp_out, belief_state, pred_hierachical_act_vecs, act_user_ids, act_in, act_out, all_label, *_ = batch
+                rep_in, resp_out, belief_state, bert_act_seq, act_user_ids, act_in, act_out, all_label, *_ = batch
 
                 hyps,act_logits = act_generator.translate_batch(domain=act_in[:,0],bs=belief_state,act_vecs=act_vecs, \
                                                src_seq=act_user_ids, n_bm=args.beam_size,
