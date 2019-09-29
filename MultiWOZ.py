@@ -139,6 +139,7 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                 for w in turn['act']:
                     act_vecs[Constants.act_ontology.index(w)] = 1
 
+            bert_act_seq=[]
             if predicted_acts is not None:
                 bert_act_vecs = np.asarray(predicted_acts[dialog_file][str(turn_num)], 'int64')
                 domain = []
@@ -146,20 +147,24 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                 arg = []
                 for i in range(len(bert_act_vecs)):
                     if bert_act_vecs[i]>0:
+
                         if i<len(domains):
-                            d=domains.index(i)
+                            d=domains[i]
                             if d not in domain:
                                 domain.append(d)
-                        elif i <(len(domains)+len(functions)):
-                            f=functions.index(i)
-                            if f not in func:
-                                func.append(f)
                         else:
-                            a=arguments.index(i)
-                            if a not in arg:
-                                arg.append(a)
+                            i-=len(domains)
+                            if i <len(functions):
+                                f=functions[i]
+                                if f not in func:
+                                    func.append(f)
+                            else:
+                                i -= len(functions)
+                                a=arguments[i]
+                                if a not in arg:
+                                    arg.append(a)
 
-            bert_act_seq=sorted(domain)+sorted(func)+sorted(arg)
+                bert_act_seq=sorted(domain)+sorted(func)+sorted(arg)
 
 
             if len(bert_act_seq) < Constants.ACT_MAX_LEN:
