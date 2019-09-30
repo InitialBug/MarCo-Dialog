@@ -5,41 +5,6 @@ from transformer import  Constants
 total=0
 num=0
 max_n=0
-# def token_action(data_dir,option):
-#     global total,num,max_n
-#     with open('{}/{}_process.json'.format(data_dir,option)) as f:
-#         source = json.load(f)
-#         f.close()
-#
-#     for num_dial, dialog_info in enumerate(source):
-#
-#         dialog_file = dialog_info['file']
-#         dialog = dialog_info['info']
-#         for turn_num, turn in enumerate(dialog):
-#             domain=[]
-#             func=[]
-#             arg=[]
-#             turn['actseq']=[]
-#             if turn['act']:
-#                 for act in turn['act'].keys():
-#                     d,f,a=act.split('-')
-#                     if d not in domain:
-#                         domain.append(d)
-#                     if f not in func:
-#                         func.append(f)
-#                     if a not in arg:
-#                         arg.append(a)
-#             else:
-#                 domain.append('general')
-#                 func.append('none')
-#                 # arg.append('none')
-#             # domain=sorted(domain)
-#             # func=sorted(func)
-#             # arg=sorted(arg)
-#             turn['actseq']=domain+func+arg
-#     f=open('{}/{}.json'.format(data_dir,option),'w')
-#     json.dump(source,f)
-
 def token_action(data_dir,option):
     global total,num,max_n
     with open('{}/{}_process.json'.format(data_dir,option)) as f:
@@ -55,13 +20,6 @@ def token_action(data_dir,option):
             func=[]
             arg=[]
             turn['actseq']=[]
-            sys=turn['sys'].split(' ')
-            for token in sys:
-                if '_' in token:
-                    v=token.split('_')[1][:-1]
-                    if v not in arg and v in Constants.arguments:
-                        arg.append(v)
-
             if turn['act']:
                 for act in turn['act'].keys():
                     d,f,a=act.split('-')
@@ -81,6 +39,48 @@ def token_action(data_dir,option):
             turn['actseq']=domain+func+arg
     f=open('{}/{}.json'.format(data_dir,option),'w')
     json.dump(source,f)
+
+# def token_action(data_dir,option):
+#     global total,num,max_n
+#     with open('{}/{}_process.json'.format(data_dir,option)) as f:
+#         source = json.load(f)
+#         f.close()
+#
+#     for num_dial, dialog_info in enumerate(source):
+#
+#         dialog_file = dialog_info['file']
+#         dialog = dialog_info['info']
+#         for turn_num, turn in enumerate(dialog):
+#             domain=[]
+#             func=[]
+#             arg=[]
+#             turn['actseq']=[]
+#             sys=turn['sys'].split(' ')
+#             for token in sys:
+#                 if '_' in token:
+#                     v=token.split('_')[1][:-1]
+#                     if v not in arg and v in Constants.arguments:
+#                         arg.append(v)
+#
+#             if turn['act']:
+#                 for act in turn['act'].keys():
+#                     d,f,a=act.split('-')
+#                     if d not in domain:
+#                         domain.append(d)
+#                     if f not in func:
+#                         func.append(f)
+#                     if a not in arg:
+#                         arg.append(a)
+#             else:
+#                 domain.append('general')
+#                 func.append('none')
+#                 # arg.append('none')
+#             domain=sorted(domain)
+#             func=sorted(func)
+#             # arg=sorted(arg)
+#             turn['actseq']=domain+func+arg
+#     f=open('{}/{}.json'.format(data_dir,option),'w')
+#     json.dump(source,f)
 
 def get_vocab():
     vocab=["[PAD]","[EOS]",'[SOS]']+Constants.domains+Constants.functions+Constants.arguments

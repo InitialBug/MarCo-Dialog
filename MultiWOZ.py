@@ -163,8 +163,10 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                                 a=arguments[i]
                                 if a not in arg:
                                     arg.append(a)
-
-                bert_act_seq=sorted(domain)+sorted(func)+sorted(arg)
+                domain = sorted(domain)
+                func = sorted(func)
+                # arg=sorted(arg)
+                bert_act_seq=domain+func+arg
 
 
             if len(bert_act_seq) < Constants.ACT_MAX_LEN:

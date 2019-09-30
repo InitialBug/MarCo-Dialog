@@ -48,7 +48,7 @@ def parse_opt():
     parser.add_argument("--hist_num", default=0,type=int, help="The initial learning rate for Adam.")
     parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
     parser.add_argument('--log', type=str, default='log', help="random seed for initialization")
-    parser.add_argument('--act_mode',  type=str,choices=["pred", "bert",'groundtruth'],default='pred')
+    parser.add_argument('--act_source',  type=str,choices=["pred", "bert",'groundtruth'],default='pred')
     parser.add_argument('--act_load_dir', type=str,  default='pred')
     parser.add_argument('--resp_load_dir', type=str,  default='pred')
 
@@ -206,9 +206,9 @@ if args.option == 'train':
                 input_ids, action_masks, segment_ids, act_vecs, query_results, \
                 rep_in, resp_out, belief_state, bert_act_seq, act_user_ids, act_in, act_out, all_label, *_ = batch
 
-                if args.act_mode=='bert':
+                if args.act_source=='bert':
                     act_in=bert_act_seq
-                elif args.act_mode=='pred':
+                elif args.act_source=='pred':
                     hyps,act_logits = act_generator.translate_batch(domain=act_in[:,0],bs=belief_state,act_vecs=act_vecs, \
                                                    src_seq=act_user_ids, n_bm=args.beam_size,
                                                    max_token_seq_len=Constants.ACT_MAX_LEN)
