@@ -127,6 +127,8 @@ eval_dataloader = DataLoader(eval_data, sampler=eval_sampler, batch_size=args.ba
 BLEU_calc = BLEUScorer()
 F1_calc = F1Scorer()
 
+best_BLEU = 69
+
 while True:
     train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
     act_generator = ActGenerator(vocab_size=tokenizer.vocab_len,act_vocab_size=act_tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
@@ -160,7 +162,6 @@ while True:
 
         scheduler = MultiStepLR(optimizer, milestones=[50, 100, 150, 200], gamma=0.5)
 
-        best_BLEU = 0
         alpha=0.1
         for epoch in range(51):
             for step, batch in enumerate(train_dataloader):
