@@ -131,13 +131,10 @@ best_BLEU = 69
 
 while True:
     train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
-    act_generator = ActGenerator(vocab_size=tokenizer.vocab_len,act_vocab_size=act_tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
+
+    resp_generator = RespGenerator(vocab_size=tokenizer.vocab_len,act_vocab_size=act_tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
                                      n_layers=args.layer_num, d_model=args.emb_dim, n_head=args.head, dropout=args.dropout)
 
-    resp_generator = RespGenerator(vocab_size=tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
-                                     n_layers=args.layer_num, d_model=args.emb_dim, n_head=args.head, dropout=args.dropout)
-
-    act_generator.to(device)
     resp_generator.to(device)
     loss_func = torch.nn.BCEWithLogitsLoss()
     loss_func.to(device)
@@ -148,16 +145,13 @@ while True:
 
     label_list=Constants.functions+Constants.arguments
     if args.option == 'train':
-        act_generator.train()
         resp_generator.train()
         if args.resume:
-            act_generator.load_state_dict(torch.load(checkpoint_file))
             logger.info("Reloaing the encoder and act_generator from {}".format(checkpoint_file))
 
         logger.info("Start Training with {} batches".format(len(train_dataloader)))
 
-        optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, list(act_generator.parameters())+list(resp_generator.parameters())), betas=(0.9, 0.98), eps=1e-09)
-
+        optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, resp_generator.parameters()), betas=(0.9, 0.98), eps=1e-09)
 
 
         scheduler = MultiStepLR(optimizer, milestones=[50, 100, 150, 200], gamma=0.5)
@@ -166,19 +160,18 @@ while True:
         for epoch in range(51):
             for step, batch in enumerate(train_dataloader):
                 batch = tuple(t.to(device) for t in batch)
-                input_ids, action_masks, segment_ids, _, query_results, \
-                rep_in, resp_out, belief_state, bert_act_seq, act_user_ids, act_in, act_out, all_label, *_ = batch
+                input_ids, action_masks,rep_in, resp_out, belief_state, bert_act_seq, act_in, act_out, all_label,\
+                 act_input_mask,resp_input_mask,*_ = batch
 
-                act_generator.zero_grad()
                 resp_generator.zero_grad()
-                logits,act_logits,act_vecs = act_generator(tgt_seq=act_in, src_seq=act_user_ids,bs=belief_state)
+                logits,act_logits,act_vecs = resp_generator.act_forward(tgt_seq=act_in, src_seq=input_ids,bs=belief_state,input_mask=act_input_mask)
 
                 loss1 = ce_loss_func(logits.contiguous().view(logits.size(0) * logits.size(1), -1).contiguous(), \
                                     act_out.contiguous().view(-1))
                 loss2=loss_func(act_logits.view(-1),all_label.view(-1))
 
 
-                resp_logits = resp_generator(tgt_seq=rep_in, src_seq=input_ids, act_vecs=act_vecs,act_mask=action_masks,bs=belief_state)
+                resp_logits = resp_generator.resp_forward(tgt_seq=rep_in, src_seq=input_ids, act_vecs=act_vecs,act_mask=action_masks,input_mask=resp_input_mask)
 
                 loss3 = ce_loss_func(resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(), \
                                     resp_out.contiguous().view(-1))
@@ -197,7 +190,6 @@ while True:
             scheduler.step()
             if loss3.item() < 3.0 and loss1.item()<3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
                 logger.info("start evaluating BLEU on validation set")
-                act_generator.eval()
                 resp_generator.eval()
                 # Start Evaluating after each epoch
                 model_turns = {}
@@ -205,14 +197,14 @@ while True:
                 for batch_step, batch in enumerate(eval_dataloader):
                     all_pred = []
                     batch = tuple(t.to(device) for t in batch)
-                    input_ids, action_masks, segment_ids, act_vecs, query_results, \
-                    rep_in, resp_out, belief_state, bert_act_seq, act_user_ids, act_in, act_out, all_label, *_ = batch
+                    input_ids, action_masks, rep_in, resp_out, belief_state, bert_act_seq, act_in, act_out, all_label, \
+                    act_input_mask, resp_input_mask, *_ = batch
 
                     if args.act_source=='bert':
                         act_in=bert_act_seq
                     elif args.act_source=='pred':
-                        hyps,act_logits = act_generator.translate_batch(domain=act_in[:,0],bs=belief_state,act_vecs=act_vecs, \
-                                                       src_seq=act_user_ids, n_bm=args.beam_size,
+                        hyps,act_logits = resp_generator.act_translate_batch(input_mask=act_input_mask,bs=belief_state, \
+                                                       src_seq=input_ids, n_bm=args.beam_size,
                                                        max_token_seq_len=Constants.ACT_MAX_LEN)
                         for hyp_step, hyp in enumerate(hyps):
                             pre1=[0]*Constants.act_len
@@ -224,9 +216,9 @@ while True:
                         # TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
 
                         act_in=torch.tensor(hyps,dtype=torch.long).to(device)
-                    _,_,act_vecs=act_generator(tgt_seq=act_in, src_seq=act_user_ids,bs=belief_state)
+                    _,_,act_vecs=resp_generator.act_forward(tgt_seq=act_in, src_seq=input_ids,bs=belief_state,input_mask=act_input_mask)
                     action_masks=act_in.eq(Constants.PAD)+act_in.eq(Constants.EOS)
-                    resp_hyps = resp_generator.translate_batch(bs=belief_state,act_vecs=act_vecs, act_mask=action_masks,
+                    resp_hyps = resp_generator.resp_translate_batch(bs=belief_state,act_vecs=act_vecs, act_mask=action_masks,input_mask=resp_input_mask,
                                                    src_seq=input_ids, n_bm=args.beam_size,
                                                    max_token_seq_len=40)
 
@@ -250,7 +242,6 @@ while True:
                 logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU,inform,request))
                 if request > best_BLEU:
                     save_name='inform-{}-request-{}-bleu-{}'.format(inform,request,BLEU)
-                    torch.save(act_generator.state_dict(), os.path.join(checkpoint_file,'act'+save_name))
                     torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,'resp'+save_name))
                     best_BLEU = request
                     resp_file = os.path.join(args.output_file, 'resp_pred.json')
@@ -258,7 +249,6 @@ while True:
                         model_turns = OrderedDict(sorted(model_turns.items()))
                         json.dump(model_turns, fp, indent=2)
                 resp_generator.train()
-                act_generator.train()
     elif args.option == "test":
 
         act_generator.load_state_dict(torch.load(args.act_load_dir))
