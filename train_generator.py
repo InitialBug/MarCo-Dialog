@@ -8,7 +8,7 @@ import sys
 import argparse
 import time
 from torch.autograd import Variable
-from transformer.Transformer import Transformer, ActGenerator,RespGenerator
+from transformer.Transformer import Transformer, ActGenerator,RespGenerator,UncertaintyLoss
 from torch.optim.lr_scheduler import MultiStepLR
 import transformer.Constants as Constants
 from itertools import chain
@@ -130,6 +130,7 @@ F1_calc = F1Scorer()
 best_BLEU = 69
 
 while True:
+    weight_loss=UncertaintyLoss(2)
     train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
 
     resp_generator = RespGenerator(vocab_size=tokenizer.vocab_len,act_vocab_size=act_tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
@@ -151,7 +152,7 @@ while True:
 
         logger.info("Start Training with {} batches".format(len(train_dataloader)))
 
-        optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, resp_generator.parameters()), betas=(0.9, 0.98), eps=1e-09)
+        optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, list(resp_generator.parameters())+list(weight_loss.parameters())), betas=(0.9, 0.98), eps=1e-09)
 
 
         scheduler = MultiStepLR(optimizer, milestones=[50, 100, 150, 200], gamma=0.5)
@@ -180,7 +181,7 @@ while True:
                 # elif epoch<30:
                 #     loss=0.1*loss1+loss3
                 else:
-                    loss = 0.1 * loss1 + loss3
+                    loss = weight_loss(loss1,loss3)
                 loss.backward()
                 optimizer.step()
 
