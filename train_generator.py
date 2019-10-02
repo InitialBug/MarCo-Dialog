@@ -131,6 +131,7 @@ best_BLEU = 69
 
 while True:
     weight_loss=UncertaintyLoss(2)
+    weight_loss.to(device)
     train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
 
     resp_generator = RespGenerator(vocab_size=tokenizer.vocab_len,act_vocab_size=act_tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
