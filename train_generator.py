@@ -321,23 +321,16 @@ while True:
             model_turns = OrderedDict(sorted(model_turns.items()))
             json.dump(model_turns, fp, indent=2)
 
+
         exit()
 
     elif args.option == "postprocess":
-        with open(args.output_file, 'r') as f:
-            model_turns = json.load(f)
+        resp_file = os.path.join(args.output_file, 'resp_pred.json')
 
-        evaluateModel(model_turns)
+        with open(resp_file, 'r') as f:
+            model_turns = json.load(f)
 
         success_rate = nondetokenize(model_turns, dialogs)
         BLEU = BLEU_calc.score(model_turns, gt_turns)
 
-        with open('/tmp/results.txt.pred.non_delex', 'w') as f:
-            model_turns = OrderedDict(sorted(model_turns.items()))
-            json.dump(model_turns, f, indent=2)
-        logger.info("Validation BLEU {}, Success Rate {}".format(BLEU, success_rate))
-
-        with open('/tmp/results.txt.non_delex', 'w') as f:
-            json.dump(gt_turns, f, indent=2)
-    else:
-        raise ValueError("No such option")
+        print(BLEU)
