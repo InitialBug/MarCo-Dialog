@@ -253,10 +253,8 @@ while True:
                 resp_generator.train()
     elif args.option == "test":
 
-        act_generator.load_state_dict(torch.load(args.act_load_dir))
         resp_generator.load_state_dict(torch.load(args.resp_load_dir))
         logger.info("Loading model from {}".format(checkpoint_file))
-        act_generator.eval()
         resp_generator.eval()
         # Start Evaluating after each epoch
         model_turns = {}
@@ -265,41 +263,32 @@ while True:
         for batch_step, batch in enumerate(eval_dataloader):
             all_pred = []
             batch = tuple(t.to(device) for t in batch)
-            input_ids, action_masks, segment_ids, act_vecs, query_results, \
-            rep_in, resp_out, belief_state, bert_act_seq, act_user_ids, act_in, act_out, all_label, *_ = batch
+            input_ids, action_masks, rep_in, resp_out, belief_state, bert_act_seq, act_in, act_out, all_label, \
+            act_input_mask, resp_input_mask, *_ = batch
 
-            hyps, act_logits = act_generator.translate_batch(domain=act_in[:, 0], bs=belief_state, act_vecs=act_vecs, \
-                                                             src_seq=act_user_ids, n_bm=args.beam_size,
-                                                             max_token_seq_len=Constants.ACT_MAX_LEN)
-            for hyp_step, hyp in enumerate(hyps):
+            if args.act_source == 'bert':
+                act_in = bert_act_seq
+            elif args.act_source == 'pred':
+                hyps, act_logits = resp_generator.act_translate_batch(input_mask=act_input_mask, bs=belief_state, \
+                                                                      src_seq=input_ids, n_bm=args.beam_size,
+                                                                      max_token_seq_len=Constants.ACT_MAX_LEN)
+                for hyp_step, hyp in enumerate(hyps):
+                    pre1 = [0] * Constants.act_len
+                    if len(hyp) < Constants.ACT_MAX_LEN:
+                        hyps[hyp_step] = list(hyps[hyp_step]) + [Constants.PAD] * (Constants.ACT_MAX_LEN - len(hyp))
+                    all_pred.append(pre1)
+                all_pred=torch.Tensor(all_pred)
+                all_label=all_label.cpu()
+                TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
 
-
-                pre1 = [0] * Constants.act_len
-
-                for w in hyp:
-                    if w not in [Constants.PAD, Constants.EOS]:
-                        pre1[w-3] =1
-
-                file_name = val_id[batch_step * args.batch_size + hyp_step]
-                if file_name not in act_turns:
-                    act_turns[file_name] = [pre1]
-                else:
-                    act_turns[file_name].append(pre1)
-
-                if len(hyp) < Constants.ACT_MAX_LEN:
-                    hyps[hyp_step] = list(hyps[hyp_step]) + [Constants.PAD] * (Constants.ACT_MAX_LEN - len(hyp))
-
-                all_pred.append(pre1)
-            all_pred=torch.Tensor(all_pred)
-            all_label=all_label.cpu()
-            TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
-
-            act_in = torch.tensor(hyps, dtype=torch.long).to(device)
-            _, _, act_vecs = act_generator(tgt_seq=act_in, src_seq=act_user_ids, bs=belief_state)
+                act_in = torch.tensor(hyps, dtype=torch.long).to(device)
+            _, _, act_vecs = resp_generator.act_forward(tgt_seq=act_in, src_seq=input_ids, bs=belief_state,
+                                                        input_mask=act_input_mask)
             action_masks = act_in.eq(Constants.PAD) + act_in.eq(Constants.EOS)
-            resp_hyps = resp_generator.translate_batch(bs=belief_state, act_vecs=act_vecs, act_mask=action_masks,
-                                                       src_seq=input_ids, n_bm=args.beam_size,
-                                                       max_token_seq_len=40)
+            resp_hyps = resp_generator.resp_translate_batch(bs=belief_state, act_vecs=act_vecs, act_mask=action_masks,
+                                                            input_mask=resp_input_mask,
+                                                            src_seq=input_ids, n_bm=args.beam_size,
+                                                            max_token_seq_len=40)
 
             for hyp_step, hyp in enumerate(resp_hyps):
                 pred = tokenizer.convert_id_to_tokens(hyp)
@@ -317,16 +306,16 @@ while True:
         BLEU = BLEU_calc.score(model_turns, gt_turns)
         inform, request = evaluateModel(model_turns, gt_turns)
         print(inform, request, BLEU)
-        logger.info("BLEU {}, inform {}, request {} ".format( BLEU, inform, request))
+        logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU, inform, request))
 
-        resp_file=os.path.join(args.output_file,'resp_pred.json')
+        resp_file = os.path.join(args.output_file, 'resp_pred.json')
+
+
         with open(resp_file, 'w') as fp:
             model_turns = OrderedDict(sorted(model_turns.items()))
             json.dump(model_turns, fp, indent=2)
 
-        act_file=os.path.join(args.output_file,'act_pred.json')
-        with open(act_file, 'w') as fp:
-            json.dump(act_turns, fp, indent=2)
+        exit()
 
     elif args.option == "postprocess":
         with open(args.output_file, 'r') as f:
