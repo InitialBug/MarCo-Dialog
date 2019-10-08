@@ -4,7 +4,7 @@ import json
 def restore(option):
     with open('data/{}.json'.format(option)) as f:
         source=json.load(f)
-    with open('output/resp.json') as f:
+    with open('output/resp_pred.json') as f:
         precition=json.load(f)
 
     output=open('output/{}_restore.json'.format(option),'w')
