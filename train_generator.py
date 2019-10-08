@@ -212,7 +212,11 @@ while True:
                             pre1=[0]*Constants.act_len
                             if len(hyp)<Constants.ACT_MAX_LEN:
                                 hyps[hyp_step]=list(hyps[hyp_step])+[Constants.PAD]*(Constants.ACT_MAX_LEN-len(hyp))
-                            all_pred.append(pre1)
+
+                            # for w in hyp:
+                            #     if w not in [Constants.PAD, Constants.EOS]:
+                            #         pre1[w - 3] = 1
+                            # all_pred.append(pre1)
                         # all_pred=torch.Tensor(all_pred)
                         # all_label=all_label.cpu()
                         # TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
@@ -274,6 +278,9 @@ while True:
                                                                       max_token_seq_len=Constants.ACT_MAX_LEN)
                 for hyp_step, hyp in enumerate(hyps):
                     pre1 = [0] * Constants.act_len
+                    for w in hyp:
+                        if w not in [Constants.PAD, Constants.EOS]:
+                            pre1[w - 3] = 1
                     if len(hyp) < Constants.ACT_MAX_LEN:
                         hyps[hyp_step] = list(hyps[hyp_step]) + [Constants.PAD] * (Constants.ACT_MAX_LEN - len(hyp))
                     all_pred.append(pre1)
@@ -306,11 +313,9 @@ while True:
         BLEU = BLEU_calc.score(model_turns, gt_turns)
         inform, request = evaluateModel(model_turns, gt_turns)
         print(inform, request, BLEU)
-        logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU, inform, request))
+        logger.info("BLEU {}, inform {}, request {} ".format(epoch, BLEU, inform, request))
 
         resp_file = os.path.join(args.output_file, 'resp_pred.json')
-
-
         with open(resp_file, 'w') as fp:
             model_turns = OrderedDict(sorted(model_turns.items()))
             json.dump(model_turns, fp, indent=2)
