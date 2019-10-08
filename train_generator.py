@@ -333,4 +333,10 @@ while True:
         success_rate = nondetokenize(model_turns, dialogs)
         BLEU = BLEU_calc.score(model_turns, gt_turns)
 
+        resp_file = os.path.join(args.output_file, 'resp_non_delex_pred.json')
+
+        with open(resp_file, 'w') as fp:
+            model_turns = OrderedDict(sorted(model_turns.items()))
+            json.dump(model_turns, fp, indent=2)
+
         print(BLEU)
