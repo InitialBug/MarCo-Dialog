@@ -248,7 +248,7 @@ while True:
                 logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU,inform,request))
                 if request > best_BLEU:
                     save_name='inform-{}-request-{}-bleu-{}'.format(inform,request,BLEU)
-                    torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,'resp'+save_name))
+                    torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,save_name))
                     best_BLEU = request
                     resp_file = os.path.join(args.output_file, 'resp_pred.json')
                     with open(resp_file, 'w') as fp:
@@ -313,7 +313,7 @@ while True:
         BLEU = BLEU_calc.score(model_turns, gt_turns)
         inform, request = evaluateModel(model_turns, gt_turns)
         print(inform, request, BLEU)
-        logger.info("BLEU {}, inform {}, request {} ".format(epoch, BLEU, inform, request))
+        logger.info("BLEU {}, inform {}, request {} ".format(BLEU, inform, request))
 
         resp_file = os.path.join(args.output_file, 'resp_pred.json')
 
