@@ -9,7 +9,7 @@ def seq2vec(option):
     output=open('output/act_{}_prediction.json'.format(option),'w')
     for file_id,actions in precition.items():
         for i,act in enumerate(actions):
-            act=act[:30]+act[0]+act[30:]
+            act=act[:30]+[0]+act[30:]
             actions[i]=act
 
     json.dump(precition,output,indent=2)
