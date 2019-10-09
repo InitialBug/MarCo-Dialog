@@ -257,7 +257,7 @@ while True:
                 resp_generator.train()
     elif args.option == "test":
 
-        resp_generator.load_state_dict(torch.load(args.resp_load_dir))
+        resp_generator.load_state_dict(torch.load(args.model))
         logger.info("Loading model from {}".format(checkpoint_file))
         resp_generator.eval()
         # Start Evaluating after each epoch
