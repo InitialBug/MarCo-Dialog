@@ -284,6 +284,11 @@ while True:
                     if len(hyp) < Constants.ACT_MAX_LEN:
                         hyps[hyp_step] = list(hyps[hyp_step]) + [Constants.PAD] * (Constants.ACT_MAX_LEN - len(hyp))
                     all_pred.append(pre1)
+                    if file_name not in act_turns:
+                        act_turns[file_name] = [pre1]
+                    else:
+                        act_turns[file_name].append(pre1)
+
                 all_pred=torch.Tensor(all_pred)
                 all_label=all_label.cpu()
                 TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
@@ -321,6 +326,11 @@ while True:
             model_turns = OrderedDict(sorted(model_turns.items()))
             json.dump(model_turns, fp, indent=2)
 
+        act_file = os.path.join(args.output_file, 'act_pred.json')
+
+        with open(act_file, 'w') as fp:
+            act_turns = OrderedDict(sorted(act_turns.items()))
+            json.dump(act_turns, fp, indent=2)
 
         exit()
 
