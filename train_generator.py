@@ -284,6 +284,7 @@ while True:
                     if len(hyp) < Constants.ACT_MAX_LEN:
                         hyps[hyp_step] = list(hyps[hyp_step]) + [Constants.PAD] * (Constants.ACT_MAX_LEN - len(hyp))
                     all_pred.append(pre1)
+                    file_name = val_id[batch_step * args.batch_size + hyp_step]
                     if file_name not in act_turns:
                         act_turns[file_name] = [pre1]
                     else:
