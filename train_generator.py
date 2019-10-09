@@ -132,7 +132,7 @@ best_BLEU = 69
 while True:
     weight_loss=UncertaintyLoss(2)
     weight_loss.to(device)
-    # train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
+    train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
 
     resp_generator = RespGenerator(vocab_size=tokenizer.vocab_len,act_vocab_size=act_tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
                                      n_layers=args.layer_num, d_model=args.emb_dim, n_head=args.head, dropout=args.dropout)
@@ -179,8 +179,6 @@ while True:
                                     resp_out.contiguous().view(-1))
                 if epoch < 10:
                     loss = loss1 + alpha * loss2
-                # elif epoch<30:
-                #     loss=0.1*loss1+loss3
                 else:
                     loss = weight_loss(loss1,loss3)
                 loss.backward()
