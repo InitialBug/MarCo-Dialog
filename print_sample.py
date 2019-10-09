@@ -15,8 +15,6 @@ def restore(option):
             response=precition[dialog_file][turn_num]
             turn['pred_sys']=response
 
-
-
     json.dump(source,output,indent=2)
 
 if __name__=='__main__':
