@@ -247,6 +247,7 @@ while True:
                 if request > best_BLEU:
                     save_name='inform-{}-request-{}-bleu-{}'.format(inform,request,BLEU)
                     torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,save_name))
+                    torch.save(weight_loss.state_dict(), os.path.join(checkpoint_file,'weight_loss'))
                     best_BLEU = request
                     resp_file = os.path.join(args.output_file, 'resp_pred.json')
                     with open(resp_file, 'w') as fp:
