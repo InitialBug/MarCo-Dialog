@@ -255,7 +255,8 @@ while True:
                         json.dump(model_turns, fp, indent=2)
                 resp_generator.train()
     elif args.option == "test":
-
+        weight_loss.load_state_dict(torch.load('weight_model/weight_loss'))
+        weight_loss(0,0)
         resp_generator.load_state_dict(torch.load(args.model))
         logger.info("Loading model from {}".format(checkpoint_file))
         resp_generator.eval()

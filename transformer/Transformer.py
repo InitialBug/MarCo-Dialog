@@ -855,6 +855,8 @@ class UncertaintyLoss(nn.Module):
         self.sigma=nn.Parameter(sigma)
         self.v_num=v_num
     def forward(self, *input):
+        print(self.sigma)
+        exit()
         loss=0
         for i in range(self.v_num):
             loss+=input[i]/(2*self.sigma[i]**2)+torch.log(self.sigma[i])
