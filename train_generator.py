@@ -129,7 +129,7 @@ F1_calc = F1Scorer()
 
 best_BLEU = 69
 
-# while True:
+while True:
     weight_loss=UncertaintyLoss(2)
     weight_loss.to(device)
     train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
