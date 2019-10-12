@@ -331,6 +331,10 @@ while True:
             act_turns = OrderedDict(sorted(act_turns.items()))
             json.dump(act_turns, fp, indent=2)
 
+        save_name = 'inform-{}-request-{}-bleu-{}'.format(inform, request, BLEU)
+        torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file, save_name))
+        torch.save(weight_loss.state_dict(), os.path.join(checkpoint_file, 'weight_loss_'+save_name))
+
         exit()
 
     elif args.option == "postprocess":
