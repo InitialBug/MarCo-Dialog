@@ -81,8 +81,6 @@ def setup_seed(seed):
     numpy.random.seed(seed)
     random.seed(seed)
 
-# setup_seed(args.seed)
-
 
 with open("{}/vocab.json".format(args.data_dir), 'r') as f:
     vocabulary = json.load(f)
@@ -130,6 +128,9 @@ F1_calc = F1Scorer()
 best_BLEU = 69
 
 while True:
+    args.seed = random.randint(-1000, 1000)
+    setup_seed(args.seed)
+
     weight_loss=UncertaintyLoss(2)
     weight_loss.to(device)
     train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
@@ -246,7 +247,7 @@ while True:
                 print(inform,request,BLEU)
                 logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU,inform,request))
                 if request > best_BLEU:
-                    save_name='inform-{}-request-{}-bleu-{}'.format(inform,request,BLEU)
+                    save_name='inform-{}-request-{}-bleu-{}-seed-{}'.format(inform,request,BLEU,args.seed)
                     torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,save_name))
                     torch.save(weight_loss.state_dict(), os.path.join(checkpoint_file,'weight_loss'))
                     best_BLEU = request
@@ -333,8 +334,8 @@ while True:
             json.dump(act_turns, fp, indent=2)
 
         save_name = 'inform-{}-request-{}-bleu-{}'.format(inform, request, BLEU)
-        torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file, save_name))
-        torch.save(weight_loss.state_dict(), os.path.join(checkpoint_file, 'weight_loss_'+save_name))
+        torch.save(resp_generator.state_dict(), os.path.join('model', save_name))
+        torch.save(weight_loss.state_dict(), os.path.join('model', 'weight_loss_'+save_name))
 
         exit()
 
