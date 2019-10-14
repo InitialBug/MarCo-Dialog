@@ -128,7 +128,7 @@ F1_calc = F1Scorer()
 best_BLEU = 69
 
 while True:
-    args.seed = random.randint(-1000, 1000)
+    args.seed = random.randint(0, 100000)
     setup_seed(args.seed)
 
     weight_loss=UncertaintyLoss(2)
