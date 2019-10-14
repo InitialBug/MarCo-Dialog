@@ -46,7 +46,7 @@ def parse_opt():
     parser.add_argument("--output_file", default='output', type=str, help="The initial learning rate for Adam.")
     parser.add_argument("--non_delex", default=False, action="store_true", help="The initial learning rate for Adam.")
     parser.add_argument("--hist_num", default=0,type=int, help="The initial learning rate for Adam.")
-    parser.add_argument('--seed', type=int, default=42, help="random seed for initialization")
+    parser.add_argument('--seed', type=int, default=913, help="random seed for initialization")
     parser.add_argument('--log', type=str, default='log', help="random seed for initialization")
     parser.add_argument('--act_source',  type=str,choices=["pred", "bert",'groundtruth'],default='pred')
     parser.add_argument('--act_load_dir', type=str,  default='pred')
