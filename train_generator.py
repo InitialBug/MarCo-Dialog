@@ -109,7 +109,7 @@ if 'train' in args.option:
     train_data = TensorDataset(*train_examples)
     train_sampler = RandomSampler(train_data)
     train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
-    *val_examples, val_id = get_batch(args.data_dir, 'test', tokenizer, act_tokenizer, args.max_seq_length)
+    *val_examples, val_id = get_batch(args.data_dir, 'val', tokenizer, act_tokenizer, args.max_seq_length)
     dialogs = json.load(open('{}/val.json'.format(args.data_dir)))
     gt_turns = json.load(open('{}/val_reference.json'.format(args.data_dir)))
 elif 'test' in args.option or 'postprocess' in args.option:
