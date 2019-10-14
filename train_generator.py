@@ -127,10 +127,10 @@ F1_calc = F1Scorer()
 
 best_BLEU = 69
 
+seed=0
 while True:
-    args.seed = random.randint(0, 100000)
-    setup_seed(args.seed)
-
+    setup_seed(seed)
+    seed+=1
     weight_loss=UncertaintyLoss(2)
     weight_loss.to(device)
     train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
@@ -247,7 +247,7 @@ while True:
                 print(inform,request,BLEU)
                 logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU,inform,request))
                 if request > best_BLEU:
-                    save_name='inform-{}-request-{}-bleu-{}-seed-{}'.format(inform,request,BLEU,args.seed)
+                    save_name='inform-{}-request-{}-bleu-{}-seed-{}'.format(inform,request,BLEU,seed)
                     torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,save_name))
                     torch.save(weight_loss.state_dict(), os.path.join(checkpoint_file,'weight_loss'))
                     best_BLEU = request
