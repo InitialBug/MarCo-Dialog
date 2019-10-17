@@ -434,7 +434,6 @@ class RespGenerator(nn.Module):
         d_inner = d_model * 4
 
         self.word_emb = nn.Embedding(vocab_size, d_word_vec, padding_idx=Constants.PAD)
-        self.act_word_emb = nn.Linear(act_dim, d_word_vec, bias=False)
         self.bs_emb = nn.Linear(len(Constants.belief_state), d_word_vec, bias=False)
 
         self.post_word_emb = PositionalEmbedding(d_model=d_word_vec)
