@@ -254,6 +254,7 @@ elif args.option == "test":
     model_turns = {}
     act_turns={}
     TP, TN, FN, FP = 0, 0, 0, 0
+    domain_success={}
     for batch_step, batch in enumerate(eval_dataloader):
         all_pred = []
         batch = tuple(t.to(device) for t in batch)
@@ -307,7 +308,7 @@ elif args.option == "test":
     print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
     logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
     BLEU = BLEU_calc.score(model_turns, gt_turns)
-    inform, request = evaluateModel(model_turns, gt_turns)
+    inform, request = evaluateModel(model_turns, domain_success)
     print(inform, request, BLEU)
     logger.info("BLEU {}, inform {}, request {} ".format(BLEU, inform, request))
 
@@ -323,6 +324,9 @@ elif args.option == "test":
         act_turns = OrderedDict(sorted(act_turns.items()))
         json.dump(act_turns, fp, indent=2)
 
+    with open('output/domain_statistic.json','w') as f:
+        json.dump(domain_success,f)
+        
     save_name = 'inform-{}-request-{}-bleu-{}'.format(inform, request, BLEU)
     torch.save(resp_generator.state_dict(), os.path.join('model', save_name))
 

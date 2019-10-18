@@ -42,7 +42,7 @@ def parseGoal(goal, d, domain):
     return goal
 
 
-def evaluateModel(dialogues, mode='valid'):
+def evaluateModel(dialogues, domain_success):
     """Gathers statistics for the whole sets."""
     fin1 = open('data/delex.json')
     delex_dialogues = json.load(fin1)
@@ -58,12 +58,15 @@ def evaluateModel(dialogues, mode='valid'):
 
     filenames = sorted(dialogues.keys())
     for filename in filenames:
+        domain_success[filename]={}
         dial = dialogues[filename]
         if filename not in delex_dialogues:
             filename += ".json"
 
         data = delex_dialogues[filename]
         success, match, _ = evaluateDialogue(dial, data)
+        domain_success[filename]['inform']=match
+        domain_success[filename]['request']=success
         successes += success
         matches += match
         total += 1
