@@ -52,7 +52,7 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length,domain=
         dialog_file = dialog_info['file']
         dialog = dialog_info['info']
         if domain!='all':
-            if domain not in domain_file[dialog_file+'.json']:
+            if domain not in domain_file[dialog_file+'.json'] or len(domain_file[dialog_file+'.json'])>1:
                 continue
         for turn_num, turn in enumerate(dialog):
             # user = [vocab[w] if w in vocab else vocab['<UNK>'] for w in turn['user'].split()]
