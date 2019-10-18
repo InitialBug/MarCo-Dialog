@@ -234,7 +234,7 @@ if args.option == 'train':
             print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
             logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
             BLEU = BLEU_calc.score(model_turns, gt_turns)
-            inform,request=evaluateModel(model_turns,gt_turns)
+            inform,request=evaluateModel(model_turns)
             print(inform,request,BLEU)
             logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU,inform,request))
             if request > best_BLEU:
@@ -326,7 +326,7 @@ elif args.option == "test":
 
     with open('output/domain_statistic.json','w') as f:
         json.dump(domain_success,f)
-        
+
     save_name = 'inform-{}-request-{}-bleu-{}'.format(inform, request, BLEU)
     torch.save(resp_generator.state_dict(), os.path.join('model', save_name))
 
