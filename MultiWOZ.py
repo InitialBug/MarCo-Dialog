@@ -20,7 +20,7 @@ arguments = ['pricerange', 'id', 'address', 'postcode', 'type', 'food', 'phone',
              'price', 'time', 'reference', 'none', 'parking', 'stars', 'internet', 'day', 'arriveby', 'departure',
              'destination', 'leaveat', 'duration', 'trainid', 'people', 'department', 'stay']
 
-def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
+def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length,domain='all'):
     examples = []
     prev_sys = None
     num = 0
@@ -28,19 +28,22 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
     if option == 'train':
         with open('{}/train.json'.format(data_dir)) as f:
             source = json.load(f)
-            predicted_acts = None
+        with open('{}/train_domain.json'.format(data_dir)) as f:
+            domain_file = json.load(f)
     elif option == 'val':
         with open('{}/val.json'.format(data_dir)) as f:
             source = json.load(f)
         with open('{}/BERT_dev_prediction.json'.format(data_dir)) as f:
             predicted_acts = json.load(f)
-        # predicted_acts = None
+        with open('{}/val_domain.json'.format(data_dir)) as f:
+            domain_file=json.load(f)
     else:
         with open('{}/test.json'.format(data_dir)) as f:
             source = json.load(f)
         with open('{}/BERT_test_prediction.json'.format(data_dir)) as f:
             predicted_acts = json.load(f)
-        # predicted_acts = None
+        with open('{}/test_domain.json'.format(data_dir)) as f:
+            domain_file = json.load(f)
 
     logger.info("Loading total {} dialogs".format(len(source)))
     for num_dial, dialog_info in enumerate(source):
@@ -48,6 +51,9 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
         hist_segment = []
         dialog_file = dialog_info['file']
         dialog = dialog_info['info']
+        if domain!='all':
+            if domain not in domain_file[dialog_file+'.json']:
+                continue
         for turn_num, turn in enumerate(dialog):
             # user = [vocab[w] if w in vocab else vocab['<UNK>'] for w in turn['user'].split()]
             user=tokenizer.tokenize(turn['user'])

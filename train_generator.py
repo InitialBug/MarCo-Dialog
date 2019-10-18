@@ -49,8 +49,7 @@ def parse_opt():
     parser.add_argument('--seed', type=int, default=913, help="random seed for initialization")
     parser.add_argument('--log', type=str, default='log', help="random seed for initialization")
     parser.add_argument('--act_source',  type=str,choices=["pred", "bert",'groundtruth'],default='pred')
-    parser.add_argument('--act_load_dir', type=str,  default='pred')
-    parser.add_argument('--resp_load_dir', type=str,  default='pred')
+    parser.add_argument('--domain', type=str,  choices=['restaurant', 'hotel', 'attraction', 'train', 'taxi','all'],default='all')
 
     args = parser.parse_args()
     return args
@@ -103,15 +102,15 @@ os.makedirs(args.output_dir, exist_ok=True)
 checkpoint_file = args.model
 
 if 'train' in args.option:
-    *train_examples, _ = get_batch(args.data_dir, 'train', tokenizer, act_tokenizer, args.max_seq_length)
+    *train_examples, _ = get_batch(args.data_dir, 'train', tokenizer, act_tokenizer, args.max_seq_length,args.domain)
     train_data = TensorDataset(*train_examples)
     train_sampler = RandomSampler(train_data)
     train_dataloader = DataLoader(train_data, sampler=train_sampler, batch_size=args.batch_size)
-    *val_examples, val_id = get_batch(args.data_dir, 'val', tokenizer, act_tokenizer, args.max_seq_length)
+    *val_examples, val_id = get_batch(args.data_dir, 'val', tokenizer, act_tokenizer, args.max_seq_length,args.domain)
     dialogs = json.load(open('{}/val.json'.format(args.data_dir)))
     gt_turns = json.load(open('{}/val_reference.json'.format(args.data_dir)))
 elif 'test' in args.option or 'postprocess' in args.option:
-    *val_examples, val_id = get_batch(args.data_dir, 'test', tokenizer, act_tokenizer, args.max_seq_length)
+    *val_examples, val_id = get_batch(args.data_dir, 'test', tokenizer, act_tokenizer, args.max_seq_length,args.domain)
     dialogs = json.load(open('{}/test.json'.format(args.data_dir)))
     if args.non_delex:
         gt_turns = json.load(open('{}/test_reference_nondelex.json'.format(args.data_dir)))
