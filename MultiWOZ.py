@@ -28,7 +28,7 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
     if option == 'train':
         with open('{}/train.json'.format(data_dir)) as f:
             source = json.load(f)
-
+        predicted_acts=None
     elif option == 'val':
         with open('{}/val.json'.format(data_dir)) as f:
             source = json.load(f)
