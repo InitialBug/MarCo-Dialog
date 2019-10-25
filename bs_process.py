@@ -2,11 +2,8 @@ import json
 import argparse
 import os
 from transformer import  Constants
-total=0
-num=0
-max_n=0
+
 def token_action(data_dir,option):
-    global total,num,max_n
     with open('{}/{}_process.json'.format(data_dir,option)) as f:
         source = json.load(f)
         f.close()
@@ -41,7 +38,6 @@ def token_action(data_dir,option):
     json.dump(source,f)
 
 # def token_action(data_dir,option):
-#     global total,num,max_n
 #     with open('{}/{}_process.json'.format(data_dir,option)) as f:
 #         source = json.load(f)
 #         f.close()
