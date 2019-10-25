@@ -28,27 +28,23 @@ def parse_opt():
     parser = argparse.ArgumentParser()
     parser.add_argument('--option', type=str, default="train", help="whether to train or test the model", choices=['train', 'test', 'postprocess'])
     parser.add_argument('--emb_dim', type=int, default=128, help="the embedding dimension")
-    parser.add_argument('--dropout', type=float, default=0.2, help="the embedding dimension")
+    parser.add_argument('--dropout', type=float, default=0.2, help="dropout rate")
     parser.add_argument('--resume', action='store_true', default=False, help="whether to resume previous run")
-    parser.add_argument('--batch_size', type=int, default=3, help="the embedding dimension")
-    parser.add_argument('--model', type=str, default="CNN", help="the embedding dimension")
-    parser.add_argument('--data_dir', type=str, default='data', help="the embedding dimension")
-    parser.add_argument('--beam_size', type=int, default=2, help="the embedding dimension")
-    parser.add_argument('--max_seq_length', type=int, default=100, help="the embedding dimension")
-    parser.add_argument('--layer_num', type=int, default=3, help="the embedding dimension")    
-    parser.add_argument('--evaluate_every', type=int, default=5, help="the embedding dimension")
-    parser.add_argument('--one_hot', default=False, action="store_true", help="whether to use one hot")
-    parser.add_argument('--th', type=float, default=0.4, help="the embedding dimension")
-    parser.add_argument('--head', type=int, default=4, help="the embedding dimension")
-    parser.add_argument("--output_dir", default="checkpoints/generator/", type=str, \
-                        help="The output directory where the model predictions and checkpoints will be written.")
-    parser.add_argument("--learning_rate", default=1e-4, type=float, help="The initial learning rate for Adam.")
-    parser.add_argument("--output_file", default='output', type=str, help="The initial learning rate for Adam.")
-    parser.add_argument("--non_delex", default=False, action="store_true", help="The initial learning rate for Adam.")
-    parser.add_argument("--hist_num", default=0,type=int, help="The initial learning rate for Adam.")
+    parser.add_argument('--batch_size', type=int, default=3, help="train/dev/test batch size")
+    parser.add_argument('--model', type=str, default="model", help="path to save or load models")
+    parser.add_argument('--data_dir', type=str, default='data', help="data dir")
+    parser.add_argument('--beam_size', type=int, default=2, help="beam size of act/response generator")
+    parser.add_argument('--max_seq_length', type=int, default=50, help="max input length")
+    parser.add_argument('--layer_num', type=int, default=3, help="transformer layer num")
+    parser.add_argument('--evaluate_every', type=int, default=5, help="checkpoints")
+    parser.add_argument('--head', type=int, default=4, help="head num for transformer")
+    parser.add_argument("--learning_rate", default=1e-3, type=float, help="The initial learning rate for Adam.")
+    parser.add_argument("--output_file", default='output', type=str, help="path to save generated act/response")
+    parser.add_argument("--non_delex", default=False, action="store_true", help="non delex testing")
+    parser.add_argument("--hist_num", default=0,type=int, help="turn num of history")
     parser.add_argument('--seed', type=int, default=913, help="random seed for initialization")
-    parser.add_argument('--log', type=str, default='log', help="random seed for initialization")
-    parser.add_argument('--act_source',  type=str,choices=["pred", "bert",'groundtruth'],default='pred')
+    parser.add_argument('--log', type=str, default='log', help="log file")
+    parser.add_argument('--act_source',  type=str,choices=["pred", "bert",'groundtruth'],default='pred', help="action source for validate/test")
 
     args = parser.parse_args()
     return args
@@ -168,20 +164,20 @@ if args.option == 'train':
 
             resp_logits = resp_generator.resp_forward(tgt_seq=rep_in, src_seq=input_ids, act_vecs=act_vecs,act_mask=action_masks,input_mask=resp_input_mask)
 
-            loss3 = ce_loss_func(resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(), \
+            loss2 = ce_loss_func(resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(), \
                                 resp_out.contiguous().view(-1))
             if epoch < 10:
                 loss = loss1
             else:
-                loss = weight_loss(loss1,loss3)
+                loss = weight_loss(loss1,loss2)
             loss.backward()
             optimizer.step()
 
             if step % 100 == 0:
-                print("epoch {} \tstep {} training \ttotal_loss {} \tact_loss {} \tresp_loss {}".format(epoch, step, loss.item(),loss1.item(),loss3.item()))
+                print("epoch {} \tstep {} training \ttotal_loss {} \tact_loss {} \tresp_loss {}".format(epoch, step, loss.item(),loss1.item(),loss2.item()))
         alpha=min(1,alpha+0.1*epoch)
         scheduler.step()
-        if loss3.item() < 3.0 and loss1.item()<3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
+        if loss2.item() < 3.0 and loss1.item()<3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
             logger.info("start evaluating BLEU on validation set")
             resp_generator.eval()
             # Start Evaluating after each epoch
@@ -213,6 +209,8 @@ if args.option == 'train':
                     TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
 
                     act_in=torch.tensor(hyps,dtype=torch.long).to(device)
+                else:
+                    pass
                 _,_,act_vecs=resp_generator.act_forward(tgt_seq=act_in, src_seq=input_ids,bs=belief_state,input_mask=act_input_mask)
                 action_masks=act_in.eq(Constants.PAD)+act_in.eq(Constants.EOS)
                 resp_hyps = resp_generator.resp_translate_batch(bs=belief_state,act_vecs=act_vecs, act_mask=action_masks,input_mask=resp_input_mask,
@@ -254,7 +252,7 @@ elif args.option == "test":
     model_turns = {}
     act_turns={}
     TP, TN, FN, FP = 0, 0, 0, 0
-    domain_success={}
+    example_success={}
     for batch_step, batch in enumerate(eval_dataloader):
         all_pred = []
         batch = tuple(t.to(device) for t in batch)
@@ -286,6 +284,8 @@ elif args.option == "test":
             TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
 
             act_in = torch.tensor(hyps, dtype=torch.long).to(device)
+        else:
+            pass
         _, _, act_vecs = resp_generator.act_forward(tgt_seq=act_in, src_seq=input_ids, bs=belief_state,
                                                     input_mask=act_input_mask)
         action_masks = act_in.eq(Constants.PAD) + act_in.eq(Constants.EOS)
@@ -308,7 +308,7 @@ elif args.option == "test":
     print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
     logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
     BLEU = BLEU_calc.score(model_turns, gt_turns)
-    inform, request = evaluateModel(model_turns, domain_success)
+    inform, request = evaluateModel(model_turns, example_success)
     print(inform, request, BLEU)
     logger.info("BLEU {}, inform {}, request {} ".format(BLEU, inform, request))
 
@@ -324,8 +324,8 @@ elif args.option == "test":
         act_turns = OrderedDict(sorted(act_turns.items()))
         json.dump(act_turns, fp, indent=2)
 
-    with open('output/domain_statistic.json','w') as f:
-        json.dump(domain_success,f)
+    with open('output/example_statistic.json','w') as f:
+        json.dump(example_success,f)
 
     save_name = 'inform-{}-request-{}-bleu-{}'.format(inform, request, BLEU)
     torch.save(resp_generator.state_dict(), os.path.join('model', save_name))
