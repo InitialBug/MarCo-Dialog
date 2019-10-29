@@ -542,7 +542,7 @@ class RespGenerator(nn.Module):
         act_logits = self.act_prj(bag_output)
         return logits, act_logits,dec_output
 
-    def resp_translate_batch(self, bs, act_vecs,act_mask,input_mask, src_seq, n_bm, max_token_seq_len=30):
+    def resp_translate_batch(self, bs, act_vecs,act_mask,input_mask, src_seq, n_bm, max_token_seq_len=30,coverage=-1):
         ''' Translation work in one batch '''
         device = src_seq.device
 
@@ -583,8 +583,18 @@ class RespGenerator(nn.Module):
 
             logits = self.resp_forward(dec_partial_seq, src_seq, act_vecs,act_mask,input_mask)[:, -1, :] / Constants.T
             word_prob = F.log_softmax(logits, dim=1)
-            word_prob = word_prob.view(n_active_inst, n_bm, -1)
 
+            if coverage>0 and len_dec_seq>coverage:
+                b_size=word_prob.shape[0]
+                ngram=dec_partial_seq[:,1-coverage:]
+                for i in range(b_size):
+                    for k in range(len_dec_seq-coverage):
+                        if torch.equal(ngram[i],dec_partial_seq[i][k:k+coverage-1]):
+                            repeat_word=dec_partial_seq[i][k+coverage]
+                            word_prob[i][repeat_word]=-np.inf
+
+
+            word_prob = word_prob.view(n_active_inst, n_bm, -1)
             # Update the beam with predicted word prob information and collect incomplete instances
             active_inst_idx_list = []
             for inst_idx, inst_position in inst_idx_to_position_map.items():
