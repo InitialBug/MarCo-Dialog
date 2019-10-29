@@ -590,7 +590,9 @@ class RespGenerator(nn.Module):
                 for i in range(b_size):
                     for k in range(len_dec_seq-coverage):
                         if torch.equal(ngram[i],dec_partial_seq[i][k:k+coverage-1]):
-                            repeat_word=dec_partial_seq[i][k+coverage]
+                            repeat_word=dec_partial_seq[i][k+coverage-1]
+                            if repeat_word.item()==0:
+                                continue
                             word_prob[i][repeat_word]=-np.inf
 
 
