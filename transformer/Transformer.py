@@ -542,7 +542,7 @@ class RespGenerator(nn.Module):
         act_logits = self.act_prj(bag_output)
         return logits, act_logits,dec_output
 
-    def resp_translate_batch(self, bs, act_vecs,act_mask,input_mask, src_seq, n_bm, max_token_seq_len=30,coverage=-1):
+    def resp_translate_batch(self, bs, act_vecs,act_mask,input_mask, src_seq, n_bm, max_token_seq_len=30,gram_num=-1):
         ''' Translation work in one batch '''
         device = src_seq.device
 
@@ -584,13 +584,13 @@ class RespGenerator(nn.Module):
             logits = self.resp_forward(dec_partial_seq, src_seq, act_vecs,act_mask,input_mask)[:, -1, :] / Constants.T
             word_prob = F.log_softmax(logits, dim=1)
 
-            if coverage>0 and len_dec_seq>coverage:
+            if gram_num>0 and len_dec_seq>gram_num:
                 b_size=word_prob.shape[0]
-                ngram=dec_partial_seq[:,1-coverage:]
+                ngram=dec_partial_seq[:,1-gram_num:]
                 for i in range(b_size):
-                    for k in range(len_dec_seq-coverage):
-                        if torch.equal(ngram[i],dec_partial_seq[i][k:k+coverage-1]):
-                            repeat_word=dec_partial_seq[i][k+coverage-1]
+                    for k in range(len_dec_seq-gram_num):
+                        if torch.equal(ngram[i],dec_partial_seq[i][k:k+gram_num-1]):
+                            repeat_word=dec_partial_seq[i][k+gram_num-1]
                             if repeat_word.item()==0:
                                 continue
                             word_prob[i][repeat_word]=-np.inf

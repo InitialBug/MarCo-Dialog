@@ -214,7 +214,7 @@ if args.option == 'train':
                 action_masks=act_in.eq(Constants.PAD)+act_in.eq(Constants.EOS)
                 resp_hyps = resp_generator.resp_translate_batch(bs=belief_state,act_vecs=act_vecs, act_mask=action_masks,input_mask=resp_input_mask,
                                                src_seq=input_ids, n_bm=args.beam_size,
-                                               max_token_seq_len=40,coverage=3)
+                                               max_token_seq_len=40)
 
                 for hyp_step, hyp in enumerate(resp_hyps):
                     pred = tokenizer.convert_id_to_tokens(hyp)
@@ -291,7 +291,7 @@ elif args.option == "test":
         resp_hyps = resp_generator.resp_translate_batch(bs=belief_state, act_vecs=act_vecs, act_mask=action_masks,
                                                         input_mask=resp_input_mask,
                                                         src_seq=input_ids, n_bm=args.beam_size,
-                                                        max_token_seq_len=40,coverage=3)
+                                                        max_token_seq_len=40,gram_num=3)
 
         for hyp_step, hyp in enumerate(resp_hyps):
             pred = tokenizer.convert_id_to_tokens(hyp)
