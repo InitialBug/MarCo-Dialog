@@ -35,6 +35,7 @@ def parse_opt():
     parser.add_argument('--data_dir', type=str, default='data', help="data dir")
     parser.add_argument('--beam_size', type=int, default=2, help="beam size of act/response generator")
     parser.add_argument('--max_seq_length', type=int, default=50, help="max input length")
+    parser.add_argument('--ngram', type=int, default=3, help="avoid n gram repeatness")
     parser.add_argument('--layer_num', type=int, default=3, help="transformer layer num")
     parser.add_argument('--evaluate_every', type=int, default=5, help="checkpoints")
     parser.add_argument('--head', type=int, default=4, help="head num for transformer")
@@ -291,7 +292,7 @@ elif args.option == "test":
         resp_hyps = resp_generator.resp_translate_batch(bs=belief_state, act_vecs=act_vecs, act_mask=action_masks,
                                                         input_mask=resp_input_mask,
                                                         src_seq=input_ids, n_bm=args.beam_size,
-                                                        max_token_seq_len=40,gram_num=3)
+                                                        max_token_seq_len=40,gram_num=args.ngram)
 
         for hyp_step, hyp in enumerate(resp_hyps):
             pred = tokenizer.convert_id_to_tokens(hyp)
