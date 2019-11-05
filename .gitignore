@@ -3,6 +3,6 @@
 *pyc
 checkpoints/
 log
-data/
 .idea/
-*.json
+output/
+model/

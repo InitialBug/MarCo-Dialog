@@ -1,0 +1,3948 @@
+{
+  "PMUL0698.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3233.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG01627.json": [
+    "taxi"
+  ],
+  "MUL1719.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0242.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1072.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3048.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1100.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3979.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1409.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4828.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0329.json": [
+    "train"
+  ],
+  "PMUL3314.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1768.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0293.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL0420.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL0858.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1367.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1271.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL0928.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1589.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3200.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0398.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG01735.json": [
+    "taxi"
+  ],
+  "PMUL4290.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0551.json": [
+    "restaurant"
+  ],
+  "MUL2384.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG01993.json": [
+    "train"
+  ],
+  "PMUL2235.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4075.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL0724.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2160.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1402.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1152.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1121.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG02071.json": [
+    "restaurant"
+  ],
+  "PMUL3215.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4833.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0344.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2418.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1181.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1604.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL0287.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL2064.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4581.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1888.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1603.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1591.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL2393.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0300.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3406.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2092.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3428.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0899.json": [
+    "hotel"
+  ],
+  "MUL1503.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2470.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2361.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0759.json": [
+    "hotel"
+  ],
+  "PMUL0590.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG01598.json": [
+    "taxi"
+  ],
+  "MUL0126.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1973.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1951.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4993.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2307.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1920.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG01184.json": [
+    "restaurant"
+  ],
+  "MUL0960.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2366.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1429.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0564.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG1049.json": [
+    "hotel"
+  ],
+  "PMUL4688.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG02346.json": [
+    "train"
+  ],
+  "MUL0696.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0899.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL0601.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0452.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1923.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL2387.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1635.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2412.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL3123.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0508.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1917.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0665.json": [
+    "restaurant"
+  ],
+  "SNG0374.json": [
+    "train"
+  ],
+  "PMUL2804.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL4612.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4846.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0985.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL2464.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0676.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0754.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0509.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0041.json": [
+    "taxi"
+  ],
+  "SNG0651.json": [
+    "restaurant"
+  ],
+  "PMUL0529.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3891.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL2117.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL2222.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4426.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2713.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG02221.json": [
+    "train"
+  ],
+  "PMUL2179.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1022.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL2973.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL4359.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1653.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3779.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0602.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4687.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "SNG1046.json": [
+    "hotel"
+  ],
+  "MUL0559.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL2372.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0807.json": [
+    "hotel"
+  ],
+  "PMUL1990.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3817.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1620.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0142.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "SNG1143.json": [
+    "attraction"
+  ],
+  "MUL0425.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1257.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0962.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1245.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL1953.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0038.json": [
+    "taxi"
+  ],
+  "MUL0631.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1472.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2258.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0759.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0791.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0627.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0569.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0476.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1977.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0129.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2394.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2644.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL1286.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL0032.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL1768.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3574.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0535.json": [
+    "restaurant"
+  ],
+  "MUL1881.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4414.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1347.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0773.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0939.json": [
+    "hotel"
+  ],
+  "MUL1415.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3899.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL0751.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG1007.json": [
+    "hotel"
+  ],
+  "MUL2324.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4198.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0737.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1626.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1379.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG0588.json": [
+    "restaurant"
+  ],
+  "SNG0521.json": [
+    "restaurant"
+  ],
+  "MUL1407.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4826.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3591.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2487.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4354.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0362.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1370.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL1393.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0959.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0922.json": [
+    "hotel"
+  ],
+  "PMUL4881.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2617.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL1652.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4471.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL2670.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL2478.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL0729.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1647.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL2532.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL2495.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1132.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0623.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3806.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL2282.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG01229.json": [
+    "taxi"
+  ],
+  "PMUL1579.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG02105.json": [
+    "taxi"
+  ],
+  "PMUL3073.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL2219.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0698.json": [
+    "restaurant"
+  ],
+  "PMUL4719.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG01903.json": [
+    "taxi"
+  ],
+  "MUL1837.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1426.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2291.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG01586.json": [
+    "taxi"
+  ],
+  "PMUL3607.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3744.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4431.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1900.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG01777.json": [
+    "restaurant"
+  ],
+  "SNG01609.json": [
+    "restaurant"
+  ],
+  "MUL1078.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL1125.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL1310.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0912.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0622.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG1055.json": [
+    "attraction"
+  ],
+  "MUL2612.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL2277.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL2016.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2894.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG0900.json": [
+    "hotel"
+  ],
+  "PMUL2504.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG01579.json": [
+    "train"
+  ],
+  "PMUL3110.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3169.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3410.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL2351.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1131.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG1047.json": [
+    "hotel"
+  ],
+  "PMUL4686.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0635.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL2526.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG0414.json": [
+    "train"
+  ],
+  "MUL1975.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1160.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0915.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG01297.json": [
+    "hotel"
+  ],
+  "PMUL1408.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG1011.json": [
+    "hotel"
+  ],
+  "MUL0625.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1995.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0663.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0589.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL0653.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3702.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3735.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3244.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG0603.json": [
+    "restaurant"
+  ],
+  "SNG0068.json": [
+    "taxi"
+  ],
+  "SNG0080.json": [
+    "taxi"
+  ],
+  "PMUL1968.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0299.json": [
+    "train"
+  ],
+  "SNG01595.json": [
+    "taxi"
+  ],
+  "MUL0675.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0681.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0673.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1322.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0891.json": [
+    "hotel"
+  ],
+  "MUL1292.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL4289.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0512.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1389.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3456.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4939.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1341.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0426.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0294.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL2282.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL2013.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0716.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0637.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4711.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1453.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0743.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3362.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL0984.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2251.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1673.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1108.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3002.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1029.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2255.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL0605.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2041.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0575.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0283.json": [
+    "train"
+  ],
+  "PMUL2863.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL0936.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1381.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL0025.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1963.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL2111.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3106.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2711.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL2021.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL0356.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG0494.json": [
+    "restaurant"
+  ],
+  "PMUL3888.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL1018.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1463.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0065.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3756.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2204.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0878.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2389.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2000.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1557.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1368.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1740.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3434.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3072.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG0934.json": [
+    "hotel"
+  ],
+  "MUL2640.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL2320.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4853.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0107.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL4287.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4482.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL0219.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3466.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL2173.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL2082.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0493.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1843.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0010.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0386.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2096.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1564.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3384.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0596.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4588.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL0622.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0490.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0845.json": [
+    "hotel"
+  ],
+  "PMUL2421.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0437.json": [
+    "train"
+  ],
+  "MUL0959.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0883.json": [
+    "hotel"
+  ],
+  "SNG01235.json": [
+    "restaurant"
+  ],
+  "PMUL1791.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1289.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3835.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG1125.json": [
+    "attraction"
+  ],
+  "MUL0971.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2467.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1288.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2386.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0344.json": [
+    "train"
+  ],
+  "SNG0896.json": [
+    "hotel"
+  ],
+  "PMUL3554.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG0942.json": [
+    "hotel"
+  ],
+  "PMUL1684.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1892.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0289.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL2065.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0996.json": [
+    "hotel"
+  ],
+  "MUL2083.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2314.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG1023.json": [
+    "hotel"
+  ],
+  "MUL2690.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3332.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG01934.json": [
+    "taxi"
+  ],
+  "PMUL4793.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2428.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL3537.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1854.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2762.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG01201.json": [
+    "taxi"
+  ],
+  "MUL1221.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0719.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0717.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL0400.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL0874.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1683.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0713.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1808.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1063.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1967.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0650.json": [
+    "restaurant"
+  ],
+  "MUL1976.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1450.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0542.json": [
+    "restaurant"
+  ],
+  "SNG0913.json": [
+    "hotel"
+  ],
+  "MUL0338.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3645.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG0937.json": [
+    "hotel"
+  ],
+  "MUL1908.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG01206.json": [
+    "taxi"
+  ],
+  "SNG0751.json": [
+    "hotel"
+  ],
+  "SNG01504.json": [
+    "taxi"
+  ],
+  "PMUL2906.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL2330.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4120.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0018.json": [
+    "taxi"
+  ],
+  "SNG01172.json": [
+    "restaurant"
+  ],
+  "MUL2263.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0314.json": [
+    "train"
+  ],
+  "MUL1256.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL4864.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1879.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0490.json": [
+    "restaurant"
+  ],
+  "MUL0657.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2383.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL0142.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2839.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0478.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0401.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0543.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1016.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4451.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG01626.json": [
+    "hotel"
+  ],
+  "MUL2249.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1831.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4439.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL0835.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1025.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3665.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0565.json": [
+    "restaurant"
+  ],
+  "PMUL2350.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL3405.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0287.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1057.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG01630.json": [
+    "taxi"
+  ],
+  "MUL0135.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3485.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL0697.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3396.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3017.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL1738.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0384.json": [
+    "train"
+  ],
+  "PMUL3397.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1159.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1518.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4276.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1934.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0430.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0348.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL4109.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL0154.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1227.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3363.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0829.json": [
+    "hotel"
+  ],
+  "PMUL2623.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL1795.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3464.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1360.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0839.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0090.json": [
+    "taxi"
+  ],
+  "MUL0603.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1780.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG01935.json": [
+    "taxi"
+  ],
+  "MUL0995.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1130.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3634.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0893.json": [
+    "hotel"
+  ],
+  "MUL1651.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG1122.json": [
+    "attraction"
+  ],
+  "PMUL3695.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG01889.json": [
+    "taxi"
+  ],
+  "MUL0745.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1879.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1771.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4053.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG01317.json": [
+    "taxi"
+  ],
+  "SNG0554.json": [
+    "restaurant"
+  ],
+  "PMUL4620.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1492.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0549.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1747.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2792.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0187.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3740.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL1487.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1249.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2841.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL4814.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL1457.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1712.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0331.json": [
+    "train"
+  ],
+  "MUL2259.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0804.json": [
+    "hotel"
+  ],
+  "PMUL4332.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1540.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2638.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG0058.json": [
+    "taxi"
+  ],
+  "PMUL0555.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0030.json": [
+    "taxi"
+  ],
+  "MUL2341.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL3683.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0993.json": [
+    "hotel"
+  ],
+  "PMUL1594.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4877.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0731.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4702.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1166.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3052.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1576.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0501.json": [
+    "restaurant"
+  ],
+  "PMUL4976.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1762.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4729.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1345.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4424.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG1043.json": [
+    "hotel"
+  ],
+  "SNG01684.json": [
+    "taxi"
+  ],
+  "MUL0178.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1916.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1549.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0311.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG1069.json": [
+    "attraction"
+  ],
+  "MUL2574.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL4446.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL1681.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0305.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0422.json": [
+    "train"
+  ],
+  "MUL2108.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0051.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG02311.json": [
+    "hotel"
+  ],
+  "PMUL1211.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0598.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0771.json": [
+    "hotel"
+  ],
+  "MUL0707.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0432.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0544.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG02214.json": [
+    "taxi"
+  ],
+  "PMUL1599.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4314.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1235.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0272.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG1018.json": [
+    "hotel"
+  ],
+  "SNG0668.json": [
+    "restaurant"
+  ],
+  "PMUL4302.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0697.json": [
+    "restaurant"
+  ],
+  "PMUL0036.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2441.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG1017.json": [
+    "hotel"
+  ],
+  "SNG01553.json": [
+    "train"
+  ],
+  "SNG01426.json": [
+    "taxi"
+  ],
+  "PMUL0187.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2301.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2344.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4436.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0055.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1722.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0674.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2748.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3630.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG01804.json": [
+    "taxi"
+  ],
+  "MUL2289.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2472.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2468.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1744.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2757.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL1590.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1146.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL2494.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0442.json": [
+    "train"
+  ],
+  "SNG0769.json": [
+    "hotel"
+  ],
+  "SNG01664.json": [
+    "hotel"
+  ],
+  "MUL0046.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG1035.json": [
+    "hotel"
+  ],
+  "PMUL4623.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0302.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG02278.json": [
+    "taxi"
+  ],
+  "PMUL3392.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL0739.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4033.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL2448.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1338.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL0689.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3883.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL1496.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0277.json": [
+    "train"
+  ],
+  "SNG01453.json": [
+    "taxi"
+  ],
+  "SNG02220.json": [
+    "taxi"
+  ],
+  "PMUL0083.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3911.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL2648.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL0032.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0337.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4592.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0095.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL4264.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3344.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0660.json": [
+    "restaurant"
+  ],
+  "MUL1615.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1034.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL1550.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0012.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0093.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG0368.json": [
+    "train"
+  ],
+  "MUL1903.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL2677.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL1881.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3015.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL2456.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL3426.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG01218.json": [
+    "taxi"
+  ],
+  "MUL1517.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0650.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1142.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4955.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2599.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL1433.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0326.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL2807.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL0626.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG01703.json": [
+    "taxi"
+  ],
+  "MUL0384.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4467.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG02109.json": [
+    "taxi"
+  ],
+  "SNG01953.json": [
+    "taxi"
+  ],
+  "SNG01928.json": [
+    "taxi"
+  ],
+  "MUL0702.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0515.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0806.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1052.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0202.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4744.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4126.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1346.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG01527.json": [
+    "restaurant"
+  ],
+  "MUL1617.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1128.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL1655.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3109.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3050.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0017.json": [
+    "taxi"
+  ],
+  "PMUL3884.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2199.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0381.json": [
+    "train"
+  ],
+  "SNG0463.json": [
+    "restaurant"
+  ],
+  "MUL2268.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2324.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG02115.json": [
+    "restaurant"
+  ],
+  "MUL0923.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG02052.json": [
+    "restaurant"
+  ],
+  "PMUL2075.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4485.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0134.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL2152.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1968.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0013.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1462.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0513.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2248.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1661.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0207.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL2649.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0227.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0711.json": [
+    "restaurant"
+  ],
+  "PMUL0690.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4984.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2594.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0539.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4707.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0651.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3453.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3632.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1451.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1282.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4076.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL0863.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG01523.json": [
+    "taxi"
+  ],
+  "MUL0512.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1042.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG02029.json": [
+    "taxi"
+  ],
+  "SNG02121.json": [
+    "restaurant"
+  ],
+  "PMUL0607.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL2144.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1382.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG02260.json": [
+    "taxi"
+  ],
+  "PMUL2763.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL1044.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL1531.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL0978.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL2304.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL2259.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG1119.json": [
+    "attraction"
+  ],
+  "PMUL2105.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL3498.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0313.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2618.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG0550.json": [
+    "restaurant"
+  ],
+  "MUL0505.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0317.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2020.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0049.json": [
+    "taxi"
+  ],
+  "PMUL2585.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL4913.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0687.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0376.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2360.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1158.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3324.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0684.json": [
+    "restaurant"
+  ],
+  "PMUL0958.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4244.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2718.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0418.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1644.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0207.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1464.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0949.json": [
+    "hotel"
+  ],
+  "PMUL2844.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL4386.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1054.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0819.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1517.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0846.json": [
+    "hotel"
+  ],
+  "PMUL4005.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL0124.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL1722.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG1085.json": [
+    "attraction"
+  ],
+  "PMUL0705.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0047.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "SNG1121.json": [
+    "attraction"
+  ],
+  "SNG1050.json": [
+    "hotel"
+  ],
+  "MUL1831.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4791.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG02057.json": [
+    "taxi"
+  ],
+  "SNG1002.json": [
+    "hotel"
+  ],
+  "MUL1622.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL2724.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL4473.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0862.json": [
+    "hotel"
+  ],
+  "MUL0209.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3862.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "SNG0609.json": [
+    "restaurant"
+  ],
+  "PMUL0571.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4583.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4555.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2385.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0019.json": [
+    "taxi"
+  ],
+  "PMUL2721.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL1071.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1274.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4399.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG01839.json": [
+    "train"
+  ],
+  "MUL0703.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2880.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3174.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2786.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0177.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0463.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3644.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0271.json": [
+    "train"
+  ],
+  "PMUL4060.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0889.json": [
+    "hotel"
+  ],
+  "MUL0082.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0445.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0871.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2683.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL2389.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2541.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG0060.json": [
+    "taxi"
+  ],
+  "PMUL2970.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG0736.json": [
+    "restaurant"
+  ],
+  "MUL1758.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1571.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2307.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0036.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2661.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0706.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2178.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL3352.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0703.json": [
+    "restaurant"
+  ],
+  "MUL0848.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0566.json": [
+    "restaurant"
+  ],
+  "MUL1635.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0910.json": [
+    "hotel"
+  ],
+  "PMUL0740.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG01196.json": [
+    "restaurant"
+  ],
+  "PMUL2518.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG01411.json": [
+    "hotel"
+  ],
+  "MUL2587.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL0266.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2338.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0386.json": [
+    "train"
+  ],
+  "PMUL2154.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL3105.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG0457.json": [
+    "restaurant"
+  ],
+  "MUL2309.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL2747.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL1476.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3966.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL0521.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2271.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1897.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3923.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1167.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL2520.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG1019.json": [
+    "hotel"
+  ],
+  "SNG0700.json": [
+    "restaurant"
+  ],
+  "MUL0610.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3262.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1318.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL0312.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4850.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0497.json": [
+    "restaurant"
+  ],
+  "SNG0907.json": [
+    "hotel"
+  ],
+  "MUL0957.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1133.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL1453.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG02296.json": [
+    "taxi"
+  ],
+  "MUL1419.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0571.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4022.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL1624.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3820.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1904.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3880.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1295.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3797.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0567.json": [
+    "restaurant"
+  ],
+  "PMUL3166.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG01320.json": [
+    "taxi"
+  ],
+  "MUL1858.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1500.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG1106.json": [
+    "attraction"
+  ],
+  "MUL1247.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1297.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3983.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2565.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL0489.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1556.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0633.json": [
+    "restaurant"
+  ],
+  "MUL1884.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1972.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG01698.json": [
+    "restaurant"
+  ],
+  "PMUL1318.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0182.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL4522.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "MUL2421.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL4492.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL2968.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL1162.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG0406.json": [
+    "train"
+  ],
+  "PMUL4107.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4400.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0206.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0106.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3497.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG01227.json": [
+    "taxi"
+  ],
+  "PMUL3776.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1352.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3470.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4691.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL3840.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1770.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1615.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL2688.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0229.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3929.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2576.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL2780.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG01996.json": [
+    "taxi"
+  ],
+  "PMUL2306.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0752.json": [
+    "hotel"
+  ],
+  "MUL0321.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2486.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1594.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG1142.json": [
+    "attraction"
+  ],
+  "MUL2489.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1676.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1479.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4438.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG1071.json": [
+    "attraction"
+  ],
+  "SNG0084.json": [
+    "taxi"
+  ],
+  "MUL0348.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2223.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2260.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2004.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0830.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1003.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL0893.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0060.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL2319.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG01974.json": [
+    "train"
+  ],
+  "MUL0687.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL2821.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL0318.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL2615.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0368.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2097.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG02077.json": [
+    "taxi"
+  ],
+  "SNG02274.json": [
+    "taxi"
+  ],
+  "PMUL1104.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL1828.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL3974.json": [
+    "train",
+    "restaurant"
+  ],
+  "SNG0843.json": [
+    "hotel"
+  ],
+  "MUL0580.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1663.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4488.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL2507.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL0389.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL0574.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL1126.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG01284.json": [
+    "train"
+  ],
+  "PMUL1233.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3926.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL0759.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG02330.json": [
+    "taxi"
+  ],
+  "PMUL3928.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0968.json": [
+    "hotel"
+  ],
+  "MUL2699.json": [
+    "hotel",
+    "attraction"
+  ],
+  "MUL1636.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL2992.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL2986.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL0276.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1721.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0770.json": [
+    "hotel"
+  ],
+  "MUL1357.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2363.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0597.json": [
+    "restaurant"
+  ],
+  "PMUL1636.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1186.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1821.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0049.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3766.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0691.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG02341.json": [
+    "taxi"
+  ],
+  "SNG0447.json": [
+    "train"
+  ],
+  "MUL0729.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0694.json": [
+    "restaurant"
+  ],
+  "SNG01699.json": [
+    "restaurant"
+  ],
+  "PMUL3117.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1692.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0730.json": [
+    "restaurant"
+  ],
+  "PMUL2088.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0244.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL0600.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL2368.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0783.json": [
+    "hotel"
+  ],
+  "MUL0933.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL1122.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2190.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL2492.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL2382.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG02089.json": [
+    "taxi"
+  ],
+  "SNG0340.json": [
+    "train"
+  ],
+  "PMUL1074.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL2274.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL2093.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL2902.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG0495.json": [
+    "restaurant"
+  ],
+  "PMUL4902.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "PMUL3133.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0888.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL1174.json": [
+    "hotel",
+    "attraction"
+  ],
+  "PMUL0764.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4554.json": [
+    "hotel",
+    "attraction"
+  ],
+  "SNG0475.json": [
+    "restaurant"
+  ],
+  "PMUL3728.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG02133.json": [
+    "taxi"
+  ],
+  "PMUL0987.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2100.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG01962.json": [
+    "taxi"
+  ],
+  "PMUL2469.json": [
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0827.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "MUL0039.json": [
+    "taxi",
+    "hotel",
+    "restaurant"
+  ],
+  "SNG0856.json": [
+    "hotel"
+  ],
+  "PMUL3320.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "MUL2039.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4757.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1133.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1971.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL4870.json": [
+    "hotel",
+    "train"
+  ],
+  "SNG0835.json": [
+    "hotel"
+  ],
+  "MUL0016.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL2693.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG01459.json": [
+    "hotel"
+  ],
+  "PMUL3850.json": [
+    "taxi",
+    "attraction",
+    "restaurant"
+  ],
+  "SNG0670.json": [
+    "restaurant"
+  ],
+  "SNG0327.json": [
+    "train"
+  ],
+  "MUL0517.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG0369.json": [
+    "train"
+  ],
+  "PMUL3378.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL2067.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL4634.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0963.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL3379.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1988.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL2184.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1873.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL3786.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL2014.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1650.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1326.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "SNG0921.json": [
+    "hotel"
+  ],
+  "MUL2058.json": [
+    "hotel",
+    "train"
+  ],
+  "MUL1183.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "PMUL0720.json": [
+    "train",
+    "restaurant"
+  ],
+  "MUL0448.json": [
+    "attraction",
+    "train"
+  ],
+  "SNG02276.json": [
+    "hotel"
+  ],
+  "PMUL1184.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL1482.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL1525.json": [
+    "hotel",
+    "train"
+  ],
+  "PMUL1140.json": [
+    "attraction",
+    "train"
+  ],
+  "PMUL0119.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL3544.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "MUL1669.json": [
+    "train",
+    "restaurant"
+  ],
+  "PMUL4029.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL2975.json": [
+    "taxi",
+    "hotel",
+    "attraction"
+  ],
+  "SNG01801.json": [
+    "taxi"
+  ],
+  "PMUL1400.json": [
+    "attraction",
+    "train"
+  ],
+  "MUL0128.json": [
+    "hotel",
+    "restaurant"
+  ],
+  "PMUL0077.json": [
+    "hotel",
+    "restaurant"
+  ]
+}
