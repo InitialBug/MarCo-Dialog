@@ -76,6 +76,7 @@ def setup_seed(seed):
     numpy.random.seed(seed)
     random.seed(seed)
 
+
 setup_seed(args.seed)
 with open("{}/vocab.json".format(args.data_dir), 'r') as f:
     vocabulary = json.load(f)
