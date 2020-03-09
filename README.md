@@ -16,3 +16,16 @@ CUDA_VISIBLE_DEVICES=0 python train_generator.py --option train --model model/ -
 CUDA_VISIBLE_DEVICES=0 python train_generator.py --option test --model model/XXX --batch_size 512 --max_seq_length 50
 ```
 
+### Requirements
+
+```
+# 198
+source activate torch
+# or
+source activate pytorch
+
+```
+
+```
+torch==1.0.1
+```

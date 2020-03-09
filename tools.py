@@ -1,21 +1,24 @@
-import transformer.Constants as Constants
 import json
 import math
-import re
 from collections import Counter
-from nltk.util import ngrams
+
 import numpy
 import torch
+from nltk.util import ngrams
+
+import transformer.Constants as Constants
+
 
 def get_n_params(*params_list):
-    pp=0
+    pp = 0
     for params in params_list:
         for p in params:
-            nn=1
+            nn = 1
             for s in list(p.size()):
-                nn = nn*s
+                nn = nn * s
             pp += nn
     return pp
+
 
 def filter_sents(sents, END):
     hyps = []
@@ -39,6 +42,7 @@ def filter_sents(sents, END):
             hyps.append(sents[batch_id][0])
     return hyps
 
+
 def obtain_TP_TN_FN_FP(pred, act, TP, TN, FN, FP, elem_wise=False):
     if isinstance(pred, torch.Tensor):
         if elem_wise:
@@ -58,6 +62,7 @@ def obtain_TP_TN_FN_FP(pred, act, TP, TN, FN, FP, elem_wise=False):
         FN += ((pred == 0).astype('long') & (act > 0).astype('long')).sum()
         FP += ((pred > 0).astype('long') & (act == 0).astype('long')).sum()
         return TP, TN, FN, FP
+
 
 class F1Scorer(object):
     ## BLEU score calculator via GentScorer interface
@@ -81,11 +86,11 @@ class F1Scorer(object):
             hyps = [hyp.split() for hyp in hyps]
             refs = [ref.split() for ref in refs]
             # Shawn's evaluation
-            #refs[0] = [u'GO_'] + refs[0] + [u'EOS_']
-            #hyps[0] = [u'GO_'] + hyps[0] + [u'EOS_']
+            # refs[0] = [u'GO_'] + refs[0] + [u'EOS_']
+            # hyps[0] = [u'GO_'] + hyps[0] + [u'EOS_']
             for hyp, ref in zip(hyps, refs):
-                pred = numpy.zeros((len(placeholder), ), 'float32')
-                gt = numpy.zeros((len(placeholder), ), 'float32')
+                pred = numpy.zeros((len(placeholder),), 'float32')
+                gt = numpy.zeros((len(placeholder),), 'float32')
                 for h in hyp:
                     if h in placeholder:
                         pred[placeholder.index(h)] += 1
@@ -98,6 +103,7 @@ class F1Scorer(object):
         recall = TP / (TP + FN + 0.001)
         F1 = 2 * precision * recall / (precision + recall + 0.001)
         return F1
+
 
 def sentenceBLEU(hyps, refs, n=1):
     count = [0, 0, 0, 0]
@@ -147,6 +153,7 @@ def sentenceBLEU(hyps, refs, n=1):
                   for w, p_n in zip(weights, p_ns) if p_n)
     bleu = bp * math.exp(s)
     return bleu
+
 
 class BLEUScorer(object):
     ## BLEU score calculator via GentScorer interface
@@ -217,6 +224,7 @@ class BLEUScorer(object):
         bleu = bp * math.exp(s)
         return bleu
 
+
 class Tokenizer(object):
     def __init__(self, vocab, ivocab, use_field, lower_case=True):
         super(Tokenizer, self).__init__()
@@ -246,7 +254,6 @@ class Tokenizer(object):
         else:
             return self.vocab[Constants.UNK_WORD]
 
-
     def get_word(self, k, template=None):
         if k > self.vocab_len and self.use_field and template:
             return template[k - self.vocab_len]
@@ -264,7 +271,7 @@ class Tokenizer(object):
                                  if wid != Constants.PAD])
             else:
                 return " ".join([self.get_word(wid, None) for wid in word_ids
-                                 if wid not in [Constants.PAD, Constants.EOS] ])
+                                 if wid not in [Constants.PAD, Constants.EOS]])
         else:
             if remain_eos:
                 return " ".join([self.get_word(wid.item(), None) for wid in word_ids
@@ -275,6 +282,8 @@ class Tokenizer(object):
 
     def convert_template(self, template_ids):
         return [self.get_word(wid) for wid in template_ids if wid != Constants.PAD]
+
+
 """"
 def nondetokenize(d_p, d_r):
     UNK = "xxxxxxx"
@@ -372,6 +381,8 @@ def nondetokenize(d_p, d_r):
             turn_id += 1
         dialog_id += 1
 """
+
+
 def nondetokenize(d_p, d_r):
     dialog_id = 0
     need_replace = 0
@@ -400,6 +411,8 @@ def nondetokenize(d_p, d_r):
             d_p[file_name][turn_id] = " ".join(words)
     success_rate = success / need_replace
     return success_rate
+
+
 """
 class Templator(object):
     with open('data/placeholder.json') as f:

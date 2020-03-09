@@ -1,11 +1,14 @@
+import math
+
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
 import torch.nn.functional as F
-import math
-from .Beam import Beam
-from . import Constants
 from torch.autograd import Variable
+
+from . import Constants
+from .Beam import Beam
+
 
 class Sclstm(nn.Module):
     def __init__(self, hidden_size, emb_size, d_size, dropout=0.5):
@@ -97,6 +100,7 @@ class Sclstm(nn.Module):
 
         return output_all, dt_all
 
+
 class PositionalEmbedding(nn.Module):
 
     def __init__(self, d_model, max_len=512):
@@ -118,6 +122,7 @@ class PositionalEmbedding(nn.Module):
     def forward(self, x):
         return self.pe[:, :x.size(1)]
 
+
 class EncoderLayer(nn.Module):
     ''' Compose with two layers '''
 
@@ -135,6 +140,7 @@ class EncoderLayer(nn.Module):
         enc_output *= non_pad_mask
 
         return enc_output, enc_slf_attn
+
 
 class AverageHeadAttention(nn.Module):
     def __init__(self, n_head, d_model, d_k, d_v, dropout=0.1):
@@ -158,7 +164,6 @@ class AverageHeadAttention(nn.Module):
         nn.init.xavier_normal_(self.fc.weight)
 
         self.dropout = nn.Dropout(dropout)
-
 
     def forward(self, a, q, k, v, mask=None):
 
@@ -193,6 +198,7 @@ class AverageHeadAttention(nn.Module):
 
         return output, attn    
 
+
 class MultiHeadAttention(nn.Module):
     ''' Multi-Head Attention module '''
 
@@ -217,7 +223,6 @@ class MultiHeadAttention(nn.Module):
         nn.init.xavier_normal_(self.fc.weight)
 
         self.dropout = nn.Dropout(dropout)
-
 
     def forward(self, q, k, v, mask=None):
 
@@ -248,6 +253,7 @@ class MultiHeadAttention(nn.Module):
 
         return output, attn
 
+
 class PositionwiseFeedForward(nn.Module):
     ''' A two-feed-forward-layer module '''
 
@@ -266,6 +272,7 @@ class PositionwiseFeedForward(nn.Module):
         output = self.dropout(output)
         output = self.layer_norm(output + residual)
         return output
+
 
 class ScaledDotProductAttention(nn.Module):
     ''' Scaled Dot-Product Attention '''
@@ -290,9 +297,11 @@ class ScaledDotProductAttention(nn.Module):
 
         return output, attn
 
+
 def get_non_pad_mask(seq):
     assert seq.dim() == 2
     return seq.ne(Constants.PAD).type(torch.float).unsqueeze(-1)
+
 
 def get_sinusoid_encoding_table(n_position, d_hid, padding_idx=None):
     ''' Sinusoid position encoding table '''
@@ -314,6 +323,7 @@ def get_sinusoid_encoding_table(n_position, d_hid, padding_idx=None):
 
     return torch.FloatTensor(sinusoid_table)
 
+
 def get_attn_key_pad_mask(seq_k, seq_q):
     ''' For masking out the padding part of key sequence. '''
 
@@ -324,6 +334,7 @@ def get_attn_key_pad_mask(seq_k, seq_q):
 
     return padding_mask
 
+
 def get_subsequent_mask(seq):
     ''' For masking out the subsequent info. '''
 
@@ -333,6 +344,7 @@ def get_subsequent_mask(seq):
     subsequent_mask = subsequent_mask.unsqueeze(0).expand(sz_b, -1, -1)  # b x ls x ls
 
     return subsequent_mask
+
 
 class Transformer(nn.Module):
     ''' A encoder model with self attention mechanism. '''
@@ -398,6 +410,7 @@ class AvgDecoderLayer(nn.Module):
         dec_output *= non_pad_mask
 
         return dec_output, dec_slf_attn, None   
+
 
 class DecoderLayer(nn.Module):
     ''' Compose with three layers '''
@@ -776,6 +789,7 @@ class RespGenerator(nn.Module):
                 result.append(_[0])
         return result, act_logits
 
+
 class ActGenerator(nn.Module):
     ''' A decoder model with self attention mechanism. '''
 
@@ -841,11 +855,10 @@ class ActGenerator(nn.Module):
         return logits, act_logits,dec_output
 
 
-
- 
 def get_inst_idx_to_tensor_position_map(inst_idx_list):
     ''' Indicate the position of an instance in a tensor. '''
     return {inst_idx: tensor_position for tensor_position, inst_idx in enumerate(inst_idx_list)}
+
 
 def collect_active_part(beamed_tensor, curr_active_inst_idx, n_prev_active_inst, n_bm):
     ''' Collect tensor parts associated to active instances. '''
@@ -859,14 +872,17 @@ def collect_active_part(beamed_tensor, curr_active_inst_idx, n_prev_active_inst,
 
     return beamed_tensor
 
+
 class UncertaintyLoss(nn.Module):
-    def __init__(self,v_num):
-        super(UncertaintyLoss,self).__init__()
-        sigma=torch.randn(v_num)
-        self.sigma=nn.Parameter(sigma)
-        self.v_num=v_num
+
+    def __init__(self, v_num):
+        super(UncertaintyLoss, self).__init__()
+        sigma = torch.randn(v_num)
+        self.sigma = nn.Parameter(sigma)
+        self.v_num = v_num
+
     def forward(self, *input):
-        loss=0
+        loss = 0
         for i in range(self.v_num):
-            loss+=input[i]/(2*self.sigma[i]**2)+torch.log(self.sigma[i])
+            loss += input[i] / (2 * self.sigma[i] ** 2) + torch.log(self.sigma[i])
         return loss

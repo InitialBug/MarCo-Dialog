@@ -2,15 +2,14 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import csv
-import os
-import time
+import copy
 import json
+import logging
+
 import numpy as np
 import torch
-import logging
+
 from transformer import Constants
-import copy
 
 logger = logging.getLogger(__name__)
 
@@ -20,6 +19,7 @@ arguments = ['pricerange', 'id', 'address', 'postcode', 'type', 'food', 'phone',
              'price', 'time', 'reference', 'none', 'parking', 'stars', 'internet', 'day', 'arriveby', 'departure',
              'destination', 'leaveat', 'duration', 'trainid', 'people', 'department', 'stay']
 
+
 def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
     examples = []
     prev_sys = None
@@ -28,7 +28,7 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
     if option == 'train':
         with open('{}/train.json'.format(data_dir)) as f:
             source = json.load(f)
-        predicted_acts=None
+        predicted_acts = None
     elif option == 'val':
         with open('{}/val.json'.format(data_dir)) as f:
             source = json.load(f)
@@ -48,15 +48,13 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
         dialog = dialog_info['info']
         for turn_num, turn in enumerate(dialog):
             # user = [vocab[w] if w in vocab else vocab['<UNK>'] for w in turn['user'].split()]
-            user=tokenizer.tokenize(turn['user'])
+            user = tokenizer.tokenize(turn['user'])
             tokens = tokenizer.tokenize(turn['user'])
             query = copy.copy(tokens)
 
             # if 'book' in tokens or 'booked' in tokens or 'booking' in tokens:
             segment_user = 1  # turn_num * 2 if turn_num * 2 < Constants.MAX_SEGMENT else Constants.MAX_SEGMENT - 1
             segment_sys = 2  # turn_num * 2 + 1 if turn_num * 2 + 1 < Constants.MAX_SEGMENT else Constants.MAX_SEGMENT - 1
-
-
 
             if len(hist) == 0:
                 if len(tokens) > max_seq_length:
@@ -76,21 +74,19 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                 source.append(k.split('_')[1][:-1])
             act_inp_len = len(user + source)
 
-            hist_tokens=tokens
+            hist_tokens = tokens
             tokens += source
             if len(tokens) > (max_seq_length * 2):
                 tokens = tokens[-(max_seq_length * 2):]
 
-            resp_input_mask=[0]*resp_inp_len+[1]*(len(tokens)-resp_inp_len)
-            act_input_mask=[1]*(len(tokens)-act_inp_len)+[0]*act_inp_len
+            resp_input_mask = [0] * resp_inp_len + [1] * (len(tokens) - resp_inp_len)
+            act_input_mask = [1] * (len(tokens) - act_inp_len) + [0] * act_inp_len
 
             input_ids = tokenizer.convert_tokens_to_ids(tokens)
             resp_input_mask += [1] * (max_seq_length * 2 - len(input_ids))
             act_input_mask += [1] * (max_seq_length * 2 - len(input_ids))
 
-            input_ids+=[Constants.PAD]*(max_seq_length*2-len(input_ids))
-
-
+            input_ids += [Constants.PAD] * (max_seq_length * 2 - len(input_ids))
 
             resp = [Constants.SOS_WORD] + tokenizer.tokenize(turn['sys']) + [Constants.EOS_WORD]
 
@@ -108,42 +104,39 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                     for key, value in turn['BS'][domain]:
                         bs[Constants.belief_state.index(domain + '-' + key)] = 1
 
-
-
             act_vecs = [0] * len(Constants.act_ontology)
             if turn['act'] != "None":
                 for w in turn['act']:
                     act_vecs[Constants.act_ontology.index(w)] = 1
 
-            bert_act_seq=[]
+            bert_act_seq = []
             if predicted_acts is not None:
                 bert_act_vecs = np.asarray(predicted_acts[dialog_file][str(turn_num)], 'int64')
                 domain = []
                 func = []
                 arg = []
                 for i in range(len(bert_act_vecs)):
-                    if bert_act_vecs[i]>0:
+                    if bert_act_vecs[i] > 0:
 
-                        if i<len(domains):
-                            d=domains[i]
+                        if i < len(domains):
+                            d = domains[i]
                             if d not in domain:
                                 domain.append(d)
                         else:
-                            i-=len(domains)
-                            if i <len(functions):
-                                f=functions[i]
+                            i -= len(domains)
+                            if i < len(functions):
+                                f = functions[i]
                                 if f not in func:
                                     func.append(f)
                             else:
                                 i -= len(functions)
-                                a=arguments[i]
+                                a = arguments[i]
                                 if a not in arg:
                                     arg.append(a)
                 domain = sorted(domain)
                 func = sorted(func)
                 # arg=sorted(arg)
-                bert_act_seq=domain+func+arg
-
+                bert_act_seq = domain + func + arg
 
             if len(bert_act_seq) < Constants.ACT_MAX_LEN:
                 bert_action_masks = [0] * len(bert_act_seq)
@@ -157,20 +150,18 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
             bert_action_masks += [1] * (Constants.ACT_MAX_LEN - len(bert_action_masks) - 1)
             bert_act_seq = act_tokenizer.convert_tokens_to_ids(bert_act_seq[1:])
 
-
-
-                # -----------------------------------------act preprocess----------------------------------------------------
+            # ----------------------------- act preprocess -------------------- #
 
             action = [Constants.SOS_WORD] + turn['actseq'] + [Constants.EOS_WORD]
-            if len(turn['actseq'])<Constants.ACT_MAX_LEN:
-                action_masks=[0]*len(turn['actseq'])
+            if len(turn['actseq']) < Constants.ACT_MAX_LEN:
+                action_masks = [0] * len(turn['actseq'])
             else:
-                action_masks=[0]*(Constants.ACT_MAX_LEN-1)
+                action_masks = [0] * (Constants.ACT_MAX_LEN - 1)
             if len(action) > Constants.ACT_MAX_LEN:
                 action = action[:Constants.ACT_MAX_LEN - 1] + [Constants.EOS_WORD]
             else:
                 action = action + [Constants.PAD_WORD] * (Constants.ACT_MAX_LEN - len(action))
-            action_masks+=[1]*(Constants.ACT_MAX_LEN - len(action_masks)-1)
+            action_masks += [1] * (Constants.ACT_MAX_LEN - len(action_masks) - 1)
             action_inp_ids = act_tokenizer.convert_tokens_to_ids(action[:-1])
             action_out_ids = act_tokenizer.convert_tokens_to_ids(action[1:])
 
@@ -191,10 +182,9 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
 
                 labels[acts[1] - 3] = 1
 
-            examples.append([input_ids, action_masks,resp_inp_ids, resp_out_ids, bs, bert_act_seq,
-                             action_inp_ids, action_out_ids, labels, act_input_mask,resp_input_mask,dialog_file])
+            examples.append([input_ids, action_masks, resp_inp_ids, resp_out_ids, bs, bert_act_seq,
+                             action_inp_ids, action_out_ids, labels, act_input_mask, resp_input_mask, dialog_file])
             num += 1
-
 
             sys = tokenizer.tokenize(turn['sys'])
             if turn_num == 0:
@@ -223,5 +213,5 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
     # all_template_ids = torch.tensor([f[9] for f in examples], dtype=torch.long)
 
     return all_input_ids, action_masks, \
-            all_response_in, all_response_out, all_belief_state, \
-           bert_act_seq, action_inp_ids, action_out_ids, labels,act_input_mask ,resp_input_mask,all_files
+           all_response_in, all_response_out, all_belief_state, \
+           bert_act_seq, action_inp_ids, action_out_ids, labels, act_input_mask, resp_input_mask, all_files
