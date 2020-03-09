@@ -1,6 +1,7 @@
 import argparse
 import logging.handlers
 import os
+import util
 import random
 from collections import OrderedDict
 
@@ -39,7 +40,11 @@ def parse_opt():
     args = parser.parse_args()
     return args
 
+
 args = parse_opt()
+
+util.mkdir(args.model)
+args.log = os.path.join(args.model, 'log')
 
 logger = logging.getLogger(__name__)
 handler1 = logging.StreamHandler()
