@@ -153,15 +153,16 @@ if args.option == 'train':
                 resp_input_mask, *_ = batch
 
             resp_generator.zero_grad()
+
+            # act loss
             logits, _, act_vecs = resp_generator.act_forward(
                 tgt_seq=act_in, src_seq=input_ids, bs=belief_state, input_mask=act_input_mask)
-
             loss1 = ce_loss_func(logits.contiguous().view(logits.size(0) * logits.size(1), -1).contiguous(),
                                  act_out.contiguous().view(-1))
 
+            # response loss
             resp_logits = resp_generator.resp_forward(tgt_seq=rep_in, src_seq=input_ids, act_vecs=act_vecs,
                                                       act_mask=action_masks, input_mask=resp_input_mask)
-
             loss2 = ce_loss_func(
                 resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(),
                 resp_out.contiguous().view(-1))
@@ -232,14 +233,14 @@ if args.option == 'train':
             precision = TP / (TP + FP + 0.001)
             recall = TP / (TP + FN + 0.001)
             F1 = 2 * precision * recall / (precision + recall + 0.001)
-            print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
-            logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
+            print("precision is {:.6f} recall is {:.6f} F1 is {:.6f}".format(precision, recall, F1))
+            logger.info("precision is {:.6f} recall is {:.6f} F1 is {:.6f}".format(precision, recall, F1))
             BLEU = BLEU_calc.score(model_turns, gt_turns)
             inform, request = evaluateModel(model_turns)
             print(inform, request, BLEU)
-            logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU, inform, request))
+            logger.info("{} epoch, Validation BLEU {:.4f}, inform {:.2f}, request {:.2f} ".format(epoch, BLEU, inform, request))
             if request > best_BLEU:
-                save_name = 'inform-{}-request-{}-bleu-{}-seed-{}'.format(inform, request, BLEU, args.seed)
+                save_name = 'inform-{:.2f}-request-{:.2f}-bleu-{:.4f}-seed-{}'.format(inform, request, BLEU, args.seed)
                 torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file, save_name))
                 best_BLEU = request
                 resp_file = os.path.join(args.output_file, 'resp_pred.json')
