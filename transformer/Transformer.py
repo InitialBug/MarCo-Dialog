@@ -15,22 +15,22 @@ class Sclstm(nn.Module):
         super(Sclstm, self).__init__()
         self.hidden_size = hidden_size
         self.dropout = dropout
-        
+
         self.dc = nn.Linear(d_size, hidden_size, bias=False)
 
-        self.w2h = nn.Linear(2 * emb_size, hidden_size*4)
-        self.h2h = nn.Linear(hidden_size, hidden_size*4)
+        self.w2h = nn.Linear(2 * emb_size, hidden_size * 4)
+        self.h2h = nn.Linear(hidden_size, hidden_size * 4)
 
-        self.w2h_r= nn.Linear(2 * emb_size, d_size)
-        self.h2h_r= nn.Linear(hidden_size, d_size)
-        
+        self.w2h_r = nn.Linear(2 * emb_size, d_size)
+        self.h2h_r = nn.Linear(hidden_size, d_size)
+
         self.src_proj = nn.Linear(emb_size, emb_size)
         self.att_proj = nn.Linear(emb_size, 1)
-        
+
         self.softmax = nn.Softmax(1)
 
     def _step(self, input_t, last_hidden, last_cell, last_dt, src_enc, src_mask):
-        '''
+        """
         * Do feedforward for one step *
         Args:
             input_t: (batch_size, 1, hidden_size)
@@ -38,17 +38,17 @@ class Sclstm(nn.Module):
             last_cell: (batch_size, hidden_size)
         Return:
             cell, hidden at this time step
-        '''
+        """
         # Attend to the source side
         ctx, prob = self.attention(last_hidden, src_enc, src_mask)
-        input_t = torch.cat([input_t, ctx], -1)  
+        input_t = torch.cat([input_t, ctx], -1)
         # get all gates
-        w2h = self.w2h(input_t) # (batch_size, hidden_size*5)
-        w2h = torch.split(w2h, self.hidden_size, dim=1) # (batch_size, hidden_size) * 4
+        w2h = self.w2h(input_t)  # (batch_size, hidden_size*5)
+        w2h = torch.split(w2h, self.hidden_size, dim=1)  # (batch_size, hidden_size) * 4
         h2h = self.h2h(last_hidden)
         h2h = torch.split(h2h, self.hidden_size, dim=1)
-    
-        gate_i = torch.sigmoid(w2h[0] + h2h[0]) # (batch_size, hidden_size)
+
+        gate_i = torch.sigmoid(w2h[0] + h2h[0])  # (batch_size, hidden_size)
         gate_f = torch.sigmoid(w2h[1] + h2h[1])
         gate_o = torch.sigmoid(w2h[2] + h2h[2])
 
@@ -58,27 +58,27 @@ class Sclstm(nn.Module):
         dt = gate_r * last_dt
 
         cell_hat = torch.tanh(w2h[3] + h2h[3])
-        cell = gate_f * last_cell + gate_i * cell_hat + self.dc(dt) 
+        cell = gate_f * last_cell + gate_i * cell_hat + self.dc(dt)
         hidden = gate_o * torch.tanh(cell)
 
         return hidden, cell, dt
-    
+
     def attention(self, hidden, src_enc, src_mask):
         energy_pre = hidden.unsqueeze(1) + self.src_proj(src_enc)
         energy = self.att_proj(torch.tanh(energy_pre)).squeeze()
         prob = self.softmax(energy)
         prob = prob * src_mask / torch.sum(prob * src_mask, 1, keepdim=True)
         ctx = torch.sum(prob[:, :, None] * src_enc, 1)
-        return ctx, prob       
+        return ctx, prob
 
     def forward(self, input_seq, last_dt, src_enc, src_mask):
-        '''
+        """
         Args:
             input_seq: (batch_size, max_len, emb_size)
             dt: (batch_size, feat_size)
         Return:
             output_all: (batch_size, max_len, vocab_size)
-        '''
+        """
         batch_size = input_seq.size(0)
         max_len = input_seq.size(1)
         # prepare init h and c
@@ -124,7 +124,7 @@ class PositionalEmbedding(nn.Module):
 
 
 class EncoderLayer(nn.Module):
-    ''' Compose with two layers '''
+    """ Compose with two layers """
 
     def __init__(self, d_model, d_inner, n_head, d_k, d_v, dropout=0.1):
         super(EncoderLayer, self).__init__()
@@ -166,7 +166,6 @@ class AverageHeadAttention(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, a, q, k, v, mask=None):
-
         d_k, d_v, n_head = self.d_k, self.d_v, self.n_head
 
         sz_b, len_q, _ = q.size()
@@ -178,29 +177,29 @@ class AverageHeadAttention(nn.Module):
         k = self.w_ks(k).view(sz_b, len_k, n_head, d_k)
         v = self.w_vs(v).view(sz_b, len_v, n_head, d_v)
 
-        q = q.permute(2, 0, 1, 3).contiguous().view(-1, len_q, d_k) # (n*b) x lq x dk
-        k = k.permute(2, 0, 1, 3).contiguous().view(-1, len_k, d_k) # (n*b) x lk x dk
-        v = v.permute(2, 0, 1, 3).contiguous().view(-1, len_v, d_v) # (n*b) x lv x dv
+        q = q.permute(2, 0, 1, 3).contiguous().view(-1, len_q, d_k)  # (n*b) x lq x dk
+        k = k.permute(2, 0, 1, 3).contiguous().view(-1, len_k, d_k)  # (n*b) x lk x dk
+        v = v.permute(2, 0, 1, 3).contiguous().view(-1, len_v, d_v)  # (n*b) x lv x dv
 
-        mask = mask.repeat(n_head, 1, 1) # (n*b) x .. x ..
+        mask = mask.repeat(n_head, 1, 1)  # (n*b) x .. x ..
         output, attn = self.attention(q, k, v, mask=mask)
 
         output = output.view(n_head, sz_b, len_q, d_v)
         a = a.permute(1, 0).contiguous()[:, :, None, None]
-        
-        #output = output * a
+
+        # output = output * a
         output = torch.sum(output * a, 0)
         output = output.view(sz_b, len_q, -1)
-        #output = output.permute(1, 2, 0, 3).contiguous().view(sz_b, len_q, -1) # b x lq x (n*dv)
+        # output = output.permute(1, 2, 0, 3).contiguous().view(sz_b, len_q, -1) # b x lq x (n*dv)
 
         output = self.dropout(self.fc(output))
         output = self.layer_norm(output + residual)
 
-        return output, attn    
+        return output, attn
 
 
 class MultiHeadAttention(nn.Module):
-    ''' Multi-Head Attention module '''
+    """ Multi-Head Attention module """
 
     def __init__(self, n_head, d_model, d_k, d_v, dropout=0.1):
         super(MultiHeadAttention, self).__init__()
@@ -225,7 +224,6 @@ class MultiHeadAttention(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, q, k, v, mask=None):
-
         d_k, d_v, n_head = self.d_k, self.d_v, self.n_head
 
         sz_b, len_q, _ = q.size()
@@ -238,15 +236,15 @@ class MultiHeadAttention(nn.Module):
         k = self.w_ks(k).view(sz_b, len_k, n_head, d_k)
         v = self.w_vs(v).view(sz_b, len_v, n_head, d_v)
 
-        q = q.permute(2, 0, 1, 3).contiguous().view(-1, len_q, d_k) # (n*b) x lq x dk
-        k = k.permute(2, 0, 1, 3).contiguous().view(-1, len_k, d_k) # (n*b) x lk x dk
-        v = v.permute(2, 0, 1, 3).contiguous().view(-1, len_v, d_v) # (n*b) x lv x dv
+        q = q.permute(2, 0, 1, 3).contiguous().view(-1, len_q, d_k)  # (n*b) x lq x dk
+        k = k.permute(2, 0, 1, 3).contiguous().view(-1, len_k, d_k)  # (n*b) x lk x dk
+        v = v.permute(2, 0, 1, 3).contiguous().view(-1, len_v, d_v)  # (n*b) x lv x dv
 
-        mask = mask.repeat(n_head, 1, 1) # (n*b) x .. x ..
+        mask = mask.repeat(n_head, 1, 1)  # (n*b) x .. x ..
         output, attn = self.attention(q, k, v, mask=mask)
 
         output = output.view(n_head, sz_b, len_q, d_v)
-        output = output.permute(1, 2, 0, 3).contiguous().view(sz_b, len_q, -1) # b x lq x (n*dv)
+        output = output.permute(1, 2, 0, 3).contiguous().view(sz_b, len_q, -1)  # b x lq x (n*dv)
 
         output = self.dropout(self.fc(output))
         output = self.layer_norm(output + residual)
@@ -255,12 +253,12 @@ class MultiHeadAttention(nn.Module):
 
 
 class PositionwiseFeedForward(nn.Module):
-    ''' A two-feed-forward-layer module '''
+    """ A two-feed-forward-layer module '"""
 
     def __init__(self, d_in, d_hid, dropout=0.1):
         super(PositionwiseFeedForward, self).__init__()
-        self.w_1 = nn.Conv1d(d_in, d_hid, 1) # position-wise
-        self.w_2 = nn.Conv1d(d_hid, d_in, 1) # position-wise
+        self.w_1 = nn.Conv1d(d_in, d_hid, 1)  # position-wise
+        self.w_2 = nn.Conv1d(d_hid, d_in, 1)  # position-wise
         self.layer_norm = nn.LayerNorm(d_in)
         self.dropout = nn.Dropout(dropout)
 
@@ -275,7 +273,7 @@ class PositionwiseFeedForward(nn.Module):
 
 
 class ScaledDotProductAttention(nn.Module):
-    ''' Scaled Dot-Product Attention '''
+    """ Scaled Dot-Product Attention """
 
     def __init__(self, temperature, attn_dropout=0.1):
         super(ScaledDotProductAttention, self).__init__()
@@ -284,7 +282,6 @@ class ScaledDotProductAttention(nn.Module):
         self.softmax = nn.Softmax(dim=2)
 
     def forward(self, q, k, v, mask=None):
-
         attn = torch.bmm(q, k.transpose(1, 2))
         attn = attn / self.temperature
 
@@ -304,7 +301,7 @@ def get_non_pad_mask(seq):
 
 
 def get_sinusoid_encoding_table(n_position, d_hid, padding_idx=None):
-    ''' Sinusoid position encoding table '''
+    """ Sinusoid position encoding table """
 
     def cal_angle(position, hid_idx):
         return position / np.power(10000, 2 * (hid_idx // 2) / d_hid)
@@ -325,7 +322,7 @@ def get_sinusoid_encoding_table(n_position, d_hid, padding_idx=None):
 
 
 def get_attn_key_pad_mask(seq_k, seq_q):
-    ''' For masking out the padding part of key sequence. '''
+    """ For masking out the padding part of key sequence. """
 
     # Expand to fit the shape of key query attention matrix.
     len_q = seq_q.size(1)
@@ -336,7 +333,7 @@ def get_attn_key_pad_mask(seq_k, seq_q):
 
 
 def get_subsequent_mask(seq):
-    ''' For masking out the subsequent info. '''
+    """ For masking out the subsequent info. """
 
     sz_b, len_s = seq.size()
     subsequent_mask = torch.triu(
@@ -346,19 +343,36 @@ def get_subsequent_mask(seq):
     return subsequent_mask
 
 
+def get_inst_idx_to_tensor_position_map(inst_idx_list):
+    """ Indicate the position of an instance in a tensor. """
+    return {inst_idx: tensor_position for tensor_position, inst_idx in enumerate(inst_idx_list)}
+
+
+def collect_active_part(beamed_tensor, curr_active_inst_idx, n_prev_active_inst, n_bm):
+    """ Collect tensor parts associated to active instances. """
+    _, *d_hs = beamed_tensor.size()
+    n_curr_active_inst = len(curr_active_inst_idx)
+    new_shape = (n_curr_active_inst * n_bm, *d_hs)
+
+    beamed_tensor = beamed_tensor.view(n_prev_active_inst, -1)
+    beamed_tensor = beamed_tensor.index_select(0, curr_active_inst_idx)
+    beamed_tensor = beamed_tensor.view(*new_shape)
+
+    return beamed_tensor
+
+
 class Transformer(nn.Module):
-    ''' A encoder model with self attention mechanism. '''
+    """ A encoder model with self attention mechanism. """
 
     def __init__(self, n_src_vocab, len_max_seq, d_word_vec,
-                n_layers, n_head, d_k, d_v,
-                d_model, d_inner, embedding, dropout=0.1):
-
+                 n_layers, n_head, d_k, d_v,
+                 d_model, d_inner, embedding, dropout=0.1):
         super(Transformer, self).__init__()
 
         n_position = len_max_seq + 1
 
         self.src_word_emb = nn.Embedding(n_src_vocab, d_word_vec, padding_idx=Constants.PAD)
-        #self.src_word_emb = nn.Embedding.from_pretrained(embedding, freeze=False)
+        # self.src_word_emb = nn.Embedding.from_pretrained(embedding, freeze=False)
 
         self.position_enc = nn.Embedding.from_pretrained(
             get_sinusoid_encoding_table(n_position, d_word_vec, padding_idx=0),
@@ -385,22 +399,24 @@ class Transformer(nn.Module):
                 slf_attn_mask=slf_attn_mask)
 
         dot_prod = torch.sum(enc_output[:, :, None, :] * ontology_embedding[None, None, :, :], -1)
-        #index = length[:, None, None].repeat(1, 1, dot_prod.size(-1))
-        #pooled_dot_prod = dot_prod.gather(1, index).squeeze()
+        # index = length[:, None, None].repeat(1, 1, dot_prod.size(-1))
+        # pooled_dot_prod = dot_prod.gather(1, index).squeeze()
         pooled_dot_prod = dot_prod[:, 0, :]
         pooling_likelihood = torch.sigmoid(pooled_dot_prod)
         return pooling_likelihood, enc_output
 
+
 class AvgDecoderLayer(nn.Module):
-    ''' Compose with three layers '''
+    """ Compose with three layers """
 
     def __init__(self, d_model, d_inner, n_head, d_k, d_v, n_head_enc, dropout=0.1):
         super(AvgDecoderLayer, self).__init__()
         self.slf_attn = AverageHeadAttention(n_head, d_model, d_k, d_v, dropout=dropout)
-        self.enc_attn = MultiHeadAttention(n_head_enc, d_model, d_model // n_head_enc, d_model // n_head_enc, dropout=dropout)
+        self.enc_attn = MultiHeadAttention(n_head_enc, d_model, d_model // n_head_enc, d_model // n_head_enc,
+                                           dropout=dropout)
         self.pos_ffn = PositionwiseFeedForward(d_model, d_inner, dropout=dropout)
 
-    def forward(self, act_vecs, dec_input, enc_output, non_pad_mask=None, slf_attn_mask=None, dec_enc_attn_mask=None):      
+    def forward(self, act_vecs, dec_input, enc_output, non_pad_mask=None, slf_attn_mask=None, dec_enc_attn_mask=None):
         dec_output, dec_slf_attn = self.slf_attn(act_vecs, dec_input, dec_input, dec_input, mask=slf_attn_mask)
         dec_output *= non_pad_mask
         dec_output, dec_enc_attn = self.enc_attn(dec_output, enc_output, enc_output, mask=dec_enc_attn_mask)
@@ -409,11 +425,11 @@ class AvgDecoderLayer(nn.Module):
         dec_output = self.pos_ffn(dec_output)
         dec_output *= non_pad_mask
 
-        return dec_output, dec_slf_attn, None   
+        return dec_output, dec_slf_attn, None
 
 
 class DecoderLayer(nn.Module):
-    ''' Compose with three layers '''
+    """ Compose with three layers """
 
     def __init__(self, d_model, d_inner, n_head, d_k, d_v, dropout=0.1):
         super(DecoderLayer, self).__init__()
@@ -437,9 +453,11 @@ class DecoderLayer(nn.Module):
 
 
 class RespGenerator(nn.Module):
-    ''' A decoder model with self attention mechanism. '''
+    """ A decoder model with self attention mechanism. """
 
-    def __init__(self, vocab_size,act_vocab_size, d_word_vec, n_layers, d_model, n_head, act_dim, dropout=0.1):
+    def __init__(self, vocab_size, act_vocab_size,
+                 d_word_vec, n_layers, d_model, n_head,
+                 act_dim, dropout=0.1):
 
         super(RespGenerator, self).__init__()
         d_k = d_model // n_head
@@ -449,7 +467,7 @@ class RespGenerator(nn.Module):
         self.word_emb = nn.Embedding(vocab_size, d_word_vec, padding_idx=Constants.PAD)
         self.bs_emb = nn.Linear(len(Constants.belief_state), d_word_vec, bias=False)
 
-        self.post_word_emb = PositionalEmbedding(d_model=d_word_vec)
+        self.posi_emb = PositionalEmbedding(d_model=d_word_vec)
 
         self.enc_layer_stack = nn.ModuleList([
             EncoderLayer(d_model, d_inner, n_head, d_k, d_v, dropout=dropout)
@@ -459,14 +477,13 @@ class RespGenerator(nn.Module):
             DecoderLayer(d_model, d_inner, n_head, d_k, d_v, dropout=dropout)
             for _ in range(n_layers)])
 
-        self.act_att_layer=nn.ModuleList([
+        self.act_att_layer = nn.ModuleList([
             DecoderLayer(d_model, d_inner, n_head, d_k, d_v, dropout=dropout)
             for _ in range(n_layers)])
-        self.tgt_word_prj = nn.Linear(d_model*3, vocab_size, bias=False)
 
+        self.tgt_word_prj = nn.Linear(d_model * 3, vocab_size, bias=False)
 
-
-        #-------------------act papram----------------------------------------
+        # ------------------- act params -------------------------------------
         self.act_word_emb = nn.Embedding(act_vocab_size, d_word_vec, padding_idx=Constants.PAD)
 
         self.act_dec_layer = nn.ModuleList([
@@ -476,13 +493,13 @@ class RespGenerator(nn.Module):
         self.act_tgt_word_prj = nn.Linear(d_model, vocab_size, bias=False)
         self.act_prj = nn.Linear(d_model, Constants.act_len)
 
-    def resp_forward(self, tgt_seq, src_seq, act_vecs,act_mask, input_mask):
+    def resp_forward(self, tgt_seq, src_seq, act_vecs, act_mask, input_mask):
         # -- Encode source
-        non_pad_mask = 1-input_mask
-        non_pad_mask=non_pad_mask.unsqueeze(-1).float()
-        enc_mask=input_mask.unsqueeze(1).expand(-1, src_seq.shape[1], -1)
+        non_pad_mask = 1 - input_mask
+        non_pad_mask = non_pad_mask.unsqueeze(-1).float()
+        enc_mask = input_mask.unsqueeze(1).expand(-1, src_seq.shape[1], -1)
 
-        enc_inp = self.word_emb(src_seq) + self.post_word_emb(src_seq)
+        enc_inp = self.word_emb(src_seq) + self.posi_emb(src_seq)
 
         for layer in self.enc_layer_stack:
             enc_inp, _ = layer(enc_inp, non_pad_mask, enc_mask)
@@ -497,13 +514,15 @@ class RespGenerator(nn.Module):
         dec_enc_attn_mask = input_mask.unsqueeze(1).expand(-1, tgt_seq.shape[1], -1)
 
         # -- Forward
-        dec_output = self.word_emb(tgt_seq) + self.post_word_emb(tgt_seq)
+        dec_output = self.word_emb(tgt_seq) + self.posi_emb(tgt_seq)
 
-        act_mask=act_mask.unsqueeze(1).expand(-1,dec_output.shape[1],-1)
+        act_mask = act_mask.unsqueeze(1).expand(-1, dec_output.shape[1], -1)
 
+        # TODO @tjf141457: maybe bugs
+        act_att_out = dec_output
         for dec_layer in self.act_att_layer:
             act_att_out, _, _ = dec_layer(
-                dec_output, act_vecs,
+                act_att_out, act_vecs,
                 non_pad_mask=non_pad_mask,
                 slf_attn_mask=slf_attn_mask,
                 dec_enc_attn_mask=act_mask)
@@ -515,11 +534,11 @@ class RespGenerator(nn.Module):
                 non_pad_mask=non_pad_mask,
                 slf_attn_mask=slf_attn_mask,
                 dec_enc_attn_mask=dec_enc_attn_mask)
-        dec_output = torch.cat([dec_output , att_out,act_att_out],dim=2)
+        dec_output = torch.cat([dec_output, att_out, act_att_out], dim=2)
         logits = self.tgt_word_prj(dec_output)
         return logits
 
-    def act_forward(self, tgt_seq, src_seq, bs,input_mask):
+    def act_forward(self, tgt_seq, src_seq, bs, input_mask):
         # -- Encode source
         non_pad_mask = 1 - input_mask
         non_pad_mask = non_pad_mask.unsqueeze(-1).float()
@@ -553,13 +572,15 @@ class RespGenerator(nn.Module):
         logits = self.act_tgt_word_prj(dec_output)
         bag_output = dec_output.sum(dim=1)
         act_logits = self.act_prj(bag_output)
-        return logits, act_logits,dec_output
+        return logits, act_logits, dec_output
 
-    def resp_translate_batch(self, bs, act_vecs,act_mask,input_mask, src_seq, n_bm, max_token_seq_len=30,gram_num=-1):
-        ''' Translation work in one batch '''
+    def resp_translate_batch(self, bs, act_vecs, act_mask, input_mask, src_seq, n_bm, max_token_seq_len=30,
+                             gram_num=-1):
+        """ Translation work in one batch """
         device = src_seq.device
 
-        def collate_active_info(bs, act_vecs,act_mask, input_mask,src_seq, inst_idx_to_position_map, active_inst_idx_list):
+        def collate_active_info(bs, act_vecs, act_mask, input_mask, src_seq, inst_idx_to_position_map,
+                                active_inst_idx_list):
             # Sentences which are still active are collected,
             # so the decoder will not run on completed sentences.
             n_prev_active_inst = len(inst_idx_to_position_map)
@@ -568,24 +589,25 @@ class RespGenerator(nn.Module):
 
             active_src_seq = collect_active_part(src_seq, active_inst_idx, n_prev_active_inst, n_bm)
             n_curr_active_inst = len(active_inst_idx)
-            act_len=act_vecs.shape[1]
-            act_vecs=act_vecs.view(n_prev_active_inst,-1)
-            act_vecs=act_vecs.index_select(0, active_inst_idx)
-            act_vecs=act_vecs.view(n_curr_active_inst*n_bm,act_len,-1)
+            act_len = act_vecs.shape[1]
+            act_vecs = act_vecs.view(n_prev_active_inst, -1)
+            act_vecs = act_vecs.index_select(0, active_inst_idx)
+            act_vecs = act_vecs.view(n_curr_active_inst * n_bm, act_len, -1)
 
             bs = collect_active_part(bs, active_inst_idx, n_prev_active_inst, n_bm)
-            act_mask=collect_active_part(act_mask, active_inst_idx, n_prev_active_inst, n_bm)
-            input_mask=collect_active_part(input_mask, active_inst_idx, n_prev_active_inst, n_bm)
+            act_mask = collect_active_part(act_mask, active_inst_idx, n_prev_active_inst, n_bm)
+            input_mask = collect_active_part(input_mask, active_inst_idx, n_prev_active_inst, n_bm)
 
             # active_template_output = collect_active_part(template_output, active_inst_idx, n_prev_active_inst, n_bm)
 
             active_inst_idx_to_position_map = get_inst_idx_to_tensor_position_map(active_inst_idx_list)
 
-            return bs, act_vecs,act_mask, input_mask,active_src_seq, active_inst_idx_to_position_map
+            return bs, act_vecs, act_mask, input_mask, active_src_seq, active_inst_idx_to_position_map
 
-        def beam_decode_step(bs, inst_dec_beams, len_dec_seq, active_inst_idx_list, act_vecs,act_mask, input_mask,src_seq, \
+        def beam_decode_step(bs, inst_dec_beams, len_dec_seq, active_inst_idx_list, act_vecs, act_mask, input_mask,
+                             src_seq, \
                              inst_idx_to_position_map, n_bm):
-            ''' Decode and update beam status, and then return active beam idx '''
+            """ Decode and update beam status, and then return active beam idx """
             n_active_inst = len(inst_idx_to_position_map)
 
             # dec_partial_seq = [b.get_current_state() for b in inst_dec_beams if not b.done]
@@ -594,20 +616,19 @@ class RespGenerator(nn.Module):
             dec_partial_seq = torch.stack(dec_partial_seq).to(device)
             dec_partial_seq = dec_partial_seq.view(-1, len_dec_seq)
 
-            logits = self.resp_forward(dec_partial_seq, src_seq, act_vecs,act_mask,input_mask)[:, -1, :] / Constants.T
+            logits = self.resp_forward(dec_partial_seq, src_seq, act_vecs, act_mask, input_mask)[:, -1, :] / Constants.T
             word_prob = F.log_softmax(logits, dim=1)
 
-            if gram_num>0 and len_dec_seq>gram_num:
-                b_size=word_prob.shape[0]
-                ngram=dec_partial_seq[:,1-gram_num:]
+            if gram_num > 0 and len_dec_seq > gram_num:
+                b_size = word_prob.shape[0]
+                ngram = dec_partial_seq[:, 1 - gram_num:]
                 for i in range(b_size):
-                    for k in range(len_dec_seq-gram_num):
-                        if torch.equal(ngram[i],dec_partial_seq[i][k:k+gram_num-1]):
-                            repeat_word=dec_partial_seq[i][k+gram_num-1]
-                            if repeat_word.item()==0:
+                    for k in range(len_dec_seq - gram_num):
+                        if torch.equal(ngram[i], dec_partial_seq[i][k:k + gram_num - 1]):
+                            repeat_word = dec_partial_seq[i][k + gram_num - 1]
+                            if repeat_word.item() == 0:
                                 continue
-                            word_prob[i][repeat_word]=-np.inf
-
+                            word_prob[i][repeat_word] = -np.inf
 
             word_prob = word_prob.view(n_active_inst, n_bm, -1)
             # Update the beam with predicted word prob information and collect incomplete instances
@@ -622,12 +643,12 @@ class RespGenerator(nn.Module):
         with torch.no_grad():
             # -- Repeat data for beam search
             n_inst, len_s = src_seq.size()
-            act_len=act_vecs.shape[1]
+            act_len = act_vecs.shape[1]
             src_seq = src_seq.repeat(1, n_bm).view(n_inst * n_bm, len_s)
-            act_vecs = act_vecs.repeat(1, n_bm,1).view(n_inst * n_bm, act_len,-1)
+            act_vecs = act_vecs.repeat(1, n_bm, 1).view(n_inst * n_bm, act_len, -1)
             bs = bs.repeat(1, n_bm).view(n_inst * n_bm, -1)
-            act_mask=act_mask.repeat(1, n_bm).view(n_inst * n_bm, -1)
-            input_mask=input_mask.repeat(1, n_bm).view(n_inst * n_bm, -1)
+            act_mask = act_mask.repeat(1, n_bm).view(n_inst * n_bm, -1)
+            input_mask = input_mask.repeat(1, n_bm).view(n_inst * n_bm, -1)
 
             # -- Prepare beams
             inst_dec_beams = [Beam(n_bm, device=device) for _ in range(n_inst)]
@@ -639,13 +660,14 @@ class RespGenerator(nn.Module):
             # -- Decode
             for len_dec_seq in range(1, max_token_seq_len + 1):
                 active_inst_idx_list = beam_decode_step(bs, inst_dec_beams, len_dec_seq, active_inst_idx_list,
-                                                        act_vecs,act_mask,input_mask, src_seq, inst_idx_to_position_map, n_bm)
+                                                        act_vecs, act_mask, input_mask, src_seq,
+                                                        inst_idx_to_position_map, n_bm)
 
                 if not active_inst_idx_list:
                     break  # all instances have finished their path to <EOS>
 
-                bs, act_vecs,act_mask,input_mask, src_seq, inst_idx_to_position_map = collate_active_info(
-                    bs, act_vecs,act_mask,input_mask, src_seq, inst_idx_to_position_map, active_inst_idx_list)
+                bs, act_vecs, act_mask, input_mask, src_seq, inst_idx_to_position_map = collate_active_info(
+                    bs, act_vecs, act_mask, input_mask, src_seq, inst_idx_to_position_map, active_inst_idx_list)
 
         def collect_hypothesis_and_scores(inst_dec_beams, n_best):
             all_hyp, all_scores = [], []
@@ -683,10 +705,10 @@ class RespGenerator(nn.Module):
         return result
 
     def act_translate_batch(self, input_mask, bs, src_seq, n_bm, max_token_seq_len=30):
-        ''' Translation work in one batch '''
+        """ Translation work in one batch """
         device = src_seq.device
 
-        def collate_active_info(input_mask,bs, src_seq, inst_idx_to_position_map, active_inst_idx_list):
+        def collate_active_info(input_mask, bs, src_seq, inst_idx_to_position_map, active_inst_idx_list):
             # Sentences which are still active are collected,
             # so the decoder will not run on completed sentences.
             n_prev_active_inst = len(inst_idx_to_position_map)
@@ -699,11 +721,11 @@ class RespGenerator(nn.Module):
             input_mask = collect_active_part(input_mask, active_inst_idx, n_prev_active_inst, n_bm)
             active_inst_idx_to_position_map = get_inst_idx_to_tensor_position_map(active_inst_idx_list)
 
-            return input_mask,bs, active_src_seq, active_inst_idx_to_position_map
+            return input_mask, bs, active_src_seq, active_inst_idx_to_position_map
 
-        def beam_decode_step(input_mask,bs, inst_dec_beams, len_dec_seq, active_inst_idx_list, act_log, src_seq, \
+        def beam_decode_step(input_mask, bs, inst_dec_beams, len_dec_seq, active_inst_idx_list, act_log, src_seq, \
                              inst_idx_to_position_map, n_bm):
-            ''' Decode and update beam status, and then return active beam idx '''
+            """ Decode and update beam status, and then return active beam idx """
             n_active_inst = len(inst_idx_to_position_map)
 
             # dec_partial_seq = [b.get_current_state() for b in inst_dec_beams if not b.done]
@@ -712,7 +734,7 @@ class RespGenerator(nn.Module):
             dec_partial_seq = torch.stack(dec_partial_seq).to(device)
             dec_partial_seq = dec_partial_seq.view(-1, len_dec_seq)
 
-            logits, act_logits,_ = self.act_forward(dec_partial_seq, src_seq, bs,input_mask)
+            logits, act_logits, _ = self.act_forward(dec_partial_seq, src_seq, bs, input_mask)
             logits = logits[:, -1, :] / Constants.T
             word_prob = F.log_softmax(logits, dim=1)
             word_prob = word_prob.view(n_active_inst, n_bm, -1)
@@ -734,7 +756,7 @@ class RespGenerator(nn.Module):
             src_seq = src_seq.repeat(1, n_bm).view(n_inst * n_bm, len_s)
             bs = bs.repeat(1, n_bm).view(n_inst * n_bm, -1)
             act_logits = torch.empty(n_inst, Constants.act_len)
-            input_mask=input_mask.repeat(1, n_bm).view(n_inst * n_bm, -1)
+            input_mask = input_mask.repeat(1, n_bm).view(n_inst * n_bm, -1)
 
             # -- Prepare beams
             inst_dec_beams = [Beam(n_bm, device=device) for i in range(n_inst)]
@@ -745,14 +767,17 @@ class RespGenerator(nn.Module):
 
             # -- Decode
             for len_dec_seq in range(1, max_token_seq_len + 1):
-                active_inst_idx_list = beam_decode_step(input_mask,bs, inst_dec_beams, len_dec_seq, active_inst_idx_list,
+                active_inst_idx_list = beam_decode_step(input_mask, bs, inst_dec_beams, len_dec_seq,
+                                                        active_inst_idx_list,
                                                         act_logits, src_seq, inst_idx_to_position_map, n_bm)
 
                 if not active_inst_idx_list:
                     break  # all instances have finished their path to <EOS>
 
-                input_mask,bs, src_seq, inst_idx_to_position_map = collate_active_info(input_mask,
-                    bs, src_seq, inst_idx_to_position_map, active_inst_idx_list)
+                input_mask, bs, src_seq, inst_idx_to_position_map = collate_active_info(input_mask,
+                                                                                        bs, src_seq,
+                                                                                        inst_idx_to_position_map,
+                                                                                        active_inst_idx_list)
 
         def collect_hypothesis_and_scores(inst_dec_beams, act_logits):
             all_hyp, all_scores, all_logits = [], [], []
@@ -791,7 +816,9 @@ class RespGenerator(nn.Module):
 
 
 class ActGenerator(nn.Module):
-    ''' A decoder model with self attention mechanism. '''
+    """ A decoder model with self attention mechanism.
+    deprecation("this is not the official version, the position embedding is not in.")
+    """
 
     def __init__(self, vocab_size, act_vocab_size, d_word_vec, n_layers, d_model, n_head, act_dim, dropout=0.1):
 
@@ -852,25 +879,7 @@ class ActGenerator(nn.Module):
         logits = self.tgt_word_prj(dec_output)
         bag_output = dec_output.sum(dim=1)
         act_logits = self.act_prj(bag_output)
-        return logits, act_logits,dec_output
-
-
-def get_inst_idx_to_tensor_position_map(inst_idx_list):
-    ''' Indicate the position of an instance in a tensor. '''
-    return {inst_idx: tensor_position for tensor_position, inst_idx in enumerate(inst_idx_list)}
-
-
-def collect_active_part(beamed_tensor, curr_active_inst_idx, n_prev_active_inst, n_bm):
-    ''' Collect tensor parts associated to active instances. '''
-    _, *d_hs = beamed_tensor.size()
-    n_curr_active_inst = len(curr_active_inst_idx)
-    new_shape = (n_curr_active_inst * n_bm, *d_hs)
-
-    beamed_tensor = beamed_tensor.view(n_prev_active_inst, -1)
-    beamed_tensor = beamed_tensor.index_select(0, curr_active_inst_idx)
-    beamed_tensor = beamed_tensor.view(*new_shape)
-
-    return beamed_tensor
+        return logits, act_logits, dec_output
 
 
 class UncertaintyLoss(nn.Module):
