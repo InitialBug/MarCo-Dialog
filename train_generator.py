@@ -43,8 +43,12 @@ def parse_opt():
 
 args = parse_opt()
 
-util.mkdir(args.model)
-args.log = os.path.join(args.model, 'log')
+if args.option == 'train':
+    util.mkdir(args.model)
+    args.log = os.path.join(args.model, 'log')
+elif args.option == 'test':
+    dir = os.path.dirname(args.model)
+    args.log = os.path.join(dir, 'test.log')
 
 logger = logging.getLogger(__name__)
 handler1 = logging.StreamHandler()
