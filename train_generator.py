@@ -1,13 +1,13 @@
 import argparse
 import logging.handlers
 import os
-import util
 import random
 from collections import OrderedDict
 
 from torch.optim.lr_scheduler import MultiStepLR
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 
+import util
 from MultiWOZ import get_batch
 from evaluator import evaluateModel
 from tools import *
@@ -171,6 +171,8 @@ if args.option == 'train':
             loss2 = ce_loss_func(
                 resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(),
                 resp_out.contiguous().view(-1))
+
+            # overall loss
             if epoch < 10:
                 loss = loss1
             else:
@@ -179,7 +181,7 @@ if args.option == 'train':
             optimizer.step()
 
             if step % 100 == 0:
-                print("epoch {} \tstep {} training \ttotal_loss {} \tact_loss {} \tresp_loss {}".format(epoch, step, loss.item(), loss1.item(), loss2.item()))
+                print("epoch {} \tstep {} training \ttotal_loss {:.6f} \tact_loss {:.6f} \tresp_loss {:.6f}".format(epoch, step, loss.item(), loss1.item(), loss2.item()))
 
         alpha = min(1, alpha + 0.1 * epoch)
         scheduler.step()
@@ -243,7 +245,7 @@ if args.option == 'train':
             BLEU = BLEU_calc.score(model_turns, gt_turns)
             inform, request = evaluateModel(model_turns)
             print(inform, request, BLEU)
-            logger.info("{} epoch, Validation BLEU {:.4f}, inform {:.2f}, request {:.2f} ".format(epoch, BLEU, inform, request))
+            logger.info("{} epoch, Validation BLEU {:.4f}, inform {:.2f}, request {:.2f}, score {:.2f}".format(epoch, BLEU, inform, request, (inform + request) / 2 + BLEU))
             if request > best_BLEU:
                 save_name = 'inform-{:.2f}-request-{:.2f}-bleu-{:.4f}-seed-{}'.format(inform, request, BLEU, args.seed)
                 torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file, save_name))
