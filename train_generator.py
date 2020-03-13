@@ -120,8 +120,8 @@ F1_calc = F1Scorer()
 
 best_BLEU = 0
 
-weight_loss = UncertaintyLoss(2)
-weight_loss.to(device)
+weighted_loss_func = UncertaintyLoss(2)
+weighted_loss_func.to(device)
 
 resp_generator = RespGenerator(vocab_size=tokenizer.vocab_len,
                                act_vocab_size=act_tokenizer.vocab_len,
@@ -149,7 +149,7 @@ if args.option == 'train':
 
     logger.info("Start Training with {} batches".format(len(train_dataloader)))
 
-    optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, list(resp_generator.parameters())+list(weight_loss.parameters())), betas=(0.9, 0.98), eps=1e-09)
+    optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, list(resp_generator.parameters()) + list(weighted_loss_func.parameters())), betas=(0.9, 0.98), eps=1e-09)
 
     scheduler = MultiStepLR(optimizer, milestones=[50, 100, 150, 200], gamma=0.5)
 
@@ -180,7 +180,7 @@ if args.option == 'train':
             if epoch < 10:
                 loss = loss1
             else:
-                loss = weight_loss(loss1, loss2)
+                loss = weighted_loss_func(loss1, loss2)
             loss.backward()
             optimizer.step()
 

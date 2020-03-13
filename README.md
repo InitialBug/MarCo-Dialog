@@ -28,4 +28,5 @@ source activate pytorch
 
 ```
 torch==1.0.1
+pytorch_pretrained_bert(option)
 ```
