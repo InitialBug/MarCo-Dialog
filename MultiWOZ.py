@@ -150,7 +150,7 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
             bert_action_masks += [1] * (Constants.ACT_MAX_LEN - len(bert_action_masks) - 1)
             bert_act_seq = act_tokenizer.convert_tokens_to_ids(bert_act_seq[1:])
 
-            # ----------------------------- act preprocess -------------------- #
+            # ----------------------------- act pre-process -------------------- #
 
             action = [Constants.SOS_WORD] + turn['actseq'] + [Constants.EOS_WORD]
             if len(turn['actseq']) < Constants.ACT_MAX_LEN:
