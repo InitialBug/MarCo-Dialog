@@ -47,7 +47,7 @@ class LabelSmoothedCrossEntropy(nn.Module):
         loss, nll_loss = label_smoothed_nll_loss(
             input, target, self.label_smoothing, ignore_index=self.ignore_index
         )
-        return loss, nll_loss
+        return loss
 
 
 if __name__ == '__main__':
