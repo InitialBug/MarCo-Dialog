@@ -894,5 +894,5 @@ class UncertaintyLoss(nn.Module):
         loss = 0
         for i in range(self.v_num):
             loss += input[i] / (2 * self.sigma[i] ** 2)
-        loss += torch.log(self.sigma.prod())
+        loss += torch.log(self.sigma.pow(2).prod())
         return loss
