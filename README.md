@@ -4,7 +4,7 @@ This is the PyTorch implementation of the paper: Multi-Domain Dialogue Acts and 
 
 ## Model Architecture
 <p align="center">
-<img src="resource/marco.png" width="75%" />
+<img src="resource/marco.png" width="50%" />
 </p>
 
 ## Response Generator

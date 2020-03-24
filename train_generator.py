@@ -33,10 +33,10 @@ def parse_opt():
     parser.add_argument("--output_file", default='output', type=str, help="path to save generated act/response")
     parser.add_argument("--non_delex", default=False, action="store_true", help="non delex testing")
     parser.add_argument("--hist_num", default=0,type=int, help="turn num of history")
-    parser.add_argument('--seed', type=int, default=913, help="random seed for initialization")
     parser.add_argument('--log', type=str, default='log', help="log file")
 
     parser.add_argument('--act_source',  type=str, choices=["pred", "bert",'groundtruth'], default='pred', help="action source for validate/test")
+    parser.add_argument('--seed', type=int, default=1, help="random seed for initialization")
     parser.add_argument('--label_smoothing', type=float, default=0.0, help="label smoothing rate")
 
     args = parser.parse_args()
