@@ -1,5 +1,11 @@
 # MarCo
 
+This is the PyTorch implementation of the paper: Multi-Domain Dialogue Acts and Response Co-Generation.
+
+## Model Architecture
+<p align="center">
+<img src="resource/marco.png" width="75%" />
+</p>
 
 ## Response Generator
 
