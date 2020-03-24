@@ -7,7 +7,6 @@ from collections import OrderedDict
 from torch.optim.lr_scheduler import MultiStepLR
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 
-import util
 from MultiWOZ import get_batch
 from evaluator import evaluateModel
 from label_smoothed_cross_entropy import LabelSmoothedCrossEntropy
@@ -36,8 +35,8 @@ def parse_opt():
     parser.add_argument("--hist_num", default=0,type=int, help="turn num of history")
     parser.add_argument('--seed', type=int, default=913, help="random seed for initialization")
     parser.add_argument('--log', type=str, default='log', help="log file")
-    parser.add_argument('--act_source',  type=str,choices=["pred", "bert",'groundtruth'],default='pred', help="action source for validate/test")
 
+    parser.add_argument('--act_source',  type=str, choices=["pred", "bert",'groundtruth'], default='pred', help="action source for validate/test")
     parser.add_argument('--label_smoothing', type=float, default=0.0, help="label smoothing rate")
 
     args = parser.parse_args()
@@ -47,8 +46,9 @@ def parse_opt():
 args = parse_opt()
 
 if args.option == 'train':
-    util.mkdir(args.model)
-    args.log = os.path.join(args.model, 'log')
+    if not os.path.exists(args.model):
+        os.makedirs(args.model)
+    args.log = os.path.join(args.model, 'train.log')
 elif args.option == 'test':
     dir = os.path.dirname(args.model)
     args.log = os.path.join(dir, 'test.log')
@@ -70,15 +70,13 @@ logger.addHandler(handler2)
 
 device = torch.device('cuda' if torch.cuda.is_available() else "cpu")
 
-
 def setup_seed(seed):
     torch.manual_seed(seed)
     torch.cuda.manual_seed_all(seed)
     numpy.random.seed(seed)
     random.seed(seed)
-
-
 setup_seed(args.seed)
+
 with open("{}/vocab.json".format(args.data_dir), 'r') as f:
     vocabulary = json.load(f)
 
@@ -228,11 +226,12 @@ if args.option == 'train':
                         all_pred.append(pre1)
                     all_pred = torch.Tensor(all_pred)
                     all_label = all_label.cpu()
-                    TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
 
+                    TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
                     act_in = torch.tensor(hyps, dtype=torch.long).to(device)
                 else:
                     pass
+
                 _, _, act_vecs = resp_generator.act_forward(tgt_seq=act_in, src_seq=input_ids, bs=belief_state,
                                                             input_mask=act_input_mask)
                 action_masks = act_in.eq(Constants.PAD) + act_in.eq(Constants.EOS)
@@ -240,7 +239,6 @@ if args.option == 'train':
                                                                 act_mask=action_masks, input_mask=resp_input_mask,
                                                                 src_seq=input_ids, n_bm=args.beam_size,
                                                                 max_token_seq_len=40)
-
                 for hyp_step, hyp in enumerate(resp_hyps):
                     pred = tokenizer.convert_id_to_tokens(hyp)
                     file_name = val_id[batch_step * args.batch_size + hyp_step]
@@ -256,8 +254,8 @@ if args.option == 'train':
             logger.info("precision is {:.6f} recall is {:.6f} F1 is {:.6f}".format(precision, recall, F1))
             BLEU = BLEU_calc.score(model_turns, gt_turns)
             inform, request = evaluateModel(model_turns)
-            print(inform, request, BLEU)
-            logger.info("{} epoch, Validation BLEU {:.4f}, inform {:.2f}, request {:.2f}, score {:.2f}".format(epoch, BLEU, inform, request, (inform + request) / 2 + BLEU))
+            print("{} epoch, Validation BLEU {:.4f}, inform {:.2f}, request {:.2f}, score {:.2f}".format(epoch, BLEU, inform, request, (inform + request) / 2 + 100 * BLEU))
+            logger.info("{} epoch, Validation BLEU {:.4f}, inform {:.2f}, request {:.2f}, score {:.2f}".format(epoch, BLEU, inform, request, (inform + request) / 2 + 100 * BLEU))
             if request > best_BLEU:
                 save_name = 'inform-{:.2f}-request-{:.2f}-bleu-{:.4f}-seed-{}'.format(inform, request, BLEU, args.seed)
                 torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file, save_name))
@@ -329,21 +327,19 @@ elif args.option == "test":
     precision = TP / (TP + FP + 0.001)
     recall = TP / (TP + FN + 0.001)
     F1 = 2 * precision * recall / (precision + recall + 0.001)
-    print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
-    logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
+    print("precision is {:.6f} recall is {:.6f} F1 is {:.6f}".format(precision, recall, F1))
+    logger.info("precision is {:.6f} recall is {:.6f} F1 is {:.6f}".format(precision, recall, F1))
     BLEU = BLEU_calc.score(model_turns, gt_turns)
     inform, request = evaluateModel(model_turns, example_success)
-    print(inform, request, BLEU)
-    logger.info("BLEU {}, inform {}, request {} ".format(BLEU, inform, request))
+    print("Test BLEU {:.4f}, inform {:.2f}, request {:.2f}, score {:.2f}".format(BLEU, inform, request, (inform + request) / 2 + 100 * BLEU))
+    logger.info("Test BLEU {:.4f}, inform {:.2f}, request {:.2f}, score {:.2f}".format(BLEU, inform, request, (inform + request) / 2 + 100 * BLEU))
 
     resp_file = os.path.join(args.output_file, 'resp_pred.json')
-
     with open(resp_file, 'w') as fp:
         model_turns = OrderedDict(sorted(model_turns.items()))
         json.dump(model_turns, fp, indent=2)
 
     act_file = os.path.join(args.output_file, 'act_pred.json')
-
     with open(act_file, 'w') as fp:
         act_turns = OrderedDict(sorted(act_turns.items()))
         json.dump(act_turns, fp, indent=2)
@@ -351,22 +347,20 @@ elif args.option == "test":
     with open('output/example_statistic.json','w') as f:
         json.dump(example_success,f)
 
-    save_name = 'inform-{}-request-{}-bleu-{}'.format(inform, request, BLEU)
+    save_name = 'inform-{:.2f}-request-{:.2f}-bleu-{:.4f}'.format(inform, request, BLEU)
     torch.save(resp_generator.state_dict(), os.path.join('model', save_name))
 
 elif args.option == "postprocess":
-    resp_file = os.path.join(args.output_file, 'resp_pred.json')
 
+    resp_file = os.path.join(args.output_file, 'resp_pred.json')
     with open(resp_file, 'r') as f:
         model_turns = json.load(f)
 
     success_rate = nondetokenize(model_turns, dialogs)
     BLEU = BLEU_calc.score(model_turns, gt_turns)
+    print(BLEU)
 
     resp_file = os.path.join(args.output_file, 'resp_non_delex_pred.json')
-
     with open(resp_file, 'w') as fp:
         model_turns = OrderedDict(sorted(model_turns.items()))
         json.dump(model_turns, fp, indent=2)
-
-    print(BLEU)
