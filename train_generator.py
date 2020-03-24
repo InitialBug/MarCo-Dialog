@@ -141,7 +141,7 @@ bce_loss_func.to(device)
 ce_loss_func = torch.nn.CrossEntropyLoss(ignore_index=Constants.PAD)
 ce_loss_func.to(device)
 
-sce_loss_func = LabelSmoothedCrossEntropy(ignore_index=Constants.PAD, label_smoothing=0.0)
+sce_loss_func = LabelSmoothedCrossEntropy(ignore_index=Constants.PAD, label_smoothing=0.1)
 ce_loss_func.to(device)
 
 label_list = Constants.functions + Constants.arguments
