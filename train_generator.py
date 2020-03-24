@@ -144,7 +144,7 @@ ce_loss_func = torch.nn.CrossEntropyLoss(ignore_index=Constants.PAD)
 ce_loss_func.to(device)
 
 sce_loss_func = LabelSmoothedCrossEntropy(ignore_index=Constants.PAD, label_smoothing=args.label_smoothing)
-ce_loss_func.to(device)
+sce_loss_func.to(device)
 
 label_list = Constants.functions + Constants.arguments
 
