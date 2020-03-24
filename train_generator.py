@@ -1,27 +1,18 @@
-import json
-import torch
-import random
-import numpy
-import logging
-import os
-import sys
 import argparse
-import time
-from torch.autograd import Variable
-from transformer.Transformer import Transformer, ActGenerator,RespGenerator,UncertaintyLoss
-from torch.optim.lr_scheduler import MultiStepLR
-import transformer.Constants as Constants
-from itertools import chain
-from MultiWOZ import get_batch
-from transformer.LSTM import LSTMDecoder
-from transformer.Semantic_LSTM import SCLSTM
-from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
-from tools import *
-from collections import OrderedDict
-from evaluator import evaluateModel
 import logging.handlers
+import os
+import random
+from collections import OrderedDict
 
+from torch.optim.lr_scheduler import MultiStepLR
+from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 
+import util
+from MultiWOZ import get_batch
+from evaluator import evaluateModel
+from label_smoothed_cross_entropy import LabelSmoothedCrossEntropy
+from tools import *
+from transformer.Transformer import RespGenerator, UncertaintyLoss
 
 
 def parse_opt():
@@ -47,10 +38,20 @@ def parse_opt():
     parser.add_argument('--log', type=str, default='log', help="log file")
     parser.add_argument('--act_source',  type=str,choices=["pred", "bert",'groundtruth'],default='pred', help="action source for validate/test")
 
+    parser.add_argument('--label_smoothing', type=float, default=0.0, help="label smoothing rate")
+
     args = parser.parse_args()
     return args
 
+
 args = parse_opt()
+
+if args.option == 'train':
+    util.mkdir(args.model)
+    args.log = os.path.join(args.model, 'log')
+elif args.option == 'test':
+    dir = os.path.dirname(args.model)
+    args.log = os.path.join(dir, 'test.log')
 
 logger = logging.getLogger(__name__)
 handler1 = logging.StreamHandler()
@@ -75,6 +76,7 @@ def setup_seed(seed):
     torch.cuda.manual_seed_all(seed)
     numpy.random.seed(seed)
     random.seed(seed)
+
 
 setup_seed(args.seed)
 with open("{}/vocab.json".format(args.data_dir), 'r') as f:
@@ -121,21 +123,31 @@ F1_calc = F1Scorer()
 
 best_BLEU = 0
 
-weight_loss=UncertaintyLoss(2)
-weight_loss.to(device)
+weighted_loss_func = UncertaintyLoss(2)
+weighted_loss_func.to(device)
 
-resp_generator = RespGenerator(vocab_size=tokenizer.vocab_len,act_vocab_size=act_tokenizer.vocab_len, d_word_vec=args.emb_dim, act_dim=Constants.act_len,
-                                 n_layers=args.layer_num, d_model=args.emb_dim, n_head=args.head, dropout=args.dropout)
+resp_generator = RespGenerator(vocab_size=tokenizer.vocab_len,
+                               act_vocab_size=act_tokenizer.vocab_len,
+                               d_word_vec=args.emb_dim,
+                               act_dim=Constants.act_len,
+                               n_layers=args.layer_num,
+                               d_model=args.emb_dim,
+                               n_head=args.head,
+                               dropout=args.dropout)
 
 resp_generator.to(device)
-loss_func = torch.nn.BCEWithLogitsLoss()
-loss_func.to(device)
 
+bce_loss_func = torch.nn.BCEWithLogitsLoss()
+bce_loss_func.to(device)
 
 ce_loss_func = torch.nn.CrossEntropyLoss(ignore_index=Constants.PAD)
 ce_loss_func.to(device)
 
-label_list=Constants.functions+Constants.arguments
+sce_loss_func = LabelSmoothedCrossEntropy(ignore_index=Constants.PAD, label_smoothing=args.label_smoothing)
+sce_loss_func.to(device)
+
+label_list = Constants.functions + Constants.arguments
+
 if args.option == 'train':
     resp_generator.train()
     if args.resume:
@@ -143,41 +155,50 @@ if args.option == 'train':
 
     logger.info("Start Training with {} batches".format(len(train_dataloader)))
 
-    optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, list(resp_generator.parameters())+list(weight_loss.parameters())), betas=(0.9, 0.98), eps=1e-09)
-
+    optimizer = torch.optim.Adam(filter(lambda x: x.requires_grad, list(resp_generator.parameters()) + list(weighted_loss_func.parameters())), betas=(0.9, 0.98), eps=1e-09)
 
     scheduler = MultiStepLR(optimizer, milestones=[50, 100, 150, 200], gamma=0.5)
 
-    alpha=0.1
+    alpha = 0.1
     for epoch in range(51):
         for step, batch in enumerate(train_dataloader):
             batch = tuple(t.to(device) for t in batch)
-            input_ids, action_masks,rep_in, resp_out, belief_state, bert_act_seq, act_in, act_out, all_label,\
-             act_input_mask,resp_input_mask,*_ = batch
+            input_ids, action_masks, rep_in, resp_out, belief_state,\
+                bert_act_seq, act_in, act_out, all_label, act_input_mask,\
+                resp_input_mask, *_ = batch
 
             resp_generator.zero_grad()
-            logits,_,act_vecs = resp_generator.act_forward(tgt_seq=act_in, src_seq=input_ids,bs=belief_state,input_mask=act_input_mask)
 
-            loss1 = ce_loss_func(logits.contiguous().view(logits.size(0) * logits.size(1), -1).contiguous(), \
-                                act_out.contiguous().view(-1))
+            # act loss
+            logits, _, act_vecs = resp_generator.act_forward(
+                tgt_seq=act_in, src_seq=input_ids, bs=belief_state, input_mask=act_input_mask)
 
+            loss1 = sce_loss_func(
+                logits.contiguous().view(logits.size(0) * logits.size(1), -1).contiguous(),
+                act_out.contiguous().view(-1))
 
-            resp_logits = resp_generator.resp_forward(tgt_seq=rep_in, src_seq=input_ids, act_vecs=act_vecs,act_mask=action_masks,input_mask=resp_input_mask)
+            # response loss
+            resp_logits = resp_generator.resp_forward(tgt_seq=rep_in, src_seq=input_ids, act_vecs=act_vecs,
+                                                      act_mask=action_masks, input_mask=resp_input_mask)
+            loss2 = sce_loss_func(
+                resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(),
+                resp_out.contiguous().view(-1))
 
-            loss2 = ce_loss_func(resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(), \
-                                resp_out.contiguous().view(-1))
+            # overall loss
             if epoch < 10:
                 loss = loss1
             else:
-                loss = weight_loss(loss1,loss2)
+                loss = weighted_loss_func(loss1, loss2)
             loss.backward()
             optimizer.step()
 
             if step % 100 == 0:
-                print("epoch {} \tstep {} training \ttotal_loss {} \tact_loss {} \tresp_loss {}".format(epoch, step, loss.item(),loss1.item(),loss2.item()))
-        alpha=min(1,alpha+0.1*epoch)
+                print("epoch {} \tstep {} training \ttotal_loss {:.6f} \tact_loss {:.6f} \tresp_loss {:.6f}".format(epoch, step, loss.item(), loss1.item(), loss2.item()))
+
+        alpha = min(1, alpha + 0.1 * epoch)
         scheduler.step()
-        if loss2.item() < 3.0 and loss1.item()<3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
+
+        if loss2.item() < 3.0 and loss1.item() < 3.0 and epoch > 0 and epoch % args.evaluate_every == 0:
             logger.info("start evaluating BLEU on validation set")
             resp_generator.eval()
             # Start Evaluating after each epoch
@@ -186,36 +207,39 @@ if args.option == 'train':
             for batch_step, batch in enumerate(eval_dataloader):
                 all_pred = []
                 batch = tuple(t.to(device) for t in batch)
-                input_ids, action_masks, rep_in, resp_out, belief_state, bert_act_seq, act_in, act_out, all_label, \
-                act_input_mask, resp_input_mask, *_ = batch
+                input_ids, action_masks, rep_in, resp_out, belief_state, \
+                    bert_act_seq, act_in, act_out, all_label, act_input_mask, \
+                    resp_input_mask, *_ = batch
 
-                if args.act_source=='bert':
-                    act_in=bert_act_seq
-                elif args.act_source=='pred':
-                    hyps,act_logits = resp_generator.act_translate_batch(input_mask=act_input_mask,bs=belief_state, \
-                                                   src_seq=input_ids, n_bm=args.beam_size,
-                                                   max_token_seq_len=Constants.ACT_MAX_LEN)
+                if args.act_source == 'bert':
+                    act_in = bert_act_seq
+
+                elif args.act_source == 'pred':
+                    hyps, act_logits = resp_generator.act_translate_batch(input_mask=act_input_mask, bs=belief_state, \
+                                                                          src_seq=input_ids, n_bm=args.beam_size,
+                                                                          max_token_seq_len=Constants.ACT_MAX_LEN)
                     for hyp_step, hyp in enumerate(hyps):
-                        pre1=[0]*Constants.act_len
-                        if len(hyp)<Constants.ACT_MAX_LEN:
-                            hyps[hyp_step]=list(hyps[hyp_step])+[Constants.PAD]*(Constants.ACT_MAX_LEN-len(hyp))
-
+                        pre1 = [0] * Constants.act_len
+                        if len(hyp) < Constants.ACT_MAX_LEN:
+                            hyps[hyp_step] = list(hyps[hyp_step]) + [Constants.PAD] * (Constants.ACT_MAX_LEN - len(hyp))
                         for w in hyp:
                             if w not in [Constants.PAD, Constants.EOS]:
                                 pre1[w - 3] = 1
                         all_pred.append(pre1)
-                    all_pred=torch.Tensor(all_pred)
-                    all_label=all_label.cpu()
+                    all_pred = torch.Tensor(all_pred)
+                    all_label = all_label.cpu()
                     TP, TN, FN, FP = obtain_TP_TN_FN_FP(all_pred, all_label, TP, TN, FN, FP)
 
-                    act_in=torch.tensor(hyps,dtype=torch.long).to(device)
+                    act_in = torch.tensor(hyps, dtype=torch.long).to(device)
                 else:
                     pass
-                _,_,act_vecs=resp_generator.act_forward(tgt_seq=act_in, src_seq=input_ids,bs=belief_state,input_mask=act_input_mask)
-                action_masks=act_in.eq(Constants.PAD)+act_in.eq(Constants.EOS)
-                resp_hyps = resp_generator.resp_translate_batch(bs=belief_state,act_vecs=act_vecs, act_mask=action_masks,input_mask=resp_input_mask,
-                                               src_seq=input_ids, n_bm=args.beam_size,
-                                               max_token_seq_len=40)
+                _, _, act_vecs = resp_generator.act_forward(tgt_seq=act_in, src_seq=input_ids, bs=belief_state,
+                                                            input_mask=act_input_mask)
+                action_masks = act_in.eq(Constants.PAD) + act_in.eq(Constants.EOS)
+                resp_hyps = resp_generator.resp_translate_batch(bs=belief_state, act_vecs=act_vecs,
+                                                                act_mask=action_masks, input_mask=resp_input_mask,
+                                                                src_seq=input_ids, n_bm=args.beam_size,
+                                                                max_token_seq_len=40)
 
                 for hyp_step, hyp in enumerate(resp_hyps):
                     pred = tokenizer.convert_id_to_tokens(hyp)
@@ -225,25 +249,25 @@ if args.option == 'train':
                     else:
                         model_turns[file_name].append(pred)
 
-
             precision = TP / (TP + FP + 0.001)
             recall = TP / (TP + FN + 0.001)
             F1 = 2 * precision * recall / (precision + recall + 0.001)
-            print("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
-            logger.info("precision is {} recall is {} F1 is {}".format(precision, recall, F1))
+            print("precision is {:.6f} recall is {:.6f} F1 is {:.6f}".format(precision, recall, F1))
+            logger.info("precision is {:.6f} recall is {:.6f} F1 is {:.6f}".format(precision, recall, F1))
             BLEU = BLEU_calc.score(model_turns, gt_turns)
-            inform,request=evaluateModel(model_turns)
-            print(inform,request,BLEU)
-            logger.info("{} epoch, Validation BLEU {}, inform {}, request {} ".format(epoch, BLEU,inform,request))
+            inform, request = evaluateModel(model_turns)
+            print(inform, request, BLEU)
+            logger.info("{} epoch, Validation BLEU {:.4f}, inform {:.2f}, request {:.2f}, score {:.2f}".format(epoch, BLEU, inform, request, (inform + request) / 2 + BLEU))
             if request > best_BLEU:
-                save_name='inform-{}-request-{}-bleu-{}-seed-{}'.format(inform,request,BLEU,args.seed)
-                torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file,save_name))
+                save_name = 'inform-{:.2f}-request-{:.2f}-bleu-{:.4f}-seed-{}'.format(inform, request, BLEU, args.seed)
+                torch.save(resp_generator.state_dict(), os.path.join(checkpoint_file, save_name))
                 best_BLEU = request
                 resp_file = os.path.join(args.output_file, 'resp_pred.json')
                 with open(resp_file, 'w') as fp:
                     model_turns = OrderedDict(sorted(model_turns.items()))
                     json.dump(model_turns, fp, indent=2)
             resp_generator.train()
+
 elif args.option == "test":
     resp_generator.load_state_dict(torch.load(args.model))
     logger.info("Loading model from {}".format(checkpoint_file))
