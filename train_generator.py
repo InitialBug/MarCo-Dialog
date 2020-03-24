@@ -38,6 +38,8 @@ def parse_opt():
     parser.add_argument('--log', type=str, default='log', help="log file")
     parser.add_argument('--act_source',  type=str,choices=["pred", "bert",'groundtruth'],default='pred', help="action source for validate/test")
 
+    parser.add_argument('--label_smoothing', type=float, default=0.0, help="label smoothing rate")
+
     args = parser.parse_args()
     return args
 
@@ -141,7 +143,7 @@ bce_loss_func.to(device)
 ce_loss_func = torch.nn.CrossEntropyLoss(ignore_index=Constants.PAD)
 ce_loss_func.to(device)
 
-sce_loss_func = LabelSmoothedCrossEntropy(ignore_index=Constants.PAD, label_smoothing=0.1)
+sce_loss_func = LabelSmoothedCrossEntropy(ignore_index=Constants.PAD, label_smoothing=args.label_smoothing)
 ce_loss_func.to(device)
 
 label_list = Constants.functions + Constants.arguments
