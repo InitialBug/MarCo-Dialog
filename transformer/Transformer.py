@@ -518,7 +518,6 @@ class RespGenerator(nn.Module):
 
         act_mask = act_mask.unsqueeze(1).expand(-1, dec_output.shape[1], -1)
 
-        # TODO @tjf141457: maybe bugs
         act_att_out = dec_output
         for dec_layer in self.act_att_layer:
             act_att_out, _, _ = dec_layer(

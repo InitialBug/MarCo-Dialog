@@ -117,7 +117,6 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                 arg = []
                 for i in range(len(bert_act_vecs)):
                     if bert_act_vecs[i] > 0:
-
                         if i < len(domains):
                             d = domains[i]
                             if d not in domain:
@@ -171,15 +170,12 @@ def get_batch(data_dir, option, tokenizer, act_tokenizer, max_seq_length):
                     acts = w.split('-')
                     acts = act_tokenizer.convert_tokens_to_ids(acts)
                     labels[acts[0] - 3] = 1
-
                     labels[acts[1] - 3] = 1
-
                     labels[acts[2] - 3] = 1
             else:
                 acts = ['general', 'none']
                 acts = act_tokenizer.convert_tokens_to_ids(acts)
                 labels[acts[0] - 3] = 1
-
                 labels[acts[1] - 3] = 1
 
             examples.append([input_ids, action_masks, resp_inp_ids, resp_out_ids, bs, bert_act_seq,
