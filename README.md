@@ -24,8 +24,10 @@ CUDA_VISIBLE_DEVICES=0 python train_generator.py --option test --model model/Mar
 ```
 
 ### Requirements
+- torch==1.0.1
+- pytorch_pretrained_bert
 
-```
-torch==1.0.1
-pytorch_pretrained_bert(option)
-```
+
+### Acknowledgements
+We sincerely thank for the [MultiWoZ](https://github.com/budzianowski/multiwoz) for publishing such a great dataset.
+The code is modified from [HDSA-Dialog](https://github.com/wenhuchen/HDSA-Dialog). Thanks them for their contributions on developing it!
