@@ -63,7 +63,7 @@
   ],
   "MUL0034": [
     "there is [value_count] in the [restaurant_area] and [value_count] in the [restaurant_area] of town . do you have a preference in area ?",
-    "i booked you a table at the [restaurant_name] in the [attraction_area] area for [value_time] [value_day] .",
+    "i booked you a table at the [restaurant_name] in the [hotel_area] area for [value_time] [value_day] .",
     "the reference number is [restaurant_reference] . is there anything else that i can do for you ?",
     "in order to book the taxi , i will need the location of your hotel .",
     "the [restaurant_name] restaurant is in the [restaurant_area] part of town .",
@@ -98,7 +98,7 @@
     "i am sorry i cannot find acorn for you . i do however have a [value_count] star guesthouse called [hotel_name] . how does that sound ?",
     "the phone number for the [hotel_name] is [hotel_phone] . is there anything else i can help with today ?",
     "the phone number for [hotel_name] is [hotel_phone] . is there anything else i can help you with ?",
-    "unfortunately i do not find any [hotel_pricerange] [restaurant_food] place -s to dine . would you like to try something different ? also the hotel -s address is [hotel_address] .",
+    "unfortunately i do not find any [restaurant_pricerange] [restaurant_food] place -s to dine . would you like to try something different ? also the hotel -s address is [hotel_address] .",
     "there are [value_count] restaurant -s fitting that criteria . is there a particular area of town that you would like ?",
     "how about [restaurant_name] ? it is located in the [restaurant_area] part of town .",
     "all right , you have a table for [value_count] at the [restaurant_name] . your reference number is [restaurant_reference] .",
@@ -174,7 +174,7 @@
   "MUL0116": [
     "there are [value_count] restaurant -s in the [restaurant_area] of town that serves [restaurant_food] food . is there any particular price range you are looking for ?",
     "i can recommend [restaurant_name] . would you like to book a table with them ?",
-    "your reservation is complete for a party of [value_count] at [value_time] at a [restaurant_food] [restaurant_name] in [restaurant_area] , and your confirmation # is [restaurant_reference] .",
+    "your reservation is complete for a party of [value_count] at [value_time] at a [restaurant_food] [restaurant_name] in [hotel_area] , and your confirmation # is [restaurant_reference] .",
     "there are [value_count] hotel -s in the [hotel_pricerange] price range , would you like me to narrow these down by searching other amenities or location ?",
     "i have [value_count] options with those specification -s . the [hotel_name] and the [hotel_name] both with free wifi and parking . which would you prefer ?",
     "book was unsuccessful . would you like to try the [hotel_name] ?",
@@ -200,7 +200,7 @@
     "[hotel_name] is located [hotel_area] and has [value_count] stars . does this sound okay to you ?",
     "yes , the [hotel_name] has both free parking and internet . would you like me to book a room for you ?",
     "of course ! the address of the [hotel_name] is [hotel_address] and it s phone number is [hotel_phone] , would you like anything else ?",
-    "so happy to be of service , and thanks for using [value_place] towninfo [restaurant_area] today . have a wonderful day !"
+    "so happy to be of service , and thanks for using [value_place] towninfo [hotel_area] today . have a wonderful day !"
   ],
   "MUL0172": [
     "yes i have [value_count] listing for that restaurant , would you like the phone number and address for this listing ?",
@@ -274,7 +274,7 @@
     "the total fee for the train is [train_price] gbp payable at the station . anything else i can help you with ?",
     "okay i am glad i could be of assistance . don'y hesitate to call us again .",
     "thank you very much .",
-    "thank you for contacting [value_place] towninfo [restaurant_area]"
+    "thank you for contacting [value_place] towninfo [hotel_area]"
   ],
   "MUL0225": [
     "thank you so much . have a nice day",
@@ -299,7 +299,7 @@
   ],
   "MUL0230": [
     "what departure site were you interested in ?",
-    "i have [value_count] trains leaving from bishops stratford on [train_day] . the last [value_count] arrives in [train_destination] at [train_arriveby] . would you like to book ?",
+    "i have [value_count] trains leaving from [train_departure] on [train_day] . the last [value_count] arrives in [train_destination] at [train_arriveby] . would you like to book ?",
     "the cost is [train_price] gbp per ticket , and the travel time is [value_count] minutes .",
     "[restaurant_name] serves [restaurant_food] food , is located in the [restaurant_area] of town , in the [restaurant_pricerange] price range , their phone number is [restaurant_phone] , postcode is cb[value_count]b , and at [restaurant_address]",
     "you are very welcome . is there anything else i can help you with ?",
@@ -453,12 +453,12 @@
     "im sorry , there are no vegetarian restaurant -s in the center",
     "no , i am sorry . would you like to try a different area or price range ?",
     "there are [value_count] [restaurant_pricerange] [restaurant_food] restaurant -s in the [restaurant_area] . would you like to book at [restaurant_name] ?",
-    "it looks like there are no reservations available at that time . the other [attraction_pricerange] [restaurant_food] restaurant is also unavailable . would you like to look for a different time ?",
+    "it looks like there are no reservations available at that time . the other [restaurant_pricerange] [restaurant_food] restaurant is also unavailable . would you like to look for a different time ?",
     "i have confirmed a reservation for your party of [value_count] at [value_time] [value_day] at [restaurant_name] . the reference number is [restaurant_reference] . can i help you with anything else ?",
     "what day and time are you looking to travel ?",
     "[train_trainid] is a train that fits your requirement -s .",
     "the train id is [train_trainid] , would you like to book it ?",
-    "we're glad to be of service . thank you for using [value_place] towninfo [restaurant_area] , and have a wonderful day ."
+    "we're glad to be of service . thank you for using [value_place] towninfo [hotel_area] , and have a wonderful day ."
   ],
   "MUL0352": [
     "there are a total of [value_count] trains traveling from [train_departure] to [train_destination] . what day would you like to leave ?",
@@ -649,7 +649,7 @@
     "unfortunately , i am not seeing any .",
     "[attraction_name] on [attraction_address] is my favorite . next would be [attraction_name] .",
     "the [attraction_name] s postcode is [attraction_postcode] and their phone number is [attraction_phone] . can i help you with anything else today ?",
-    "you are very welcome ! we appreciate your business and thank you again for using the [value_place] towninfo [restaurant_area] ! we hope to see you again ."
+    "you are very welcome ! we appreciate your business and thank you again for using the [value_place] towninfo [hotel_area] ! we hope to see you again ."
   ],
   "MUL0457": [
     "abbey pool and astroturf swimming pool [attraction_area] [value_count] is free to get in there is not tickets for this",
@@ -804,7 +804,7 @@
     "there are [value_count] trains that would fit , leaving at [train_leaveat] , [train_leaveat] , or [train_leaveat] .",
     "certainly . the train s id is [train_trainid] , and the price for a ticket is [train_price] pounds .",
     "are you certain you do not need further assistance ?",
-    "thank you for using the [value_place] towninfo [restaurant_area] today ."
+    "thank you for using the [value_place] towninfo [hotel_area] today ."
   ],
   "MUL0537": [
     "the [attraction_name] is a museum in the center of town .",
@@ -834,7 +834,7 @@
     "yes the total travel time would be [value_count] minutes .",
     "i will be happy to assist you in booking for this train . how many tickets will you be needing ?",
     "unfortunately , i do not have that information . however , i was able to successfully book your train . the total is [train_price] gbp payable at the station . here is your reference number [train_reference] .",
-    "thank you for contacting the [value_place] towninfo [restaurant_area] . have a great day ."
+    "thank you for contacting the [value_place] towninfo [hotel_area] . have a great day ."
   ],
   "MUL0570": [
     "there are [value_count] attractions in the center of town . what types are you interested in ?",
@@ -913,10 +913,10 @@
   ],
   "MUL0641": [
     "there are [value_count] place -s that meet those specification -s [hotel_name] , el shadda and [hotel_name] . how else can i help you ?",
-    "i am sorry , there are not any in the [attraction_pricerange] range . [hotel_name] is in the [hotel_pricerange] range , the others are in the [restaurant_pricerange] range , are you interested in any of those ?",
+    "i am sorry , there are not any in the [restaurant_pricerange] range . [hotel_name] is in the [hotel_pricerange] range , the others are in the [restaurant_pricerange] range , are you interested in any of those ?",
     "oh yes indeed , [value_count] in fact ! do you want to visit all of them for your article , or would you like to narrow it down some more ?",
     "almost all of them have free parking .",
-    "my apologies , there are only [value_count] star hotel -s in the [hotel_pricerange] category , the huntingdon marriot hotel and the [hotel_name] . the [hotel_name] seems to be popular choice .",
+    "my apologies , there are only [value_count] star hotel -s in the [hotel_pricerange] category , the [hotel_name] and the [hotel_name] . the [hotel_name] seems to be popular choice .",
     "sure , i booked you [value_count] ticket . the train arrives at [train_arriveby] and departs at [train_leaveat] on [train_day] . it comes to [train_price] pounds and the train id number is [train_trainid]",
     "huntingdon is kingfisher way , hinchinbrook business park and [hotel_name] is [hotel_address] .",
     "[hotel_name] is located in the [hotel_area] part of town and the [hotel_name] is located in the [hotel_area] would you like me to book a room at [value_count] ?",
@@ -1037,7 +1037,7 @@
     "thank you ! have a great day !"
   ],
   "MUL0760": [
-    "there are [value_count] hotel -s in that area that are in the [attraction_pricerange] price range , [value_count] is a [value_count] star and the other [value_count] star . which [value_count] would you prefer ?",
+    "there are [value_count] hotel -s in that area that are in the [restaurant_pricerange] price range , [value_count] is a [value_count] star and the other [value_count] star . which [value_count] would you prefer ?",
     "yes , they both do . may i recommend [hotel_name] ?",
     "sure , the postcode is [hotel_postcode] . can i book a room for you ?",
     "i will check to see if i can find a train that matches your needs .",
@@ -1062,7 +1062,7 @@
     "travel time is [value_count] minutes . i found [value_count] hotel -s you may like . do you have a star rating request or an area you prefer ?",
     "i found [value_count] hotel that matches your criteria , it s the [hotel_name] . would you like to book there ?",
     "i have you booked at the express by holiday inn , [value_count] people for [value_count] nights starting on [value_day] . your reference number is [hotel_reference] . is there anything else you need ?",
-    "thank you for using [value_place] towninfo [restaurant_area] . have a wonderful day !"
+    "thank you for using [value_place] towninfo [hotel_area] . have a wonderful day !"
   ],
   "MUL0785": [
     "i have several different options available . do you have a preference on what area the hotel is located in ?",
@@ -1071,7 +1071,7 @@
     "there are [value_count] trains departing from [train_departure] that will arrive in [train_destination] by [train_arriveby] . do you know what day you need to travel on ?",
     "[train_trainid] departs [train_departure] [train_day] at [train_leaveat] and will arrive by [train_arriveby] in [train_destination] . would you like a ticket for this train ?",
     "the total fee is [train_price] gbp payable at the station . the reference number is [train_reference] . is there anything else i can do for you ?",
-    "i am happy to have been of assistance . thank you for choosing [value_place] towninfo [restaurant_area] . enjoy the rest of your day !"
+    "i am happy to have been of assistance . thank you for choosing [value_place] towninfo [hotel_area] . enjoy the rest of your day !"
   ],
   "MUL0787": [
     "we do have a hotel with that name . it is in the [hotel_area] area and is [hotel_pricerange] -ly priced . would you like me to book this for you ?",
@@ -1080,7 +1080,7 @@
     "there are [value_count],[value_count] trains that leave [train_departure] and arrive somewhere in the world by [train_arriveby] . where would you like to go ?",
     "i could get you on the [train_trainid] leaving at [train_leaveat] and arriving at [train_arriveby] . would you like tickets ?",
     "the train id is [train_trainid] , and the travel time is [value_count] minutes .",
-    "thank you for contacting [value_place] towninfo [restaurant_area] you have a nice day ."
+    "thank you for contacting [value_place] towninfo [hotel_area] you have a nice day ."
   ],
   "MUL0789": [
     "i listed these hotel -s , which [value_count] do you want me to book for you ?",
@@ -1109,7 +1109,7 @@
     "there are [value_count] possible entries for a train between [train_departure] abs [train_departure] . did you have a departure time you would like ?",
     "i have several that get to [train_destination] before [train_arriveby] , any time you would like to leave ?",
     "the travel time from [train_departure] to [train_destination] is [value_count] minutes , for all [value_count] trips .",
-    "you are welcome . thanks for contacting the [value_place] towninfo [restaurant_area] and have a great day ."
+    "you are welcome . thanks for contacting the [value_place] towninfo [hotel_area] and have a great day ."
   ],
   "MUL0803": [
     "i have found [restaurant_name] you are looking for . its address is [restaurant_address] . would you like me to book a reservation ?",
@@ -1195,14 +1195,14 @@
     "what day and time would you like to book your reservation ?",
     "sorry that is not available , perhaps at another time ?",
     "i was able to book your table . your reference number is [restaurant_reference] . anything else ?",
-    "thank you for using the [value_place] towninfo [restaurant_area] . goodbye !"
+    "thank you for using the [value_place] towninfo [hotel_area] . goodbye !"
   ],
   "MUL0838": [
     "there are [value_count] different colleges , did you have an area in mind ?",
     "[attraction_name] is in town [attraction_area] located at [attraction_address] and has free entrance . would you like their phone number as well ?",
     "the address for [attraction_name] is [attraction_address] and the phone number is [attraction_phone] . there are [value_count] [restaurant_food] restaurant -s in the center . is there are price range you need ?",
     "there are [value_count] in the area . statizione restaurant and coffee bar , [restaurant_name] , [restaurant_name] , and [restaurant_name] . can i make reservations for any of these ?",
-    "i have reserved your table at [restaurant_name] for [value_count] on [value_day] at [value_time] . is there anything else i can help you with ?",
+    "i have reserved your table at cafe uno for [value_count] on [value_day] at [value_time] . is there anything else i can help you with ?",
     "sure . your reference number is [restaurant_reference] .",
     "you are welcome . goodbye ."
   ],
@@ -1247,7 +1247,7 @@
     "their postcode is [restaurant_postcode]",
     "i have a lot of different locales and attractions in my database , is there anything you would like to see in particular ? or search by location ?",
     "there are [value_count] attractions in the center of town . would you like a museum , or a cinema perhaps ?",
-    "i only have [value_count] venue offering cinema in the [restaurant_area] but it has a different postcode than the restaurant . [attraction_name] s postcode is [attraction_postcode] . should i look elsewhere for cinemas ?",
+    "i only have [value_count] venue offering cinema in the [hotel_area] but it has a different postcode than the restaurant . [attraction_name] s postcode is [attraction_postcode] . should i look elsewhere for cinemas ?",
     "of course . i have booked you a [taxi_type] leaving from [restaurant_name] to [attraction_name] at [value_time] . the contact number is [taxi_phone] .",
     "you are welcome . have a nice day ."
   ],
@@ -1345,7 +1345,7 @@
     "they are located at [attraction_address] . post code is [attraction_postcode] .",
     "the [attraction_area] , [value_count] high st . , fen ditton .",
     "the postcode is [attraction_postcode] , is there anything else you need ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] , enjoy your day !"
+    "thank you for contacting [value_place] towninfo [hotel_area] , enjoy your day !"
   ],
   "MUL0941": [
     "there are [value_count] museums in that area , did you want something with no entrance fee ?",
@@ -1398,7 +1398,7 @@
     "there are a great number of colleges in the [attraction_area] . can i recommend [attraction_name] , on trinity st ? entrance is only [value_count] gbp .",
     "the postcode for that is [attraction_postcode] .",
     "the address of the college is [attraction_address] . may i help you with anything else ?",
-    "thank you for using [value_place] towninfo [restaurant_area] , and have a great day !"
+    "thank you for using [value_place] towninfo [hotel_area] , and have a great day !"
   ],
   "MUL1008": [
     "there are many place -s that meet your criteria , what part of town would you like to stay in ?",
@@ -1407,7 +1407,7 @@
     "sure . the lovell is indeed a hotel , not a guesthouse . you can find it at [hotel_address] . their phone number is [hotel_phone] .",
     "yes , the lovell is indeed a [value_count] star location . might i suggest the [attraction_name] for your entertainment during your stay ? it s a highly recommended experience .",
     "the postcode to the theatre is [attraction_postcode] . can i help you with anything else ?",
-    "have a good day and thank you for contacting the [value_place] towninfo [restaurant_area] ."
+    "have a good day and thank you for contacting the [value_place] towninfo [hotel_area] ."
   ],
   "MUL1015": [
     "i am sorry , but it does not look like we have a pool that matches your criteria .",
@@ -1633,7 +1633,7 @@
     "great ! you are booked at [hotel_name] for [value_count] night . your reference number is [hotel_reference] . would you like more information ?",
     "i can help with that . when would you like to either leave or arrive ? and do you want the taxi from the college to the hotel or the other way around ?",
     "ok , i have a [taxi_type] taxi booked to pick you up . their contact number is [taxi_phone] . is there anything else i can do for you today ?",
-    "you are quite welcome ! thanks for contacting the [value_place] towninfo [restaurant_area] and have a great day !"
+    "you are quite welcome ! thanks for contacting the [value_place] towninfo [hotel_area] and have a great day !"
   ],
   "MUL1189": [
     "i can tell you that [attraction_name] is located at [attraction_address] , postcode [attraction_postcode] . does that help ?",
@@ -1679,7 +1679,7 @@
     "the [hotel_name] is in the [hotel_area] which is the same area as [hotel_name] . would you like me to book it for you ?",
     "i am sorry that is not available . would you like to try another day or a shorter stay perhaps ?",
     "all set for [value_count] nights at the gonville . your reference number is [hotel_reference] .",
-    "excellent , glad [value_place] towninfo [restaurant_area] could be of help . have a great day !"
+    "excellent , glad [value_place] towninfo [hotel_area] could be of help . have a great day !"
   ],
   "MUL1212": [
     "[restaurant_name] serves [restaurant_food] is in the [restaurant_area] . the price range is [restaurant_pricerange] .",
@@ -1745,7 +1745,7 @@
     "the postcode for [restaurant_name] is [restaurant_postcode] . is there anything else i can help you with ?",
     "what time would you like that taxi to pick you up ?",
     "ok , your taxi is booked . the car will be a [taxi_type] and the contact number is [taxi_phone] .",
-    "great ! i hope you enjoy your time here ! thank you for contacting [value_place] towninfo [restaurant_area] ."
+    "great ! i hope you enjoy your time here ! thank you for contacting [value_place] towninfo [hotel_area] ."
   ],
   "MUL1268": [
     "sorry , i do not have any restaurant -s with sri lankan food in the [restaurant_area] . would you like to try another type of food ?",
@@ -1796,7 +1796,7 @@
     "i have [value_count] choices for you then , [restaurant_name] or [restaurant_name] . do either of those sound good ? i would be happy to book a reservation for you .",
     "i'll need some more information to make the reservation first . what day and time , and for how many people ?",
     "the booking was successful . your reference number is [restaurant_reference] . can i help you with anything else ?",
-    "thank you for using [value_place] towninfo [restaurant_area] . please remember us for all of your future travel needs ."
+    "thank you for using [value_place] towninfo [hotel_area] . please remember us for all of your future travel needs ."
   ],
   "MUL1285": [
     "there are quite a few [restaurant_food] restaurant -s in the [restaurant_area] . would you like something [restaurant_pricerange] , [restaurant_pricerange] -ly priced , or more [restaurant_pricerange] ?",
@@ -2137,7 +2137,7 @@
     "you are welcome . do not forget your reference number for your dinner reservation [restaurant_reference] . have a nice day ."
   ],
   "MUL1598": [
-    "i have [hotel_pricerange] and [attraction_pricerange] priced restaurant -s . [restaurant_name] serves [restaurant_food] and is on the [attraction_pricerange] side . or may i suggest [restaurant_name] , they have asian ?",
+    "i have [hotel_pricerange] and [restaurant_pricerange] priced restaurant -s . [restaurant_name] serves [restaurant_food] and is on the [restaurant_pricerange] side . or may i suggest [restaurant_name] , they have asian ?",
     "yes , both [restaurant_name] and [restaurant_name] serve [restaurant_food] . can i book either for you ?",
     "booking was successful . the table will be reserved for [value_count] minutes . reference number is [restaurant_reference] .",
     "on what day will you be traveling ?",
@@ -2159,7 +2159,7 @@
     "there are [value_count] restaurant -s available . is there a specific food type you are looking for ?",
     "i recommend the [restaurant_name] located at hotel felix whitehouse lane huntington road .",
     "yes , it s [restaurant_food] food and the phone number is [restaurant_phone] , with the address of [restaurant_address] .",
-    "thank you for using [value_place] towninfo [restaurant_area] . please remember us for your future travel needs ."
+    "thank you for using [value_place] towninfo [hotel_area] . please remember us for your future travel needs ."
   ],
   "MUL1612": [
     "wonderful , i can help you . what time on [train_day] would you like to depart ?",
@@ -2255,7 +2255,7 @@
     "the booking was successful and your feference number is [train_reference] . may i help you with anything else today ?",
     "[restaurant_name] is a [restaurant_food] restaurant on the [restaurant_area] side falling in the [restaurant_pricerange] price range . i can try making a reservation for you , how many people in your party ?",
     "your booking was successful . the reference number is [restaurant_reference] . is there anything else i can help you with ?",
-    "thank you for using [value_place] towninfo [restaurant_area] . please remember us for your future travel needs ."
+    "thank you for using [value_place] towninfo [hotel_area] . please remember us for your future travel needs ."
   ],
   "MUL1661": [
     "there are [value_count] trains that match your trip . do you have a specific departure city ?",
@@ -2282,7 +2282,7 @@
     "we have lots of [restaurant_food] restaurant -s in town . is there a particular area of town you would like to dine in ?",
     "[restaurant_name] is a [restaurant_pricerange] [restaurant_food] restaurant . there are [value_count] [restaurant_pricerange] [restaurant_food] restaurant -s as well .",
     "the phone number for [restaurant_name] is [restaurant_phone] . is there anything else i can help you with ?",
-    "enjoy your visit . thank you for contacting [value_place] towninfo [restaurant_area] . goodbye ."
+    "enjoy your visit . thank you for contacting [value_place] towninfo [hotel_area] . goodbye ."
   ],
   "MUL1678": [
     "yes , i can . do you have a day and time in mind ?",
@@ -2427,7 +2427,7 @@
     "there are [value_count] entertainment venue -s [attraction_name] , [attraction_name] , [attraction_name] , [attraction_name] , and [attraction_name] . do any of these interest you ?",
     "[attraction_name] is in the [attraction_area] and is in postcode [attraction_postcode] .",
     "is there nothing else you need ?",
-    "have a pleasant visit . thank you for contacting [value_place] towninfo [restaurant_area] . goodbye ."
+    "have a pleasant visit . thank you for contacting [value_place] towninfo [hotel_area] . goodbye ."
   ],
   "MUL1787": [
     "there are several leaving for [train_departure] . they all take [value_count] minutes and cost [train_price] pounds . do you have a time of departure in mind ?",
@@ -2640,7 +2640,7 @@
     "[train_trainid] will arrive by [train_arriveby] if that works for you ?",
     "okay , before we look for the church , just to clarify your travel , the [train_trainid] departs [train_departure] [train_leaveat] , arrives [train_destination] [train_arriveby] . would you like to book a ticket on this train ?",
     "well its architecture located in the [attraction_area] of [value_place] on [attraction_address] .",
-    "do not worry about it . thank you for contacting [value_place] towninfo [restaurant_area] , and please do not hesitate to reach out again if you need more help !"
+    "do not worry about it . thank you for contacting [value_place] towninfo [hotel_area] , and please do not hesitate to reach out again if you need more help !"
   ],
   "MUL1958": [
     "are you looking for a train or a taxi ?",
@@ -2648,7 +2648,7 @@
     "i booked [value_count] tickets on [train_trainid] leaving [train_departure] at [train_leaveat] . the reference number is [train_reference] and the total fee is [train_price] gbp payable at the station .",
     "there are [value_count] museums listed . is there an area of town you prefer ?",
     "i can do that . try the [attraction_name] , on [attraction_address] .",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . have a great day !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . have a great day !"
   ],
   "MUL1981": [
     "there are several trains on that route . what time would you like to leave and depart ?",
@@ -2729,7 +2729,7 @@
     "[hotel_name] looks like it has good value , would you like to book there ?",
     "yes , it has free wifi . would you like to book a room ? or maybe hear about some of the other options ?",
     "the address is [hotel_address] , the postal code is [hotel_postcode] , can i assist with anything else ?",
-    "i have booked you with the [hotel_name] in the [attraction_area] for [value_count] day . if you need anything further that i can assist with do not hesitate to call ."
+    "i have booked you with the [hotel_name] in the [hotel_area] for [value_count] day . if you need anything further that i can assist with do not hesitate to call ."
   ],
   "MUL2053": [
     "[hotel_name] is a [value_count] star hotel in [hotel_address]",
@@ -2741,7 +2741,7 @@
     "which day would you be traveling ?",
     "booking was successful , the total fee is [train_price] gbp payable at the station . reference number is [train_reference] . the train id is [train_trainid] .",
     "the train departs at [train_leaveat] and the trip last [value_count] minutes . can i help you with anything else ?",
-    "thank for using [value_place] towninfo [restaurant_area] ."
+    "thank for using [value_place] towninfo [hotel_area] ."
   ],
   "MUL2060": [
     "there are many trains , when would you like to depart ?",
@@ -2758,7 +2758,7 @@
   ],
   "MUL2063": [
     "i actually have just [value_count] located in the [hotel_area] that is [hotel_pricerange] . it is [hotel_name] . they are [value_count] star rated and offer free parking and wifi . can i book you ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . i hope you have a pleasant trip ! goodbye !",
+    "thank you for contacting [value_place] towninfo [hotel_area] . i hope you have a pleasant trip ! goodbye !",
     "i have reserved [hotel_name] for [value_count] people for [value_count] nights beginning [value_day] . your reference number is [hotel_reference] . can i help with anything else ?",
     "i show [value_count] possible trains . what day were you looking for ?",
     "train [train_trainid] looks like a good fit . would you like me to book it for you ?",
@@ -2774,7 +2774,7 @@
     "yes , i can . will it be for for just [value_count] night ?",
     "sure . it s in the [hotel_area] of town with postcode [hotel_postcode] . can i help you with anything else ?",
     "how many nights will you be staying ?",
-    "sounds good . thanks for using [value_place] towninfo [restaurant_area] !"
+    "sounds good . thanks for using [value_place] towninfo [hotel_area] !"
   ],
   "MUL2074": [
     "okay , do you know the day you want to travel ?",
@@ -2877,7 +2877,7 @@
     "i have several excellent options . did you have an area of town in mind ?",
     "sure , i would suggest [hotel_name] at [hotel_address] [hotel_postcode] . it s [hotel_pricerange] -ly priced with [value_count] stars . would that work for you ?",
     "your reference number is [hotel_reference] , anything else i can help you with ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . have a great time ! goodbye !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . have a great time ! goodbye !"
   ],
   "MUL2130": [
     "in what area would you prefer it to be ?",
@@ -2940,7 +2940,7 @@
     "do you have a time by which you would like to leave or arrive ?",
     "the first train that leaves after [train_leaveat] leaves at [train_leaveat] and would arrive by [train_arriveby] . would you like me to book seats on train [train_trainid] for you ?",
     "your reference is [train_reference] , do you need anything else ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . have a great time ! goodbye !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . have a great time ! goodbye !"
   ],
   "MUL2151": [
     "there are over [value_count] trains leaving . do you have a specific time you would like to arrive by ?",
@@ -2955,7 +2955,7 @@
     "[hotel_name] is the only [hotel_pricerange] hotel in the [hotel_area] . would you like to try a different price range ?",
     "there are [value_count] [hotel_pricerange] -ly price hotel -s there , would you like to try the wankworth house ?",
     "certainly ! the post code is [hotel_postcode] .",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . enjoy your trip !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . enjoy your trip !"
   ],
   "MUL2155": [
     "there are several guesthouses available . do you have a price reference ?",
@@ -2995,7 +2995,7 @@
     "okay ! where are you going ?",
     "[train_trainid] arrives at [train_arriveby] . would you like to reserve seats ?",
     "sure . the price is [train_price] pounds per ticket .",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . goodbye !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . goodbye !"
   ],
   "MUL2193": [
     "i found [hotel_name] hotel located in the [hotel_area] and in the [hotel_pricerange] price range . would you like me to book this for you ?",
@@ -3041,7 +3041,7 @@
     "yes , there are[value_count]star hotel -s to choose from , do you have a price range in mind that you would prefer ?",
     "i found [value_count] . would you like to specify an area ?",
     "there are [value_count] hotel -s would you like a certain area ?",
-    "might i suggest the [hotel_name] . they offer free parking and free internet . they are located in the [attraction_area] at [hotel_address] . would you like to book a room ?",
+    "might i suggest the [hotel_name] . they offer free parking and free internet . they are located in the [hotel_area] at [hotel_address] . would you like to book a room ?",
     "i can help you with that , but first , i'll need more info . what are your departure and arrival location -s ?",
     "if you want to depart after [train_leaveat] , i can get you on the [train_arriveby] out of [train_destination] . it will arrive at [train_arriveby] .",
     "the booking of [train_trainid] was successful , the total fee is [train_price] gbp payable at the station . reference number is [train_reference] . is there anything else i can help you with ?",
@@ -3092,7 +3092,7 @@
     "it s a hotel . i am happy to book your train . may i [hotel_name] when you would like to travel ?",
     "i have train [train_trainid] that is departing [train_departure] at [train_leaveat] and will arrive in [train_destination] by [train_arriveby] . would that interest you ?",
     "that will be [value_count] minutes .",
-    "i am happy we could be of service . thank you for using the [value_place] towninfo [restaurant_area] . goodbye !"
+    "i am happy we could be of service . thank you for using the [value_place] towninfo [hotel_area] . goodbye !"
   ],
   "MUL2270": [
     "i will be happy to help you find a train . can you tell me where you will be departing from ?",
@@ -3101,7 +3101,7 @@
     "sure ! the ticket is [train_price] pounds .",
     "they do . would you like to book a room ?",
     "[hotel_name] is a [hotel_pricerange] -ly priced guesthouse . would you like their address or perhaps to book a room there ?",
-    "i am happy we could help today , and thank you for using the [value_place] towninfo [restaurant_area] !"
+    "i am happy we could help today , and thank you for using the [value_place] towninfo [hotel_area] !"
   ],
   "MUL2275": [
     "i would love to help you with that ! where is your departure location ?",
@@ -3138,7 +3138,7 @@
     "there are [value_count] options . would you like a recommendation , or do you wish to add a specification ?",
     "the [hotel_pricerange] [value_count] is actually not much more than the other [value_count] . i would highly recommend it . that would be at the [hotel_name] . it s in the [hotel_area] .",
     "sure ! the postcode is [hotel_postcode] . can i help you with anything else ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . goodbye !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . goodbye !"
   ],
   "MUL2294": [
     "there are [value_count] place -s to stay at . would you like a [hotel_pricerange] [value_count] ?",
@@ -3189,7 +3189,7 @@
     "i am sorry , it is not open then . is there another time or place i can book you during ?",
     "no , i did not as there is not an opening then . would you like another day and time ?",
     "booking was successful . the table will be reserved for [value_count] minutes . your reference number is [restaurant_reference] . can i help you with anything else ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . goodbye !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . goodbye !"
   ],
   "MUL2320": [
     "would you like the [attraction_name] ?",
@@ -3240,13 +3240,13 @@
     "i have successfully booked your reservation at [restaurant_name] , your reference number is [restaurant_reference] .",
     "sure , i can help you with that . what time would you like to depart or arrive by ?",
     "booking completed ! booked car type [taxi_type] contact number [taxi_phone]",
-    "thank you for using [value_place] towninfo [restaurant_area] ! have a good day !"
+    "thank you for using [value_place] towninfo [hotel_area] ! have a good day !"
   ],
   "MUL2365": [
     "there are a lot , ranging from [attraction_name] to [attraction_name] . did you have something specific in mind ?",
     "[attraction_name] is in the center and it s known for it s architecture . the entrance fee is free .",
     "how about the [restaurant_name] restaurant ? it is located in the city [restaurant_area] .",
-    "my pleasure ! have a wonderful day and thanks for contacting the [value_place] towninfo [restaurant_area] .",
+    "my pleasure ! have a wonderful day and thanks for contacting the [value_place] towninfo [hotel_area] .",
     "i'll be happy to help with that . can you tell me the day , time and how many people in your party ?",
     "the booking was successful . the table will be reserved for [value_count] minutes . reference number is [restaurant_reference] . what else can i help you with ?",
     "perfect , have a great meal ."
@@ -3365,9 +3365,9 @@
     "it is free and the address is [attraction_address] .",
     "i am having trouble finding [value_count] , would you like to try a different price point or type ?",
     "there are a few [restaurant_pricerange] -ly priced [restaurant_food] restaurant -s in the [restaurant_area] of the city and [value_count] [restaurant_pricerange] -ly priced in the [restaurant_area] . do you have a preference ?",
-    "yes , i was able to book you at [restaurant_name] in the [restaurant_area] , reference number [restaurant_reference] . is there anything else i can help you with today ?",
+    "yes , i was able to book you at [restaurant_name] in the [hotel_area] , reference number [restaurant_reference] . is there anything else i can help you with today ?",
     "yes , it is [restaurant_reference] .",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . goodbye !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . goodbye !"
   ],
   "MUL2457": [
     "unfortunately there is not a corsica restaurant in the [restaurant_area] of [value_place] , is there another type of food you would like to look for ?",
@@ -3387,7 +3387,7 @@
     "i was able to book you at the [restaurant_name] , the reference number is [restaurant_reference] , the table will be held for [value_count] minutes , is there anything else , that i can assist with ?",
     "[attraction_name] is a popular nightclub in the area . there are also a couple of other entertainment options .",
     "the postcode for that attraction is [attraction_postcode] . is there anything more i can help with today ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . goodbye !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . goodbye !"
   ],
   "MUL2482": [
     "there are [value_count] different attractions on the [attraction_area] side . you have your choice of colleges , an entertainment venue , and museums . which would you prefer to learn more about ?",
@@ -3410,7 +3410,7 @@
     "yes , [attraction_name] is in the [attraction_area] . in order to help you book a taxi between the park and your hotel , i need to know what hotel you are at .",
     "ok , so you would like a taxi from the restaurant to the park ? could you please let me know your desired departure and arrival times ?",
     "okay , i have booked a taxi for you it will be a [taxi_type] and the contact number is [taxi_phone] . would there be anything else ?",
-    "thanks for using [value_place] towninfo [restaurant_area] , goodbye !"
+    "thanks for using [value_place] towninfo [hotel_area] , goodbye !"
   ],
   "MUL2499": [
     "do you have any specific type of food you would like ?",
@@ -3426,7 +3426,7 @@
     "great ! goodbye and have a nice day ."
   ],
   "MUL2523": [
-    "yes , the autumn hose is on the [hotel_area] part of time , the price -s are [hotel_pricerange] and it s [value_count] stars . is there anything else you would like to know ?",
+    "yes , the [hotel_name] is on the [hotel_area] part of time , the price -s are [hotel_pricerange] and it s [value_count] stars . is there anything else you would like to know ?",
     "you are booked into [hotel_name] . the reference number is [hotel_reference] . may i help with anything else ?",
     "[attraction_name] located in the [attraction_area] is a nice place . would you like more info ?",
     "[attraction_name] is located on stoney s way on the [attraction_area] side of town . can i help you with anything else today ?",
@@ -3441,7 +3441,7 @@
     "yes , the phone number there is [hotel_phone] . what sort of information would you like on [attraction_name] ?",
     "it is located at [attraction_address] and i am not sure if there are any fees . you will need to call them .",
     "booking completed ! booked car type [taxi_type] contact number [taxi_phone]",
-    "mumford theater is located in the city [attraction_area] ."
+    "[attraction_name] is located in the city [attraction_area] ."
   ],
   "MUL2542": [
     "finches is a [hotel_pricerange] guesthouse located in the [hotel_area] . it has a [value_count] star rating and offers both free internet and free parking . would you like more info or to book ?",
@@ -3499,7 +3499,7 @@
     "do you have a time you would like to leave or arrive by ?",
     "okay , we got you booked in a [taxi_type] the contact number is [taxi_phone]",
     "i was able to book that taxi for you . be looking for a [taxi_type] . if you need to reach them , please contact [taxi_phone] . anything else i can help with ?",
-    "you are welcome . thanks for choosing [value_place] towninfo [restaurant_area] !"
+    "you are welcome . thanks for choosing [value_place] towninfo [hotel_area] !"
   ],
   "MUL2637": [
     "i have [value_count] entries matching your request . do you have a preference for area ?",
@@ -3555,7 +3555,7 @@
     "would you look for me to book [hotel_name] for you ?",
     "i would recommend [attraction_name] concert hall on [attraction_address] .",
     "of course . their phone number is [attraction_phone] . what else can i help you with ?",
-    "thank you for contacting the [value_place] towninfo [restaurant_area] . have a good day ."
+    "thank you for contacting the [value_place] towninfo [hotel_area] . have a good day ."
   ],
   "MUL2686": [
     "i am happy to help . there are several types of place -s to go in the [attraction_area] . parks , theatre , cinema , museum , nightclub . what sounds good to you ?",
@@ -3830,7 +3830,7 @@
     "you are welcome , glad i could help ."
   ],
   "PMUL0410": [
-    "i am sorry , there are no [attraction_pricerange] moroccan restaurant -s in [value_place] .",
+    "i am sorry , there are no [restaurant_pricerange] moroccan restaurant -s in [value_place] .",
     "there are several . if you do not have a preference as to where in town you eat , might i suggest [restaurant_name] ?",
     "yes it is . would you like me to send you their address ?",
     "booking was successful . the table will be reserved for [value_count] minutes . reference number is [restaurant_reference] . do you need anything else ?",
@@ -3935,7 +3935,7 @@
     "i have [value_count] restaurant -s available . do you have a type of food preference ?",
     "there is [value_count] in that area called [restaurant_name]",
     "booking was successful . the table will be reserved for [value_count] minutes . reference number is [restaurant_reference] . anything else i can help with ?",
-    "thank you for using the [value_place] towninfo [restaurant_area] . please have a pleasant day ."
+    "thank you for using the [value_place] towninfo [hotel_area] . please have a pleasant day ."
   ],
   "PMUL0578": [
     "there are many options in [value_place] , do you have any tastes in particular ?",
@@ -4054,7 +4054,7 @@
   ],
   "PMUL0782": [
     "there are [value_count] [restaurant_pricerange] [restaurant_food] restaurant -s , would you like [value_count] in the [restaurant_area] or [restaurant_area] ?",
-    "there are [value_count] in the [restaurant_area] [restaurant_name] , [restaurant_name] , [restaurant_name] , and [restaurant_name] . can i book [value_count] of those for you ?",
+    "there are [value_count] in the [restaurant_area] [restaurant_name] , [restaurant_name] , [restaurant_name] , and cafe uno . can i book [value_count] of those for you ?",
     "it is booked here is your ref number [restaurant_reference] is there anything else you need ?",
     "i would be happy to help with your request , but first i'll need to know what day you want to travel .",
     "[train_trainid] will depart at [train_leaveat] and arrive by [train_arriveby] . it will cost [train_price] pounds . would you like to reserve seats ?",
@@ -4138,7 +4138,7 @@
     "the booking was successful your reference number is [train_reference] . is there anything i can help with today ?",
     "travellers restaurant is an [restaurant_pricerange] [restaurant_food] restaurant in the [restaurant_area] part of town . is there anything else i can do for you ?",
     "booking was successful . the table will be reserved for [value_count] minutes . your reference number is [restaurant_reference] . can i do anything else for you today ?",
-    "thank you so much for calling [value_place] towninfo [restaurant_area] ! we hope you enjoy your time in our city !"
+    "thank you so much for calling [value_place] towninfo [hotel_area] ! we hope you enjoy your time in our city !"
   ],
   "PMUL0919": [
     "there are many [restaurant_food] restaurant -s . what price range do you prefer ?",
@@ -4233,7 +4233,7 @@
   ],
   "PMUL1067": [
     "what is your destination ?",
-    "train [value_count] leaves kings lyn at [train_leaveat] and arrives in [train_destination] at [train_arriveby] . would you like me to book a ticket ?",
+    "train [value_count] leaves [train_departure] at [train_leaveat] and arrives in [train_destination] at [train_arriveby] . would you like me to book a ticket ?",
     "your booking was successful and your reference number is [train_reference] . may i help you with anything else today ?",
     "sure , there are lots of things to choose from colleges , architecture , museums , nightclubs , parks , boating , pools . what would interest you the most ?",
     "how about [attraction_name] ? it s free , and their phone number is [attraction_phone] . can i help you with anything else ?",
@@ -4265,7 +4265,7 @@
     "there is a free museum , located at [attraction_address] . it s called the [attraction_name] . it s located in the city [attraction_area] . would that work ?",
     "it s free . would you like their phone number ?",
     "ok , that phone number is [attraction_phone] .",
-    "thanks for using the [value_place] towninfo [restaurant_area] . goodbye !"
+    "thanks for using the [value_place] towninfo [hotel_area] . goodbye !"
   ],
   "PMUL1106": [
     "absolutely ! do you have any particular train stations in mind ?",
@@ -4281,7 +4281,7 @@
     "[train_trainid] will depart at [train_leaveat] and arrive at [train_arriveby] . would you like to book this train ?",
     "my system can only go so fast . i will work on booking this and be right back with you .",
     "there is [attraction_name] it s in the [attraction_area] . it is on [attraction_address] and it s free .",
-    "thank you for contacting the [value_place] towninfo [restaurant_area] . goodbye"
+    "thank you for contacting the [value_place] towninfo [hotel_area] . goodbye"
   ],
   "PMUL1113": [
     "there are several museums in the [value_place] area . is there a certain area of town you prefer ?",
@@ -4388,7 +4388,7 @@
     "sure , i can help you with that . what is your place of departure ?",
     "okay , i have booked you on [train_trainid] leaving [train_day] at [train_leaveat] and arriving [train_arriveby] . your reference number is [train_reference] .",
     "you are welcome , enjoy yourself .",
-    "if that s an invitation , i will take you up on the offer . in the meantime , thank you for using [value_place] towninfo [restaurant_area] . goodbye , now ."
+    "if that s an invitation , i will take you up on the offer . in the meantime , thank you for using [value_place] towninfo [hotel_area] . goodbye , now ."
   ],
   "PMUL1194": [
     "there are [value_count] local colleges , do you have a particular area you are interested in ?",
@@ -4411,7 +4411,7 @@
     "on what day ?",
     "train [train_trainid] should be ok , should i book ?",
     "that booking was successful . your reference number is [train_reference] and the cost is [train_price] gbp . anything else ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . have a wonderful day !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . have a wonderful day !"
   ],
   "PMUL1232": [
     "[attraction_name] is the park you are looking for then . it charges and entrance fee of [value_count] pounds .",
@@ -4479,7 +4479,7 @@
     "[train_trainid] will leave [train_departure] at [train_leaveat] and arrive at birmingham at [train_arriveby] . the trip will take [value_count] minutes and cost [train_price] pounds . would you like to book ?",
     "i booked the train . it was [train_price] and your reference is [train_reference] . do you need help with anything else ?",
     "it s located in [attraction_area] [value_place] on [attraction_address] . the postcode is [attraction_postcode] . the phone number is [attraction_phone] . the entrance fee is [train_price] pounds . do you need anything else ?",
-    "thank you for using the [value_place] towninfo [restaurant_area] ."
+    "thank you for using the [value_place] towninfo [hotel_area] ."
   ],
   "PMUL1273": [
     "[attraction_name] is a museum in the [attraction_area] . would you like further information ?",
@@ -4866,7 +4866,7 @@
     "based on your criteria there are [value_count] guest houses available . i suggest the [hotel_name] . shall i make a reservation for you ?",
     "it is a guesthouse .",
     "your reference number is [hotel_reference] .",
-    "perfect . thank you for using the [value_place] towninfo [restaurant_area] . have a great day ."
+    "perfect . thank you for using the [value_place] towninfo [hotel_area] . have a great day ."
   ],
   "PMUL1755": [
     "yes , where will you be leaving from and going to ?",
@@ -4991,7 +4991,7 @@
     "you are very welcomed have a good day ."
   ],
   "PMUL1834": [
-    "we have a train leaving on [train_day] by [train_leaveat] from [train_departure] to stansted airpot but we need to know your departure point and date of departure to serve you better",
+    "we have a train leaving on [train_day] by [train_leaveat] from [train_departure] to [train_destination] but we need to know your departure point and date of departure to serve you better",
     "when would you like to arrive by ?",
     "the best fit for you from the search list is the [train_leaveat] train leaving [train_departure] on [train_day] to arrive [train_destination] by [train_arriveby] .",
     "actually , it will arrive by [train_arriveby] . does that work for you ?",
@@ -5044,7 +5044,7 @@
     "how many people will be traveling ?",
     "the price per ticket on the [train_trainid] is [train_price] pounds . can i assist you further today ?",
     "booking was successful . reference number is [hotel_reference] . anything else today ?",
-    "thank you for using the [value_place] towninfo [restaurant_area] ."
+    "thank you for using the [value_place] towninfo [hotel_area] ."
   ],
   "PMUL1883": [
     "yes i can what time are you wanting to leave by ?",
@@ -5135,7 +5135,7 @@
     "i recommend [train_trainid] . it leaves [train_leaveat] . can i book for for",
     "would you like to book a room at the [hotel_name] ?",
     "i have made those reservations and your reference number is [hotel_reference] .",
-    "thank you for using the [value_place] towninfo [restaurant_area] ! have a nice trip !"
+    "thank you for using the [value_place] towninfo [hotel_area] ! have a nice trip !"
   ],
   "PMUL1980": [
     "there are over [value_count] departures to [train_destination] on [train_day] , do you have a specific departure place or time ?",
@@ -5242,11 +5242,11 @@
     "you are welcome ! have a wonderful day !"
   ],
   "PMUL2123": [
-    "i am sorry , there is not a multiple sports center in the [restaurant_area] of town , but there is [value_count] in the [attraction_area] if you are interested in that [value_count] .",
+    "i am sorry , there is not a multiple sports center in the [hotel_area] of town , but there is [value_count] in the [attraction_area] if you are interested in that [value_count] .",
     "sure . [attraction_name] is very popular . it is at [attraction_address] .",
     "the entrance fee is [value_count] pounds .",
     "i can only process [value_count] at a time would you like the post code or the nightclub info ?",
-    "[attraction_name] s postcode is [attraction_postcode] . my favorite [restaurant_food] restaurant is [restaurant_name] , but it s [attraction_pricerange] .",
+    "[attraction_name] s postcode is [attraction_postcode] . my favorite [restaurant_food] restaurant is [restaurant_name] , but it s [restaurant_pricerange] .",
     "the post code for [restaurant_name] is [restaurant_postcode] . may i assist with anything else today ?",
     "it was no problem at all ! have a good [value_count] !"
   ],
@@ -5261,7 +5261,7 @@
     "[attraction_name] is pretty rad . it s at [attraction_address] .",
     "the entry fee is [value_count] pounds .",
     "they are a [attraction_address] , postcode [attraction_postcode] , any other questions today ?",
-    "glad to have been of help . thank you for using the [value_place] towninfo [restaurant_area] . have a great day ."
+    "glad to have been of help . thank you for using the [value_place] towninfo [hotel_area] . have a great day ."
   ],
   "PMUL2146": [
     "do you prefer a particular type of food or are you looking at a specific price range ?",
@@ -5396,7 +5396,7 @@
     "sure ! and what time do you prefer ?",
     "for how many people ?",
     "a [taxi_type] will pick you up at [attraction_name] for your arrival at [restaurant_name] by [value_time] . should you need to contact the driver , the number is [taxi_phone]",
-    "thank you for using the [value_place] towneinfo [restaurant_area] . goodbye"
+    "thank you for using the [value_place] towneinfo [hotel_area] . goodbye"
   ],
   "PMUL2279": [
     "i certainly can . [attraction_name] is a college located in the center of town , on [attraction_address] . there s a [value_count] pound entrance fee . do you need any additional information ?",
@@ -5423,7 +5423,7 @@
     "you are booked for [value_day] and your reference number is [restaurant_reference] . may i help you with anything else today ?",
     "there are many in our lovely city . the [attraction_name] , the [attraction_name] and [attraction_name] .",
     "[attraction_phone] and free admission !",
-    "thank you for using the [value_place] towninfo [restaurant_area] . have a great day ."
+    "thank you for using the [value_place] towninfo [hotel_area] . have a great day ."
   ],
   "PMUL2330": [
     "there are none available , do you have another attraction ?",
@@ -5484,7 +5484,7 @@
     "yes i found [restaurant_name] located in the [restaurant_area] . it serves [restaurant_food] food in the [restaurant_pricerange] price range . would you like to book a table ?",
     "i have made the reservations and your reference number is [restaurant_reference] .",
     "i hope i have been of help to you",
-    "thank you for using the [value_place] towninfo [restaurant_area] . goodbye !"
+    "thank you for using the [value_place] towninfo [hotel_area] . goodbye !"
   ],
   "PMUL2437": [
     "i have many options available for you ! is there a certain area or cuisine that interests you ?",
@@ -5515,13 +5515,13 @@
     "ok , let s start with which day you would like to have this reservation ?",
     "okay , i will work on getting that booked and get back with you shortly .",
     "i was able to book that , reference number is [restaurant_reference]",
-    "there are unfortunately no multiple sports attractions in the [restaurant_area] . would you like me to search other area -s for the multiple sports attraction ?",
-    "absolutely . there are [value_count] nightclubs located in the [restaurant_area] . all of them have an entrance fee of [value_count] pounds . would you like a recommendation ?",
+    "there are unfortunately no multiple sports attractions in the [hotel_area] . would you like me to search other area -s for the multiple sports attraction ?",
+    "absolutely . there are [value_count] nightclubs located in the [hotel_area] . all of them have an entrance fee of [value_count] pounds . would you like a recommendation ?",
     "i personally like [attraction_name] , they are very contemporaneity",
     "sure ! their phone number is [attraction_phone] and the postcode is [attraction_postcode] .",
     "i booked a taxi to pick you up at [value_count] pm , it s going to be a [taxi_type] , the contact number is [taxi_phone] .",
     "your taxi is booked .",
-    "well , thank you for using the [value_place] towninfo [restaurant_area] . have a good day ."
+    "well , thank you for using the [value_place] towninfo [hotel_area] . have a good day ."
   ],
   "PMUL2477": [
     "that is an [restaurant_food] restaurant in the center of town . it is in the [restaurant_pricerange] price range . any other information you need ?",
@@ -5658,7 +5658,7 @@
     "there are [value_count] museums to choose from . to help narrow the results , what area are you looking for a museum in ?",
     "my favorite is [attraction_name] in the [attraction_area] . does that sound interesting to you ?",
     "yes , it is located on the [attraction_area] side , at [attraction_address] .",
-    "perfect . thank you for using the [value_place] towninfo [restaurant_area] . have a great day .",
+    "perfect . thank you for using the [value_place] towninfo [hotel_area] . have a great day .",
     "okay thank you for calling ."
   ],
   "PMUL2703": [
@@ -5710,7 +5710,7 @@
     "a room has been booked . your reference number is [hotel_reference] .",
     "what time would you like to leave ?",
     "i have booked a [taxi_type] with contact [taxi_phone]",
-    "you are very welcome . thank you for calling [value_place] towninfo [restaurant_area] .",
+    "you are very welcome . thank you for calling [value_place] towninfo [hotel_area] .",
     "goodbye , have a great day ."
   ],
   "PMUL2746": [
@@ -5769,7 +5769,7 @@
   ],
   "PMUL2859": [
     "they are on bateman st , postal code [attraction_postcode] , they can be reach at [attraction_phone] , the entrance fee is [value_count] pounds , can i help with anything else ?",
-    "the botanic gardens are in the [restaurant_area] . would you like the restaurant to also be in the center ? do you have any type of cuisine in mind ?",
+    "the botanic gardens are in the [attraction_area] . would you like the restaurant to also be in the center ? do you have any type of cuisine in mind ?",
     "there are [value_count] guesthouses with free parking , do you have a price or area preference ?",
     "i found a guest house listing for [hotel_name] in the [hotel_area] . would you like more information ?",
     "i have [value_count] hotel in the [hotel_area] . [hotel_name] is [hotel_pricerange] with [value_count] stars . it offers free parking and wifi . do you need a room ?",
@@ -5811,7 +5811,7 @@
   "PMUL2898": [
     "yes , there are [value_count] such hotel -s . do you have a location preference ?",
     "i have the [hotel_name] located in teh [hotel_area] of town . it has a [value_count] star rating . would you like reservations ?",
-    "i have [value_count] hotel -s . the [hotel_name] and [hotel_name] . both are [value_count] star rated . huntingdon is in the [attraction_area] , and [hotel_name] is in the [restaurant_area] .",
+    "i have [value_count] hotel -s . the [hotel_name] and [hotel_name] . both are [value_count] star rated . huntingdon is in the [hotel_area] , and [hotel_name] is in the [hotel_area] .",
     "sure thing , what nights will you be staying ?",
     "i can help with that . how many people will be staying ?",
     "booking was successful . reference number is [hotel_reference] . is there anything else i can help you with today ?",
@@ -5905,7 +5905,7 @@
     "ok . thank you and goodbye"
   ],
   "PMUL3014": [
-    "absolutely , there are [value_count] listed in the [restaurant_area] and [value_count] in the [restaurant_area] . will [value_count] of these work for you ?",
+    "absolutely , there are [value_count] listed in the [hotel_area] and [value_count] in the [restaurant_area] . will [value_count] of these work for you ?",
     "you choice s between [restaurant_name] and [restaurant_name] . which [value_count] do you like",
     "you are all booked . your reference number is [restaurant_reference] . can i assist you further ?",
     "the post code is [restaurant_postcode] . will that be all today ?",
@@ -5966,7 +5966,7 @@
     "that would be for the [hotel_name] . what day are you wanting to stay and how many guests ?",
     "reference number is [hotel_reference] , for the hotel . you also need a taxi ?",
     "booking completed ! booked car type [taxi_type] contact number [taxi_phone]",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . have a great trip . goodbye ."
+    "thank you for contacting [value_place] towninfo [hotel_area] . have a great trip . goodbye ."
   ],
   "PMUL3126": [
     "sure , what stations are you traveling between ?",
@@ -5994,7 +5994,7 @@
     "is there anything else i can help you with ?"
   ],
   "PMUL3145": [
-    "yes , i have [restaurant_name] located in the [restaurant_area] and [restaurant_name] located in the [restaurant_area] . will [value_count] of these work for you ?",
+    "yes , i have [restaurant_name] located in the [restaurant_area] and [restaurant_name] located in the [hotel_area] . will [value_count] of these work for you ?",
     "i can certainly help you with that . what time would you like the reservation ?",
     "your reservation reference number is [restaurant_reference] . the table will be held for [value_count] minutes from the time of your reservation . may i assist you with anything else ?",
     "i have over [value_count] different options for you , was there a certain area or price range you would like me to find for you ?",
@@ -6041,7 +6041,7 @@
     "their phone number is [restaurant_phone] . can i help you with anything else today ?",
     "[train_trainid] fits your description . can i book for you ?",
     "[train_trainid] arrives in [train_destination] by [train_arriveby] on [train_day] , would you like to book a ticket ?",
-    "thank you for using the [value_place] towninfo [restaurant_area] . goodbye"
+    "thank you for using the [value_place] towninfo [hotel_area] . goodbye"
   ],
   "PMUL3171": [
     "[hotel_name] is on the [hotel_area] side and [hotel_pricerange] .",
@@ -6123,7 +6123,7 @@
   ],
   "PMUL3279": [
     "there are [value_count] nightclubs in the [attraction_area] of town and [value_count] nightclub on the [attraction_area] side . do you have a preference on location ?",
-    "in the [restaurant_area] , [value_count] of the nightclubs have a fee of [value_count] pounds and [value_count] has an entrance fee of [value_count] pounds . what else can i help you with ?",
+    "in the [hotel_area] , [value_count] of the nightclubs have a fee of [value_count] pounds and [value_count] has an entrance fee of [value_count] pounds . what else can i help you with ?",
     "there are several trains leaving what day do you want to leave",
     "i still have [value_count] entries . arriving every [value_count] hour -s starting at [train_arriveby] and the last at [train_arriveby] . which arrival time would you like ?",
     "ok . well [train_trainid] sounds like your best bet then . it will arrive by [train_arriveby] . would you like me to book it for you ?",
@@ -6331,7 +6331,7 @@
     "when will you be arriving and how many nights will you be staying ?",
     "how many days will you stay ?",
     "their postcode is [hotel_postcode] and phone number is [hotel_phone] . they offer free parking and internet . is there anything else i can help you with ?",
-    "i am happy to have met all your needs . thank you for using [value_place] towninfo [restaurant_area] . goodbye ."
+    "i am happy to have met all your needs . thank you for using [value_place] towninfo [hotel_area] . goodbye ."
   ],
   "PMUL3465": [
     "there is a great cinema on the [attraction_area] side called [attraction_name] . the are located at [attraction_address] . their phone number is [attraction_phone] . is there anything else ?",
@@ -6447,7 +6447,7 @@
     "how many tickets will you need for the train ?",
     "booking was successful , the total fee is [train_price] gbp payable at the station . reference number is [train_reference] .",
     "your train departs [train_departure] [train_day] at [train_leaveat] and arrives in [train_destination] at [train_arriveby] . can i help connect you to anything else in our city today ?",
-    "thank you for using the [value_place] towninfo [restaurant_area] . goodbye"
+    "thank you for using the [value_place] towninfo [hotel_area] . goodbye"
   ],
   "PMUL3576": [
     "[attraction_name] is a free college located in the [attraction_area] part of town , over on [attraction_address] .",
@@ -6470,7 +6470,7 @@
     "thanks for letting us assist you today !"
   ],
   "PMUL3599": [
-    "i haven't found any [attraction_pricerange] panasain restaurant -s . should i try another price range ?",
+    "i haven't found any [restaurant_pricerange] panasain restaurant -s . should i try another price range ?",
     "i have a couple . both are in the [restaurant_area] . [restaurant_name] , [restaurant_name]",
     "booking was successful . the table will be reserved for [value_count] minutes . reference number is [restaurant_reference] . is there anything else i can help you with ?",
     "have a great day !"
@@ -6632,7 +6632,7 @@
     "booking was successful , the total fee is [train_price] gbp payable at the station . reference number is [train_reference] . can i help you with anything else today ?",
     "the total travel time [value_count] minutes . you depart at [train_leaveat] and arrive at [train_arriveby] on [train_day] . is this acceptable ?",
     "my pleasure . how else can i help you ?",
-    "you are very welcome . thank you for contacting the [value_place] towninfo [restaurant_area] and have a great day !"
+    "you are very welcome . thank you for contacting the [value_place] towninfo [hotel_area] and have a great day !"
   ],
   "PMUL3748": [
     "there is much to choose from in the [attraction_area] . there are several architecture attractions to explore , boats and swimming , colleges , museums , parks , theatres and even nightclubs .",
@@ -6817,7 +6817,7 @@
     "well i would suggest [attraction_name] which is free to enter and is located on [attraction_address] .",
     "admission is free !",
     "you are welcome , is there anything else i can you with today ?",
-    "wonderful ! thank you for calling [value_place] towninfo [restaurant_area] , it was a pleasure to serve you ."
+    "wonderful ! thank you for calling [value_place] towninfo [hotel_area] , it was a pleasure to serve you ."
   ],
   "PMUL3931": [
     "there are [value_count] restaurant -s available . is there a specific type of food you like ?",
@@ -6844,7 +6844,7 @@
     "booking was successful , the total fee is [train_price] gbp payable at the station . reference number is [train_reference] . can i help you with anything else today ?",
     "i have [value_count] architecture attractions in [value_place] . all in the [attraction_area] . [value_count] costs [value_count] pounds and the others are free .",
     "[attraction_name] can be reached at [attraction_phone]",
-    "you too , and thank you for contacting the [value_place] towninfo [restaurant_area] !"
+    "you too , and thank you for contacting the [value_place] towninfo [hotel_area] !"
   ],
   "PMUL3940": [
     "sure , when are you planning to travel ?",
@@ -7028,7 +7028,7 @@
     "[restaurant_name] is in the [restaurant_area] area . where would you like your train to leave from and go to ?",
     "[train_trainid] arrives at liverpool st at [train_arriveby] . would you like to book a ticket ?",
     "departure time is [train_leaveat] .",
-    "you are welcome . thank you for using the [value_place] towninfo [restaurant_area] . goodbye"
+    "you are welcome . thank you for using the [value_place] towninfo [hotel_area] . goodbye"
   ],
   "PMUL4131": [
     "do you have the hotel name ?",
@@ -7038,7 +7038,7 @@
     "i do not have anything specifically listed as entertainment in the [attraction_area] . would you be interested in something else ?",
     "i would recommend [attraction_name] . the entrance fee is free , the postcode is [attraction_postcode] , and the phone number is [attraction_phone] .",
     "do you need me to book anything for you ?",
-    "happy to be of service , and thanks for using the [value_place] towninfo [restaurant_area] !"
+    "happy to be of service , and thanks for using the [value_place] towninfo [hotel_area] !"
   ],
   "PMUL4134": [
     "queen s college is found on [attraction_address] , and their phone number is [attraction_phone] . is there anything else you would like to know ?",
@@ -7093,7 +7093,7 @@
   "PMUL4186": [
     "i am . it is a great [restaurant_food] place . they have [value_count] location -s in town . [value_count] in the [restaurant_area] and on in the city [restaurant_area] .",
     "[restaurant_name] in the [restaurant_area] is at [restaurant_address] . [restaurant_name] is at [restaurant_address] . do you need additional information ?",
-    "[hotel_name] [value_count] star hotel is a hotel in the [attraction_area] part of town in the [restaurant_pricerange] price range . would you like any more information ?",
+    "[hotel_name] [value_count] star hotel is a hotel in the [hotel_area] part of town in the [restaurant_pricerange] price range . would you like any more information ?",
     "the postcode for the [restaurant_name] is [restaurant_postcode]",
     "they do have free parking .",
     "[hotel_postcode] is the postcode for [hotel_name] . do you need to book this hotel ?",
@@ -7231,7 +7231,7 @@
     "what day would you like to travel ? also , when will you need to leave . this train is [value_count] travel minutes .",
     "train [train_trainid] , arrives at [train_arriveby] and costs [train_price] pounds .",
     "is there anything else ?",
-    "i want to confirm the train has not been booked . thank you for using [value_place] towninfo [restaurant_area] . goodbye ."
+    "i want to confirm the train has not been booked . thank you for using [value_place] towninfo [hotel_area] . goodbye ."
   ],
   "PMUL4303": [
     "i have [value_count] trains that match what you are requesting . where will you be traveling to ?",
@@ -7550,7 +7550,7 @@
   ],
   "PMUL4622": [
     "sure , there are [value_count] options for you",
-    "sure how about the [value_place] arts theater . it s in the center of town and its postcode is [attraction_postcode] , but there is no entrance fee information listed .",
+    "sure how about the [attraction_name] . it s in the center of town and its postcode is [attraction_postcode] , but there is no entrance fee information listed .",
     "sure , where will you be departing from ?",
     "[train_trainid] will arrive in [train_destination] at [train_arriveby] . would you like a ticket on that ?",
     "booking was successful , the total fee is [train_price] gbp payable at the station . reference number is [train_reference] .",
@@ -7762,7 +7762,7 @@
     "booking was successful , the total fee is [train_price] gbp payable at the station . reference number is [train_reference] . [hotel_name] is located in the [hotel_area] .",
     "it is a hotel .",
     "is there anything else i can do for you ?",
-    "thank you for calling [value_place] towninfo [restaurant_area] , it was a pleasure to assist you . have a wonderful trip !"
+    "thank you for calling [value_place] towninfo [hotel_area] , it was a pleasure to assist you . have a wonderful trip !"
   ],
   "PMUL4894": [
     "sure , what type of food are you hoping for ?",
@@ -7851,7 +7851,7 @@
     "my pleasure , enjoy your stay ."
   ],
   "PMUL4964": [
-    "there is [value_count] in the [restaurant_area] , [value_count] in the [attraction_area] , [value_count] in the [attraction_area] and [value_count] in the [restaurant_area] . will [value_count] of these work for you ?",
+    "there is [value_count] in the [hotel_area] , [value_count] in the [attraction_area] , [value_count] in the [hotel_area] and [value_count] in the [restaurant_area] . will [value_count] of these work for you ?",
     "sure . the [attraction_name] are located at [attraction_address] .",
     "the address is [attraction_address] , postcode [attraction_postcode] and the phone number is [attraction_phone] .",
     "there are no restaurant -s serving afternoon tea in the [restaurant_area] .",
@@ -7904,7 +7904,7 @@
   "SNG0016": [
     "absolutely , where will the taxi be picking you up from today ?",
     "all right , a [taxi_type] will come for you . should you need to contact them , the number is [taxi_phone] .",
-    "thank you for the calling the [value_place] towninfo [restaurant_area] we are glad to help , have a pleasant day ."
+    "thank you for the calling the [value_place] towninfo [hotel_area] we are glad to help , have a pleasant day ."
   ],
   "SNG0055": [
     "i will need to know where you need to be picked up ?",
@@ -7979,7 +7979,7 @@
     "[restaurant_name] is the only [restaurant_food] restaurant , in the [restaurant_area] , in the [restaurant_pricerange] price range . do you want me to try other area -s ?",
     "absolutely , how many people will you have and what time are you wanting the reservation ?",
     "you are booked , the reference number is [restaurant_reference] , may i assist with anything else ?",
-    "you are welcome . thank you for contacting [value_place] towninfo [restaurant_area] , and have a great day ."
+    "you are welcome . thank you for contacting [value_place] towninfo [hotel_area] , and have a great day ."
   ],
   "SNG01262": [
     "there are many results with free wifi and parking , to help narrow it down , what area do you want to stay in ?",
@@ -7989,7 +7989,7 @@
     "booking was unsuccessful . would you like to try a different location ?",
     "i am going to try for the [hotel_name] , sir . is that all right ?",
     "i was able to book the [hotel_name] on [value_day] for [value_count] nights for [value_count] people and your reference number is [hotel_reference] . is there anything else you need ?",
-    "thank you for using [value_place] towninfo [restaurant_area] . have a good day !"
+    "thank you for using [value_place] towninfo [hotel_area] . have a good day !"
   ],
   "SNG01270": [
     "okay , what is your destination ?",
@@ -8112,7 +8112,7 @@
     "the [hotel_name] is a guesthouse in the [hotel_area] in the [hotel_pricerange] price range with parking . when are you arriving ? how many people ?",
     "this booking was unsuccessful . is there a different day or area you would like to stay ?",
     "okay , that booking was successful for [value_day] . the reference number is [hotel_reference] . is there anything else you need ?",
-    "thank you for using [value_place] towninfo [restaurant_area] . have a great day !"
+    "thank you for using [value_place] towninfo [hotel_area] . have a great day !"
   ],
   "SNG01538": [
     "[hotel_name] is a [value_count] star hotel with no parking , would you like me to check on available dates for you ?",
@@ -8170,7 +8170,7 @@
     "enjoy yourself , and let me know if you need anything else ."
   ],
   "SNG01686": [
-    "i have the [restaurant_name] in the [restaurant_area] of town . would that work ?",
+    "i have the cafe uno in the [restaurant_area] of town . would that work ?",
     "yes , [restaurant_name] is in the [restaurant_area] and meets your criteria . would you like me to make a reservation ?",
     "booking was successful . the table will be reserved for [value_count] minutes . reference number is [restaurant_reference] .",
     "you are so welcome . enjoy your meal ."
@@ -8244,7 +8244,7 @@
     "sure . what is your departure site ?",
     "okay , and what time would you like to leave or arrive by ?",
     "okay i have a [taxi_type] with the contact number [taxi_phone] .",
-    "have a good day . thank you for using [value_place] towninfo [restaurant_area] . goodbye ."
+    "have a good day . thank you for using [value_place] towninfo [hotel_area] . goodbye ."
   ],
   "SNG01835": [
     "what time frame would you like this to happen in ?",
@@ -8296,7 +8296,7 @@
     "ok , i need a little bit more information , where will your taxi be departing from ?",
     "your taxi is booked a [taxi_type] with the contact number of [taxi_phone] .",
     "you are welcome . is there anything else i can do for you today ?",
-    "you are welcome . thank you for using the towninfo [restaurant_area] . goodbye ."
+    "you are welcome . thank you for using the towninfo [hotel_area] . goodbye ."
   ],
   "SNG01936": [
     "i have found the guesthouse you were wanting . would you like me to book this for you ?",
@@ -8373,19 +8373,19 @@
   "SNG02198": [
     "and when would you like to leave or arrive ?",
     "okay , you are booked . the car is a [taxi_type] and the contact number is [taxi_phone]",
-    "you are welcome . thank you for contacting [value_place] towninfo [restaurant_area] . goodbye ."
+    "you are welcome . thank you for contacting [value_place] towninfo [hotel_area] . goodbye ."
   ],
   "SNG02202": [
     "sure ! when do you want to leave ?",
     "booking completed ! booked car type [taxi_type] contact number [taxi_phone]",
-    "my pleasure . thank you for contacting [value_place] towninfo [restaurant_area] . have a nice visit ."
+    "my pleasure . thank you for contacting [value_place] towninfo [hotel_area] . have a nice visit ."
   ],
   "SNG02205": [
     "sure ! what is your departure site ?",
     "okay you are all set with a [taxi_type]",
     "the contact number is [taxi_phone] .",
     "is there anything else i can help you with , such as finding a restaurant or an attraction ?",
-    "thank you for choosing [value_place] towninfo [restaurant_area] to help you with your booking needs . have a great day !"
+    "thank you for choosing [value_place] towninfo [hotel_area] to help you with your booking needs . have a great day !"
   ],
   "SNG02207": [
     "what is your destination and when would you like to depart ?",
@@ -8411,13 +8411,13 @@
     "what is your departure site ?",
     "okay i have a [taxi_type] and the contact number is [taxi_phone] . anything else i can do for you ?",
     "i need a taxi to the [attraction_name] .",
-    "thank you for using [value_place] towninfo [restaurant_area] , have a nice day ."
+    "thank you for using [value_place] towninfo [hotel_area] , have a nice day ."
   ],
   "SNG02342": [
     "what time would you like to leave ?",
     "booking is complete , a [taxi_type] will be picking you up . the contact number is [taxi_phone] . thank you ! .",
     "i can also recommend restaurant -s and book trains . are you interested ?",
-    "it was a pleasure to help you . do not hesitate to contact the towninfo [restaurant_area] again . goodbye ."
+    "it was a pleasure to help you . do not hesitate to contact the towninfo [hotel_area] again . goodbye ."
   ],
   "SNG0253": [
     "certainly , do you know from where you will be departing , and at what time ?",
@@ -8473,7 +8473,7 @@
     "what day and time would you like to leave ?",
     "i have [value_count] trains that arrive by [train_arriveby] . is there a particular time you would like to leave ?",
     "i have [value_count] seats booked on [train_trainid] , departing at [train_leaveat] and arriving at [train_arriveby] . your confirmation number is [train_reference] .",
-    "you are welcome and thank you for using [value_place] towninfo [restaurant_area] ."
+    "you are welcome and thank you for using [value_place] towninfo [hotel_area] ."
   ],
   "SNG0296": [
     "what time would you like to depart ?",
@@ -8545,7 +8545,7 @@
     "i have [value_count] trains travelling that route . to narrow it down , what day would you like to leave and what time would you like to depart and arrive ?",
     "i have a [train_leaveat] from london that arrives at [train_arriveby] . would that work for you ?",
     "booking was successful , the total fee is [train_price] gbp payable at the station . reference number is [train_reference] . is there anything else i can help you with ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . have a wonderful day !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . have a wonderful day !"
   ],
   "SNG0360": [
     "on what day will you be travelling ?",
@@ -8592,7 +8592,7 @@
     "certainly , but first i need to know where you are departing from and what your destination is .",
     "the first train after [train_leaveat] is [train_trainid] , which leaves at [train_leaveat] . would you like a ticket , or more information ?",
     "sure , i have booked your tickets for [value_count] people , your reference number is [train_reference] .",
-    "you are very welcome . thank you for using [value_place] towninfo [restaurant_area] ."
+    "you are very welcome . thank you for using [value_place] towninfo [hotel_area] ."
   ],
   "SNG0433": [
     "sure ! it looks like we have [value_count] morning trains daily the are early enough for you . what day are you planning to travel ?",
@@ -8619,12 +8619,12 @@
     "thank you for using our system !"
   ],
   "SNG0455": [
-    "unfortunately , i do not see any restaurant -s that serve venetian in the [restaurant_area] of town . would you like to try a different area or type of cuisine ?",
+    "unfortunately , i do not see any restaurant -s that serve venetian in the [hotel_area] of town . would you like to try a different area or type of cuisine ?",
     "yes there are [value_count] in the [restaurant_area] of town . any price preference ?",
     "there are [value_count] [restaurant_pricerange] restaurant -s that are located in the town [restaurant_area] . the [restaurant_name] , [restaurant_name] , [restaurant_name] , and [restaurant_name] , would you like information on [value_count] ?",
     "great you are all set the reference number is [restaurant_reference]",
     "is there anything else i can help you with ?",
-    "you are quite welcome . thanks for contacting the [value_place] towninfo [restaurant_area] and have a great day !"
+    "you are quite welcome . thanks for contacting the [value_place] towninfo [hotel_area] and have a great day !"
   ],
   "SNG0456": [
     "i am sorry , there are not any [restaurant_food] restaurant -s in the [restaurant_area] of town . would you like to try a different cuisine ?",
@@ -8723,7 +8723,7 @@
     "there is the [restaurant_name] in the [restaurant_area] serving [restaurant_food] food .",
     "sorry , but no tables are available for that time slot . would you like to change the time ?",
     "your table is booked . your reference number is [restaurant_reference] . can i help you with anything else ?",
-    "great . thank you for contacting [value_place] towninfo [restaurant_area] ."
+    "great . thank you for contacting [value_place] towninfo [hotel_area] ."
   ],
   "SNG0531": [
     "absolutely ! [restaurant_name] is an [restaurant_food] restaurant in the [restaurant_area] . it is a little [restaurant_pricerange] but worth it . it s located at [value_count] high street chesterton . their phone number is [restaurant_phone] .",
@@ -8778,14 +8778,14 @@
   "SNG0589": [
     "i have [value_count] restaurant in the [restaurant_area] end called [restaurant_name] in the [restaurant_pricerange] range .",
     "sure ! [restaurant_name] is located at [restaurant_address] in postcode [restaurant_postcode] . will that be all for today ?",
-    "thanks for using [value_place] towninfo [restaurant_area] , and have a great day !"
+    "thanks for using [value_place] towninfo [hotel_area] , and have a great day !"
   ],
   "SNG0590": [
     "[restaurant_name] is an [restaurant_pricerange] restaurant in the [restaurant_area] . would you like me to book it ?",
     "okay , is there a particular day and time that would work for you ?",
     "booked ! your table will be held for [value_count] minutes . reference number is [restaurant_reference] .",
     "is there anything else i can do for you ?",
-    "enjoy your dinner . thank you for calling [value_place] towninfo [restaurant_area] . goodbye ."
+    "enjoy your dinner . thank you for calling [value_place] towninfo [hotel_area] . goodbye ."
   ],
   "SNG0600": [
     "sure can . [restaurant_name] is an [restaurant_pricerange] [restaurant_food] restaurant in the [restaurant_area] part of town . would you like a reservation ?",
@@ -8796,7 +8796,7 @@
   "SNG0601": [
     "i found [value_count] that matches your criteria . would you prefer a [restaurant_pricerange] or [restaurant_pricerange] pricing ?",
     "yes [restaurant_name] s address is [restaurant_address] and their postcode is [restaurant_postcode] . is there anything else i can help you with today ?",
-    "so glad we could help you out . thanks for using the [value_place] towninfo [restaurant_area] , and have a glorious day !"
+    "so glad we could help you out . thanks for using the [value_place] towninfo [hotel_area] , and have a glorious day !"
   ],
   "SNG0610": [
     "sorry but there are not any molecular gastronomy restaurant -s in any part of town . would you like to try something else ?",
@@ -8825,7 +8825,7 @@
     "alright , which day would you like the reservation to be on ?",
     "[restaurant_name] serves [restaurant_food] cuisine . would you need anything other information or assistance ?",
     "certainly . the phone number is [restaurant_phone] and the postcode is [restaurant_postcode] . anything else i can do for you ?",
-    "you are quite welcome . thanks for contacting the [value_place] towninfo [restaurant_area] and have a great day !"
+    "you are quite welcome . thanks for contacting the [value_place] towninfo [hotel_area] and have a great day !"
   ],
   "SNG0617": [
     "of course ! there are [value_count] restaurant -s in the [restaurant_area] . what type of food would you like ?",
@@ -8833,7 +8833,7 @@
     "your table is reserved . reference number [restaurant_reference] .",
     "you are welcome , was there anything else you need ?",
     "you are welcome , enjoy your meal .",
-    "thank you for using [value_place] towninfo [restaurant_area] . have a fantabulous day !"
+    "thank you for using [value_place] towninfo [hotel_area] . have a fantabulous day !"
   ],
   "SNG0636": [
     "[restaurant_name] and the [restaurant_name] serve [restaurant_food] food and are in the [restaurant_area] of town .",
@@ -8878,7 +8878,7 @@
     "there are many options for [restaurant_pricerange] food in [restaurant_area] [value_place] . is there a specific type of food you would like ?",
     "i am sorry , there is nothing showing for chicken tikka masala . there are however [value_count] [restaurant_pricerange] [restaurant_food] restaurant -s in the [restaurant_area] part of [value_place] . i would recommend the [restaurant_name] .",
     "you are booked for the [restaurant_name] on [value_day] at [value_time] . your reference number is [restaurant_reference] . may i help you with anything else ?",
-    "thank you for using [value_place] towninfo [restaurant_area] . have a great day ."
+    "thank you for using [value_place] towninfo [hotel_area] . have a great day ."
   ],
   "SNG0689": [
     "oh yes quite a few . which part of town will you be dining in ?",
@@ -8977,7 +8977,7 @@
   "SNG0768": [
     "there are a total of [value_count] hotel -s and guesthouses in the city that have [value_count] stars . is there a particular area or price range you would like ?",
     "i am sorry but i do not have any hotel -s in the [hotel_area] . would you like to change location or type of accomodations ?",
-    "we have [value_count] star hotel that is in the [restaurant_area] , [hotel_name] , it has internet and parking and is [attraction_pricerange] , would this [value_count] suit you ?",
+    "we have [value_count] star hotel that is in the [hotel_area] , [hotel_name] , it has internet and parking and is [restaurant_pricerange] , would this [value_count] suit you ?",
     "certainly . how long would you like to stay , and how many are in your party ?",
     "unfortunately , we cannot book you for those days . could you change the number of days ?",
     "that was unsuccessful too . wanna try something else ?",
@@ -9007,10 +9007,10 @@
     "you are welcome . goodbye ."
   ],
   "SNG0781": [
-    "yes ma'am . i have the warkworkth house guesthouse on [hotel_address] , with is the [hotel_area] section of the city . can i help book a reservation for you ?",
+    "yes ma'am . i have the [hotel_name] guesthouse on [hotel_address] , with is the [hotel_area] section of the city . can i help book a reservation for you ?",
     "[hotel_name] falls in the [hotel_pricerange] price range . would you like me to book a room for you ?",
     "you are very welcome . can i find you a restaurant , or help in any other way today ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . have a wonderful day !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . have a wonderful day !"
   ],
   "SNG0782": [
     "there are [value_count] matching your request . do you have any preferences such as area , price , parking , or internet ?",
@@ -9024,7 +9024,7 @@
     "sure the [attraction_name] is a personal favorite . your booking was successful .",
     "yes , it s [hotel_reference] .",
     "wonderful . have a nice time . can i reserve a taxi for you ?",
-    "then , thank you for calling the [value_place] towninfo [restaurant_area] . goodbye ."
+    "then , thank you for calling the [value_place] towninfo [hotel_area] . goodbye ."
   ],
   "SNG0797": [
     "there are [value_count] place -s with free internet and parking . do you have an area , price , star , or hotel type preference ?",
@@ -9081,14 +9081,14 @@
   ],
   "SNG0840": [
     "i am sorry , but there are no [value_count] star hotel -s any where in [value_place] . would you like to broaden your criteria ?",
-    "i have [value_count] options for you the huntingdon marriot on the [hotel_area] side , and the [hotel_name] in the center . are you interested in [value_count] of these ?",
+    "i have [value_count] options for you the [hotel_name] on the [hotel_area] side , and the [hotel_name] in the center . are you interested in [value_count] of these ?",
     "both are [value_count] stars . how many days would you be staying , and how many people are in your party ? i can see if something is available .",
     "how many are in your party ?",
     "i am sorry , but there is nothing available at that time at either hotel . would you like to try fewer nights or perhaps a different arrival day ?",
     "yes , i tried [value_day] but it is not available . can you shorten your stay at all ?",
     "neither hotel appears to have [value_count] days available starting on [value_day] for [value_count] people , can i look something else up for you ?",
     "sure . i was able to book you for the [hotel_name] . reference [hotel_reference] . anything else i can help with ?",
-    "you are quite welcome . if you need anything else just message us again . thanks for contacting the [value_place] towninfo [restaurant_area] and have a great day !"
+    "you are quite welcome . if you need anything else just message us again . thanks for contacting the [value_place] towninfo [hotel_area] and have a great day !"
   ],
   "SNG0855": [
     "i have [value_count] guesthouses with internet , which area would you prefer ?",
@@ -9102,7 +9102,7 @@
     "that narrows it down a bit . the [hotel_name] is a nice place , with [value_count] stars . it s in the [hotel_area] area of town .",
     "the [hotel_name] also has free internet . shall i book you a room ?",
     "absolutely ! the phone number is [hotel_phone] . is there anything else i can help you with today ?",
-    "you are welcome . thank you for using the [value_place] towninfo [restaurant_area] . goodbye ."
+    "you are welcome . thank you for using the [value_place] towninfo [hotel_area] . goodbye ."
   ],
   "SNG0867": [
     "i can certainly help you with that . we have [value_count] listings for [hotel_pricerange] lodgings . do you have any other requirement -s ?",
@@ -9114,7 +9114,7 @@
   "SNG0874": [
     "the [hotel_name] is a [value_count] star guesthouse in the [hotel_area] area . would like like to book a room there ?",
     "you are all set . the reference number is [hotel_reference] . can i help you with anything else today ?",
-    "thank you for contacting [value_place] towninfo [restaurant_area] . have a wonderful day !"
+    "thank you for contacting [value_place] towninfo [hotel_area] . have a wonderful day !"
   ],
   "SNG0888": [
     "i can help you with that . do you have any special area you would like to stay ? or possibly a star request for the guesthouse ?",
@@ -9126,7 +9126,7 @@
   ],
   "SNG0892": [
     "we have [value_count] hotel -s and guesthouses that have [value_count] star rating -s . is there a particular part of town , or a particular price range that you are interested in ?",
-    "the [hotel_name] is in the [restaurant_area] and [hotel_name] is in the [restaurant_area] . they both have free wifi . would you like me to book [value_count] for you ?",
+    "the [hotel_name] is in the [hotel_area] and [hotel_name] is in the [restaurant_area] . they both have free wifi . would you like me to book [value_count] for you ?",
     "understood . do you need anything else then ?",
     "we have [value_count] to choose from now . any other preferences ?",
     "yes , they are all guesthouses . can i suggest the [hotel_name] , a [value_count] star , [hotel_pricerange] -ly priced guesthouse with wifi , in the [hotel_area] area ?",
@@ -9170,7 +9170,7 @@
     "and for how many days ?",
     "i am sorry but there is no availability for [value_count] nights starting on [value_day] . is there another day that works for you ? perhaps a different hotel ?",
     "sure , you are booked for [value_count] night . the reference number is [hotel_reference] . may i help with anything else ?",
-    "you are welcome . thanks for contacting the [value_place] towninfo [restaurant_area] and have a great day !"
+    "you are welcome . thanks for contacting the [value_place] towninfo [hotel_area] and have a great day !"
   ],
   "SNG0940": [
     "do you have a price range ?",
@@ -9307,7 +9307,7 @@
   "SNG1066": [
     "i have [value_count] in that area . it s called the [attraction_name] . it s located at [attraction_address] . would you like their phone number for more information ?",
     "their phone number is [attraction_phone] and we do not have the entrance fee in our database at this time .",
-    "you are very welcome ! thanks for contacting the [value_place] towninfo [restaurant_area] and have a great day !"
+    "you are very welcome ! thanks for contacting the [value_place] towninfo [hotel_area] and have a great day !"
   ],
   "SNG1070": [
     "[attraction_name] is on the [attraction_area] side of town , would you like their phone number ?",
@@ -9335,7 +9335,7 @@
   ],
   "SNG1086": [
     "absolutely ! the entrance is free ! it is located in the [attraction_area] . the address is [attraction_address] !",
-    "you are very welcome ! thanks for contacting [value_place] towninfo [restaurant_area] and have a great day !"
+    "you are very welcome ! thanks for contacting [value_place] towninfo [hotel_area] and have a great day !"
   ],
   "SNG1090": [
     "there are [value_count] nightclubs in the [attraction_area] . [attraction_name] is [value_count] of them . would that work for you ?",
@@ -9347,7 +9347,7 @@
     "we have a lot of interesting architecture here in [value_place] . is there a particular area of town you are interested in ?",
     "here are a few suggestions from the [attraction_area] all saint s church and [attraction_name] , both are free to visit .",
     "yes , their postcode is [attraction_postcode] . can i get any other information for you ?",
-    "you are quite welcome . thanks for contacting the [value_place] towninfo [restaurant_area] and have a great day !"
+    "you are quite welcome . thanks for contacting the [value_place] towninfo [hotel_area] and have a great day !"
   ],
   "SNG1105": [
     "there are [value_count] attractions in the [attraction_area] part of town . would you like to visit a college ?",

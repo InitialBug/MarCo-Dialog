@@ -3,17 +3,45 @@ import numpy as np
 import os
 
 # loading databases
-domains = ['restaurant', 'hotel', 'attraction', 'train', 'taxi', 'hospital']  # , 'police']
+domains = ['restaurant', 'hotel', 'attraction', 'train', 'taxi', 'hospital']#, 'police']
 dbs = {}
 for domain in domains:
+    # pay attention to python2 and python3
     db = 'preprocessing/db/{}-dbase.db'.format(domain)
     conn = sqlite3.connect(db)
     c = conn.cursor()
     dbs[domain] = c
 
-
 def clean(string):
     return string.lower().replace("'", "''").strip()
+
+def clean_slot_values(domain, slot, value):
+    # value = clean_text(value)
+    value = value.split('|')[0]
+    value = value.split('>')[0]
+    
+    if value == 'none':
+        value = 'not mentioned'
+    elif value == 'night club':
+        value = 'nightclub'
+    elif value in ['pool', 'swimming pool']:
+        value = 'swimmingpool'
+    elif value == 'multiple sports':
+        value = 'mutliple sports'
+    
+    if value[:4] == 'the ':
+        value = value[4:]
+    elif value == 'el shaddia':
+        value = 'el shaddai'
+    end_tokens = ['college', 'guesthouse', 'yard']
+    for token in end_tokens:
+       if value.endswith(' ' + token):
+           value = value.replace(' ' + token, '')
+           if value.endswith('s'): value = value[:-1]
+    if value in ['dont care', "don't care", "do nt care", "doesn't care"]:
+        value = "do n't care"
+    value = value.replace(".", ":")
+    return slot, value
 
 
 def oneHotVector(num, domain, vector):
@@ -22,7 +50,7 @@ def oneHotVector(num, domain, vector):
     if domain != 'train':
         idx = domains.index(domain)
         if num == 0:
-            vector[idx * 6: idx * 6 + 6] = np.array([1, 0, 0, 0, 0, 0])
+            vector[idx * 6: idx * 6 + 6] = np.array([1, 0, 0, 0, 0,0])
         elif num == 1:
             vector[idx * 6: idx * 6 + 6] = np.array([0, 1, 0, 0, 0, 0])
         elif num == 2:
@@ -50,7 +78,6 @@ def oneHotVector(num, domain, vector):
 
     return vector
 
-
 def queryResult(domain, turn):
     """Returns the list of entities for a given domain
     based on the annotation of the belief state"""
@@ -58,7 +85,7 @@ def queryResult(domain, turn):
     sql_query = "select * from {}".format(domain)
 
     flag = True
-    # print turn['metadata'][domain]['semi']
+    #print turn['metadata'][domain]['semi']
     for key, val in turn['metadata'][domain]['semi'].items():
         if val == "" or val == "dont care" or val == 'not mentioned' or val == "don't care" or val == "dontcare" or val == "do n't care":
             pass
@@ -87,7 +114,6 @@ def queryResult(domain, turn):
     # print sql_query
     # print domain
     num_entities = len(dbs[domain].execute(sql_query).fetchall())
-
     return num_entities
 
 
@@ -97,7 +123,7 @@ def queryResultVenues(domain, turn, real_belief=False):
 
     if real_belief == True:
         items = turn.items()
-    elif real_belief == 'tracking':
+    elif real_belief=='tracking':
         for slot in turn[domain]:
             key = slot[0].split("-")[1]
             val = slot[0].split("-")[2]
@@ -135,7 +161,12 @@ def queryResultVenues(domain, turn, real_belief=False):
                 return []  # TODO test it
         pass
     else:
-        items = turn['metadata'][domain]['semi'].items()
+        # items = turn['metadata'][domain]['semi'].items()
+        items = []
+        for slot, value in turn['metadata'][domain]['semi'].items():
+            slot, value = clean_slot_values(domain, slot, value)
+            items.append((slot, value))
+
 
     flag = True
     for key, val in items:
@@ -149,8 +180,10 @@ def queryResultVenues(domain, turn, real_belief=False):
                     sql_query += r" " + key + " > " + r"'" + val2 + r"'"
                 elif key == 'arriveBy':
                     sql_query += r" " + key + " < " + r"'" + val2 + r"'"
+                elif key == 'name':
+                    sql_query += r" " + key + " like " + r"'%" + val2 + r"%'"
                 else:
-                    sql_query += r" " + key + "=" + r"'" + val2 + r"'"
+                    sql_query += r" " + key + " = " + r"'" + val2 + r"'"
                 flag = False
             else:
                 val2 = clean(val)
@@ -158,11 +191,15 @@ def queryResultVenues(domain, turn, real_belief=False):
                     sql_query += r" and " + key + " > " + r"'" + val2 + r"'"
                 elif key == 'arriveBy':
                     sql_query += r" and " + key + " < " + r"'" + val2 + r"'"
+                elif key == 'name':
+                    sql_query += r" and " + key + " like " + r"'%" + val2 + r"%'"
                 else:
-                    sql_query += r" and " + key + "=" + r"'" + val2 + r"'"
+                    sql_query += r" and " + key + " = " + r"'" + val2 + r"'"
 
     try:
         result = dbs[domain].execute(sql_query).fetchall()
+        # if len(result) == 0: print(sql_query)
         return result
     except:
         return []  # TODO test it
+
