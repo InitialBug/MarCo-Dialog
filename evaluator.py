@@ -77,7 +77,7 @@ def evaluateModel(dialogues, domain_success={}):
     print('Corpus Inform Success : %2.2f%%' % (matches))
     print('Corpus Requestable Success : %2.2f%%' % (successes))
     # return "{}_{}".format("%2.2f"%bleu, matches, successes)
-    return matches,successes
+    return matches, successes
 
 
 def evaluateDialogue(dialog, realDialogue):
