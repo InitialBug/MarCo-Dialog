@@ -223,5 +223,5 @@ def evaluateDialogue(dialog, realDialogue):
         else:
             success = 0
 
-    # rint requests, 'DIFF', requests_real, 'SUCC', success
+    # print requests, 'DIFF', requests_real, 'SUCC', success
     return success, match, stats
