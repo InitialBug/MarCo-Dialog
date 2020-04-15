@@ -1,7 +1,7 @@
 # Preprocessing Step
 
-This folder contains the preprocessing steps 
-
-The required files should be downloaded from [Google Drive](https://drive.google.com/file/d/1ajmLk43rkEtnkkime_7awxe09X3R6IBq/view?usp=sharing) and extracted here.
-
-You can run create_delex_data.py to get the processed files in the ../data folder.
+1. [OK] process_db (attraction_db_orig.json->attraction_db.json) create_delex_data.py python3
+2. [OK] data.json, delex.json multiwoz_delex_data.py python2
+3. [OK] create_vocab (vocab.json, act_ontology.json) create_delex_data.py python3
+   [OK] create act vocab (act_vocab.json, train.json) create_act_vocab.py python3
+4. [OK] train.tsv preprocess_data_for_predictor python3
