@@ -9,7 +9,6 @@ from torch.utils.data import TensorDataset, DataLoader, RandomSampler, Sequentia
 
 from MultiWOZ import get_batch
 from evaluator import evaluateModel
-from label_smoothed_cross_entropy import LabelSmoothedCrossEntropy
 from tools import *
 from transformer.Transformer import RespGenerator, UncertaintyLoss
 
@@ -141,9 +140,6 @@ bce_loss_func.to(device)
 ce_loss_func = torch.nn.CrossEntropyLoss(ignore_index=Constants.PAD)
 ce_loss_func.to(device)
 
-sce_loss_func = LabelSmoothedCrossEntropy(ignore_index=Constants.PAD, label_smoothing=args.label_smoothing)
-sce_loss_func.to(device)
-
 label_list = Constants.functions + Constants.arguments
 
 if args.option == 'train':
@@ -171,14 +167,14 @@ if args.option == 'train':
             logits, _, act_vecs = resp_generator.act_forward(
                 tgt_seq=act_in, src_seq=input_ids, bs=belief_state, input_mask=act_input_mask)
 
-            loss1 = sce_loss_func(
+            loss1 = ce_loss_func(
                 logits.contiguous().view(logits.size(0) * logits.size(1), -1).contiguous(),
                 act_out.contiguous().view(-1))
 
             # response loss
             resp_logits = resp_generator.resp_forward(tgt_seq=rep_in, src_seq=input_ids, act_vecs=act_vecs,
                                                       act_mask=action_masks, input_mask=resp_input_mask)
-            loss2 = sce_loss_func(
+            loss2 = ce_loss_func(
                 resp_logits.contiguous().view(resp_logits.size(0) * resp_logits.size(1), -1).contiguous(),
                 resp_out.contiguous().view(-1))
 
