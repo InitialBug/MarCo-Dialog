@@ -343,7 +343,7 @@ elif args.option == "test":
     with open('output/example_statistic.json','w') as f:
         json.dump(example_success,f)
 
-    save_name = 'inform-{:.2f}-request-{:.2f}-bleu-{:.4f}'.format(inform, request, BLEU)
+    save_name = 'test-inform-{:.2f}-request-{:.2f}-bleu-{:.4f}'.format(inform, request, BLEU)
     torch.save(resp_generator.state_dict(), os.path.join('model', save_name))
 
 elif args.option == "postprocess":
