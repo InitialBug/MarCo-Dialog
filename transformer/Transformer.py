@@ -467,7 +467,7 @@ class RespGenerator(nn.Module):
         self.word_emb = nn.Embedding(vocab_size, d_word_vec, padding_idx=Constants.PAD)
         self.bs_emb = nn.Linear(len(Constants.belief_state), d_word_vec, bias=False)
 
-        self.posi_emb = PositionalEmbedding(d_model=d_word_vec)
+        self.post_word_emb = PositionalEmbedding(d_model=d_word_vec)
 
         self.enc_layer_stack = nn.ModuleList([
             EncoderLayer(d_model, d_inner, n_head, d_k, d_v, dropout=dropout)
@@ -499,7 +499,7 @@ class RespGenerator(nn.Module):
         non_pad_mask = non_pad_mask.unsqueeze(-1).float()
         enc_mask = input_mask.unsqueeze(1).expand(-1, src_seq.shape[1], -1)
 
-        enc_inp = self.word_emb(src_seq) + self.posi_emb(src_seq)
+        enc_inp = self.word_emb(src_seq) + self.post_word_emb(src_seq)
 
         for layer in self.enc_layer_stack:
             enc_inp, _ = layer(enc_inp, non_pad_mask, enc_mask)
@@ -514,14 +514,14 @@ class RespGenerator(nn.Module):
         dec_enc_attn_mask = input_mask.unsqueeze(1).expand(-1, tgt_seq.shape[1], -1)
 
         # -- Forward
-        dec_output = self.word_emb(tgt_seq) + self.posi_emb(tgt_seq)
+        dec_output = self.word_emb(tgt_seq) + self.post_word_emb(tgt_seq)
 
         act_mask = act_mask.unsqueeze(1).expand(-1, dec_output.shape[1], -1)
 
-        act_att_out = dec_output
+        # use one layer
         for dec_layer in self.act_att_layer:
             act_att_out, _, _ = dec_layer(
-                act_att_out, act_vecs,
+                dec_output, act_vecs,
                 non_pad_mask=non_pad_mask,
                 slf_attn_mask=slf_attn_mask,
                 dec_enc_attn_mask=act_mask)
