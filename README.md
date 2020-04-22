@@ -2,10 +2,12 @@
 
 This is the PyTorch implementation of the paper: Multi-Domain Dialogue Acts and Response Co-Generation. We also release the [human evaluation](https://github.com/InitialBug/MarCo-Dialog/tree/master/human_evaluation) results for future research.
 
+
+
 ## Model Architecture
 The model consists of three components, namely, a **shared encoder**, an **act generator** and a **response generator**.
 <p align="center">
-<img src="resource/marco.png" width="50%" />
+<img src="resource/marco.png" width="60%" />
 </p>
 
 ### Shared Encoder
@@ -16,6 +18,8 @@ We model the act prediction as a sequence generation problem and jointly trained
 
 ### Response Generator
 This module is used to control the response generation based on the output of the act generator.
+
+
 
 ## Usage
 The dataset is already preprocessed and put in [data/](https://github.com/InitialBug/MarCo-Dialog/tree/master/data) folder (train.json, val.json and test.json). We have also uploaded the model checkpoints in [model/](https://github.com/InitialBug/MarCo-Dialog/tree/master/model) folder for those only want to test the performance.  
