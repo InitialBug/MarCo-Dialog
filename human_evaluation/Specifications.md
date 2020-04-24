@@ -47,7 +47,7 @@ the response correctly answers the user query.
 | sys1 | i have booked you [value_count] seats on the [train_trainid] . the total fee is [train_price] gbp payable at the station . your reference number is [train_reference] . is there anything else i can help you with ? |
 | sys2 | booking was successful , the total fee is [train_price] gbp payable at the station . reference number is [train_reference] . is there anything else i can help you with ? |
 
-	=> sys1 (sys1 and sys2 both correctly answers the query, and sys1 provides extra information)<br />
+=> sys1 (sys1 and sys2 both correctly answers the query, and sys1 provides extra information)<br />
 <br />f.
 
 | user | that works . i am also looking for an attratiction that is college type . |
@@ -89,7 +89,7 @@ the response is fluent, natural and consistent.
 | sys1 | there is a train leaving [train_departure] on [train_day] at [train_leaveat] . where would you like to depart ? |
 | sys2 | there are [value_count] trains leaving [train_departure] on [train_day] . what is your destination and what day would you like to travel ? |
 
-	=> sys1 (inconsistent, destination is already known in user's query.)<br />
+=> sys1 (inconsistent, destination is already known in user's query.)<br />
 <br />d.  
 
 | user | book it for [value_count] people , [value_count] nights , starting [value_day] . give me the reference number . |
@@ -97,7 +97,7 @@ the response is fluent, natural and consistent.
 | sys1 | booking was successful . reference number is [hotel_reference] . is there anything else i can help you with ? |
 | sys2 | i was able to book you at the [hotel_name] for [value_count] nights . your reference number is [hotel_reference] . is there anything else i can help you with ? |
 
-	=> tie (although sys2 provides more information, sys1 and sys2 both read fluent and consistant.)<br />
+=> tie (although sys2 provides more information, sys1 and sys2 both read fluent and consistant.)<br />
 <br />e.  
 
 | user | thanks for your help with the hotel . how about a restaurant in the [restaurant_area] that serves [restaurant_food] food ? |
@@ -105,7 +105,7 @@ the response is fluent, natural and consistent.
 | sys1 | there are [value_count] [restaurant_food] restaurant -s in the [restaurant_area] . [restaurant_name] , [restaurant_name] , and [restaurant_name] . would you like to book a table there ? |
 | sys2 | there are [value_count] [restaurant_pricerange] [restaurant_food] restaurant -s in the [restaurant_area] . i recommend the [restaurant_name] . would you like me to book a table for you ? |
 
-	=> tie<br />
+=> tie<br />
 <br />f.  
 
 | user | okay do they have free wifi ? |
