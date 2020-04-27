@@ -40,5 +40,5 @@ CUDA_VISIBLE_DEVICES=0 python train_generator.py --option test --model model/Mar
 
 
 ### Acknowledgements
-We sincerely thank for the [MultiWoZ](https://github.com/budzianowski/multiwoz) for publishing such a great dataset.
-The code is modified from [HDSA-Dialog](https://github.com/wenhuchen/HDSA-Dialog). Thanks them for their contributions on developing it!
+We sincerely thank the [MultiWoZ team](https://github.com/budzianowski/multiwoz) for publishing such a great dataset.
+The code of this work is modified from [HDSA-Dialog](https://github.com/wenhuchen/HDSA-Dialog). We also thank the authors for developing it!
