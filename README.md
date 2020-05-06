@@ -1,6 +1,6 @@
 # MarCo
 
-This is the PyTorch implementation of the paper: Multi-Domain Dialogue Acts and Response Co-Generation. We also release the [human evaluation](https://github.com/InitialBug/MarCo-Dialog/tree/master/human_evaluation) results for future research.
+This is the PyTorch implementation of the paper: [Multi-Domain Dialogue Acts and Response Co-Generation](https://arxiv.org/pdf/2004.12363.pdf). We also release the [human evaluation](https://github.com/InitialBug/MarCo-Dialog/tree/master/human_evaluation) results for future research.
 
 
 
